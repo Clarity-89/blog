@@ -22,8 +22,8 @@ session = api_manager.session
 @app.route('/about')
 @app.route('/blog')
 def basic_pages(**kwargs):
-    return make_response(open('angular_flask/templates/index.html').read())
-
+    # return make_response(open('angular_flask/templates/index.html').read())
+    return render_template('index.html')
 
 # routing for CRUD-style endpoints
 # passes routing onto the angular frontend if the requested resource exists
