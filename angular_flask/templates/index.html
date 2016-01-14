@@ -8,17 +8,41 @@
     <base href="/">
 </head>
 <body>
+<header>
+    <md-toolbar>
+        <div layout="row" layout-padding class="md-warn" layout-align="space-between center">
+            <div class="nav-buttons">
+                <md-button ng-href='/' class="md-raised">Home</md-button>
+                <md-button ng-href='/about'>About</md-button>
+                <md-button ng-href='/'>Item 2</md-button>
+                <md-menu>
+                    <md-button ng-href='/' md-menu-origin ng-click="$mdOpenMenu()">Help</md-button>
+                    <md-menu-content width="2">
+                        <md-menu-item>
+                            <md-button>Help</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button>About</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+            <div class="nav-buttons">
+                <md-button ng-href='/' class="md-raised md-accent">My profile</md-button>
+                <md-button ng-href='/' class="md-raised md-warn">Log Out</md-button>
+            </div>
+        </div>
+    </md-toolbar>
+</header>
+<main class='md-padding' layout="row">
+    <div layout-fill ng-view>
 
-<div id="content" class="container main" ng-view>
-</div>
-<hr>
-<footer id="footer" class="footer">
-    <div class="footer-left">
-        <a href="/about">About</a> |
-        <a href="/">Home</a>
     </div>
-    <div class="footer-right">
-        <span>&copy; 2013 AngularFlask</span>
+</main>
+
+<footer>
+    <div layout="row" layout-align="center center">
+        <h2>&copy; 2013 AngularFlask</h2>
     </div>
 </footer>
 

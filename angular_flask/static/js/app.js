@@ -22,7 +22,7 @@ angular.module('AngularFlask', ['angularFlaskServices', 'ngRoute', 'ngMaterial']
 		})
 		/* Create a "/blog" route that takes the user to the same place as "/post" */
 		.when('/blog', {
-			templateUrl: 'static/partials/post-list.html',
+			templateUrl: 'static/partials/about.html',
 			controller: PostListController
 		})
 		.otherwise({
