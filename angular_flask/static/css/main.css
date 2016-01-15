@@ -11,3 +11,8 @@ body {
 main {
     flex: 1;
 }
+
+footer {
+    background: #212121;
+    color: white;
+}
