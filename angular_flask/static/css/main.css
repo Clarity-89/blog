@@ -6,7 +6,6 @@ html {
 body {
     height: 100%;
     width: 100%;
-
     background: #E0E0E0 fixed;
 }
 
@@ -19,12 +18,17 @@ main {
     min-height: 100%;
     background: #E0E0E0 fixed;
     padding-top: 75px;
+    flex: 1;
 }
 
 footer {
     position: relative;
     background: #212121;
     color: white;
+}
+
+.center {
+    text-align: center;
 }
 
 /*.md-card-image {
