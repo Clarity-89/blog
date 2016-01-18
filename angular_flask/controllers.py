@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, Response
+from flask import Flask, request, Response, jsonify
 from flask import render_template, url_for, redirect, send_from_directory
 from flask import send_file, make_response, abort
 
@@ -25,6 +25,7 @@ def basic_pages(**kwargs):
     # return make_response(open('angular_flask/templates/index.html').read())
     return render_template('index.html')
 
+
 # routing for CRUD-style endpoints
 # passes routing onto the angular frontend if the requested resource exists
 from sqlalchemy.sql import exists
@@ -38,10 +39,32 @@ def rest_pages(model_name, item_id=None):
     if model_name in crud_url_models:
         model_class = crud_url_models[model_name]
         if item_id is None or session.query(exists().where(
-                model_class.id == item_id)).scalar():
+                        model_class.id == item_id)).scalar():
             return make_response(open(
-                'angular_flask/templates/index.html').read())
+                    'angular_flask/templates/index.html').read())
     abort(404)
+
+
+posts = [
+    {
+        "body": "Welcome to my blog. I will be putting up posts about various topics, so make sure to check back soon.",
+        "title": "My First Blog Post"
+    },
+    {
+        "body": "It is day two of my blogging efforts, and a lot has changed since I last wrote. Well, not really...",
+        "title": "My Second Blog Post"
+    },
+    {
+        'body': "Modern web applications have beautiful URLs. This helps people remember the URLs, which is especially handy for applications that are used from mobile devices with slower network connections. If the user can directly go to the desired page without having to hit the index page it is more likely they will like the page and come back next time.",
+        'title': "Flask"
+    }
+]
+
+
+# Endpoint for all posts
+@app.route('/blog/api/posts')
+def get_posts():
+    return jsonify({'posts': posts})
 
 
 # special file handlers and error handlers
