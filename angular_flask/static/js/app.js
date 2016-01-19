@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AngularFlask', [ 'ngRoute', 'ngMaterial'])
+angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial'])
     .config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
         function ($routeProvider, $locationProvider, $mdThemingProvider) {
             $routeProvider

@@ -9,7 +9,7 @@ angular.module('AngularFlask')
             .$promise.then(function (response) {
                 $scope.posts = response;
                 $scope.showPost = true;
-                console.log('The response is:', response)
+                console.log('The response is:', $scope.posts)
             },
             function (response) {
                 $scope.message = "Error: " + response.status + " " + response.statusText;
