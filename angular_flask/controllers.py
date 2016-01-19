@@ -23,6 +23,7 @@ session = api_manager.session"""
 @app.route('/')
 @app.route('/about')
 @app.route('/blog')
+@app.route('/new')
 def basic_pages(**kwargs):
     # return make_response(open('angular_flask/templates/index.html').read())
     return render_template('index.html')
