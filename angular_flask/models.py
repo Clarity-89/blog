@@ -5,22 +5,23 @@ from angular_flask import app
 
 
 class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80))
-    body = db.Column(db.Text)
-    pub_date = db.Column(db.DateTime)
+    __tablename__ = 'post'
 
-    def __init__(self, title, body, pub_date=None):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(240))
+    body = db.Column(db.String())
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    author = db.Column(db.String(32))
+    favorited = db.Column(db.Integer, default=0)
+
+    def __init__(self, title, body, author):
         self.title = title
         self.body = body
-        if pub_date is None:
-            pub_date = datetime.utcnow()
-        self.pub_date = pub_date
+        self.author = author
 
-    def __repr__(self):
-        return '<Post %r>' % self.title
 
-# models for which we want to create API endpoints
+def __repr__(self):
+    return '<id {}>'.format(self.id)  # models for which we want to create API endpoints
 app.config['API_MODELS'] = {'post': Post}
 
 # models for which we want to create CRUD-style URL endpoints,
