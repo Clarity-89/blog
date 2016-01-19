@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial'])
+angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate'])
     .config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
         function ($routeProvider, $locationProvider, $mdThemingProvider) {
             $routeProvider
@@ -14,6 +14,10 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial'])
                 })
                 .when('/post', {
                     templateUrl: 'static/partials/post-list.html',
+
+                })
+                .when('/new', {
+                    templateUrl: 'static/partials/new_post.html',
 
                 })
                 .when('/post/:postId', {

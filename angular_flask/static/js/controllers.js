@@ -7,7 +7,7 @@ angular.module('AngularFlask')
         $scope.message = "Loading ...";
         allPosts.getPosts().get()
             .$promise.then(function (response) {
-                $scope.posts = response;
+                $scope.posts = response.posts;
                 $scope.showPost = true;
                 console.log('The response is:', $scope.posts)
             },
