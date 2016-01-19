@@ -1,16 +1,16 @@
 'use strict';
 
-angular.module('angularFlaskServices', ['ngResource'])
-	.factory('Post', function($resource) {
-		return $resource('/api/post/:postId', {}, {
-			query: {
-				method: 'GET',
-				params: { postId: '' },
-				isArray: true
-			}
-		});
-	})
-;
-
+angular.module('AngularFlask')
+    .constant("baseURL", "http://0.0.0.0:5000")
+    .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
+        this.getPosts = function () {
+            return $resource(baseURL + '/blog/api/posts', {}, {
+                query: {
+                    method: 'GET',
+                    isArray: true
+                }
+            });
+        }
+    }]);
 
 

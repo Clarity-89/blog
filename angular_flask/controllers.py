@@ -29,14 +29,14 @@ def basic_pages(**kwargs):
 
 
 # Endpoint for all posts
-@app.route('/blog/api/posts')
+@app.route('/blog/api/posts', methods=['GET'])
 def get_posts():
     posts = Post.query.all()
     return jsonify(posts=[post.serialize for post in posts])
 
 
 # get specific post
-@app.route('/blog/api/posts/<int:id>')
+@app.route('/blog/api/posts/<int:id>', methods=['GET'])
 def get_post(id):
     try:
         post = Post.query.filter_by(id=id).one()

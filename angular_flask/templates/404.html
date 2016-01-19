@@ -1,50 +1,68 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="AngularFlask" ng-cloak>
 <head>
-	<meta charset="utf-8">
-	<title>AngularFlask</title>
-
-	<link rel="stylesheet" href="/static/css/bootstrap.css">
-	<link rel="stylesheet" href="/static/css/main.css">
-
- 	<script src="/static/lib/jquery/jquery.min.js"></script>
-	<script src="/static/lib/bootstrap/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <title>AngularFlask</title>
+    <link rel="stylesheet" href="../static/css/angular-material.css">
+    <link rel="stylesheet" href="../static/css/main.css">
+    <base href="/">
 </head>
 <body>
-	<div id="header" class="header navbar navbar-static-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				</button>
-				<a class="brand" href="/">AngularFlask</a>
-				<div class="nav-collapse collapse">
-					<ul class="nav pull-right">
-						<li class="">
-							<a href="/">Home</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="container page">
-		<div id="content" class="container main" ng-view>
-			<div>
-				<h3>404</h3>
-				<h4>Sorry, but the page you were trying to view does not exist.</h4>
-			</div>
-		</div>
+<header>
+    <md-toolbar class="md-primary md-hue-2">
+        <div layout="row" layout-padding layout-align="space-between center">
+            <div class="nav-buttons">
+                <md-button ng-href='/' class="md-raised">Home</md-button>
+                <md-button ng-href='/about'>About</md-button>
+                <md-button ng-href='/'>Item 2</md-button>
+                <md-menu>
+                    <md-button ng-href='/' md-menu-origin ng-click="$mdOpenMenu()">Help</md-button>
+                    <md-menu-content width="2">
+                        <md-menu-item>
+                            <md-button>Help</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button>About</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+            <div class="nav-buttons">
+                <md-button ng-href='/' class="md-raised md-accent">My profile</md-button>
+                <md-button ng-href='/' class="md-raised md-warn">Log Out</md-button>
+            </div>
+        </div>
+    </md-toolbar>
+</header>
+<main layout="row">
+    <h3>404</h3>
+    <h4>Sorry, but the page you were trying to view does not exist.</h4>
+</main>
 
-		<hr>
-		<footer id="footer" class="footer">
-			<div class="footer-left">
-				<a href="/about">About</a> |
-				<a href="/">Home</a>
-			</div>
-			<div class="footer-right">
-				<span>&copy; 2013 AngularFlask</span>
-			</div>
-		</footer>
-	</div>
+<footer>
+    <div layout="row" layout-align="center center">
+        <h4>&copy; 2015 AngularFlask</h4>
+    </div>
+</footer>
+
+
+<script src="../static/vendor/angular.js"></script>
+<script src="../static/vendor/angular-resource.js"></script>
+<script src="../static/vendor/angular-route.js"></script>
+
+<!-- jQuery -->
+<script src="../static/vendor/jquery.min.js"></script>
+
+<!-- Angular material and dependencies-->
+<script src="../static/vendor/angular-animate.min.js"></script>
+<script src="../static/vendor/angular-aria.min.js"></script>
+<script src="../static/vendor/angular-material.js"></script>
+
+<!--Custom JS-->
+<script src="../static/js/app.js"></script>
+<script src="../static/js/controllers.js"></script>
+<script src="../static/js/services.js"></script>
+
 </body>
 </html>
+
