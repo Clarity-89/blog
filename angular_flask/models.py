@@ -14,6 +14,17 @@ class Post(db.Model):
     author = db.Column(db.String(32))
     favorited = db.Column(db.Integer, default=0)
 
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'body': self.body,
+            'date': self.date,
+            'author': self.author,
+            'favorited': self.favorited
+        }
+
     def __init__(self, title, body, author):
         self.title = title
         self.body = body
@@ -22,8 +33,5 @@ class Post(db.Model):
 
 def __repr__(self):
     return '<id {}>'.format(self.id)  # models for which we want to create API endpoints
-app.config['API_MODELS'] = {'post': Post}
 
-# models for which we want to create CRUD-style URL endpoints,
-# and pass the routing onto our AngularJS application
-app.config['CRUD_URL_MODELS'] = {'post': Post}
+
