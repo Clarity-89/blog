@@ -3,6 +3,7 @@ import os
 from flask import Flask, request, Response, jsonify
 from flask import render_template, url_for, redirect, send_from_directory
 from flask import send_file, make_response, abort
+from sqlalchemy.orm.exc import NoResultFound
 
 from angular_flask import app
 from angular_flask.models import Post
@@ -32,6 +33,16 @@ def basic_pages(**kwargs):
 def get_posts():
     posts = Post.query.all()
     return jsonify(posts=[post.serialize for post in posts])
+
+
+# get specific post
+@app.route('/blog/api/posts/<int:id>')
+def get_post(id):
+    try:
+        post = Post.query.filter_by(id=id).one()
+        return jsonify(post=post.serialize)
+    except NoResultFound:
+        return render_template('404.html'), 404
 
 
 # special file handlers and error handlers
