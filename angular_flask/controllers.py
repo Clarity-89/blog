@@ -6,17 +6,18 @@ from flask import send_file, make_response, abort
 from sqlalchemy.orm.exc import NoResultFound
 
 from angular_flask import app
+from angular_flask.core import db
 from angular_flask.models import Post
 
-"""# routing for API endpoints, generated from the models designated as API_MODELS
+# routing for API endpoints, generated from the models designated as API_MODELS
 from angular_flask.core import api_manager
 from angular_flask.models import *
 
-for model_name in app.config['API_MODELS']:
+"""for model_name in app.config['API_MODELS']:
     model_class = app.config['API_MODELS'][model_name]
-    api_manager.create_api(model_class, methods=['GET', 'POST'])
+    api_manager.create_api(model_class, methods=['GET', 'POST'])"""
 
-session = api_manager.session"""
+session = api_manager.session
 
 
 # routing for basic pages (pass routing onto the Angular app)
@@ -51,8 +52,11 @@ def get_post(id):
 def add_post():
     if not request.json or not 'title' in request.json:
         abort(400)
-    print 'got response', request.json
+    post = Post(title=request.json["title"], body=request.json["body"], author='alex')
+    session.add(post)
+    session.commit()
     return render_template('index.html')
+
 
 # special file handlers and error handlers
 @app.route('/favicon.ico')
