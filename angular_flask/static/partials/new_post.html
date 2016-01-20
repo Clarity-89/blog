@@ -2,8 +2,8 @@
     <md-content layout-padding>
         <form ng-submit="createPost()" name="newPost" novalidate>
             <md-input-container class="md-block">
-                <label>Title</label>
-                <input required name="title" ng-model="post.title">
+                <label for="title">Title</label>
+                <input required name="title" id="title" ng-model="post.title">
                 <div ng-messages="post.title.$error">
                     <div ng-message="required">Title is required.</div>
                 </div>
@@ -15,8 +15,7 @@
                     <div ng-message="required">Content is required.</div>
                 </div>
             </md-input-container>
-            <input type="submit" class="md-raised md-warn" id="publish" value="Publish">
-
+            <md-button type="submit" class="md-raised md-warn" id="publish">Publish</md-button>
         </form>
     </md-content>
 </div>
