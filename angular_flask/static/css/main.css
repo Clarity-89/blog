@@ -43,3 +43,8 @@ form {
 #content {
     height: auto;
 }
+
+#publish {
+    position: absolute;
+    bottom: 20px;
+}
