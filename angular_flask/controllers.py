@@ -46,6 +46,14 @@ def get_post(id):
         return render_template('404.html'), 404
 
 
+# Add a new post
+@app.route('/blog/api/posts/new', methods=['POST'])
+def add_post():
+    if not request.json or not 'title' in request.json:
+        abort(400)
+    print 'got response', request.json
+    return render_template('index.html')
+
 # special file handlers and error handlers
 @app.route('/favicon.ico')
 def favicon():

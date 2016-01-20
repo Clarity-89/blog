@@ -11,6 +11,10 @@ angular.module('AngularFlask')
                 }
             });
         }
-    }]);
+    }])
+    .service('newPost', ['$resource', 'baseURL', function ($resource, baseURL) {
+        return $resource(baseURL + "/blog/api/posts/new", {});
+    }])
+;
 
 

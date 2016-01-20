@@ -1,21 +1,21 @@
-<div layout="column" ng-cloak id="createPost">
+<div layout="column" ng-cloak id="createPost" ng-controller="NewPostController">
     <md-content layout-padding>
-        <form name="createPost">
+        <form ng-submit="createPost()" name="newPost" novalidate>
             <md-input-container class="md-block">
                 <label>Title</label>
-                <input required name="description" ng-model="project.description">
-                <div ng-messages="projectForm.description.$error">
-                    <div ng-message="required">This is required.</div>
+                <input required name="title" ng-model="post.title">
+                <div ng-messages="post.title.$error">
+                    <div ng-message="required">Title is required.</div>
                 </div>
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="content">Content</label>
-                <textarea required name="content" id="content" rows="1"></textarea>
-                <div ng-messages="projectForm.clientName.$error">
-                    <div ng-message="required">This is required.</div>
+                <textarea required name="body" id="content" rows="1" ng-model="post.body"></textarea>
+                <div ng-messages="post.body.$error">
+                    <div ng-message="required">Content is required.</div>
                 </div>
             </md-input-container>
-            <md-button class="md-raised md-warn" id="publish">Publish</md-button>
+            <input type="submit" class="md-raised md-warn" id="publish" value="Publish">
 
         </form>
     </md-content>
