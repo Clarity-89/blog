@@ -39,3 +39,7 @@ footer {
 form {
     min-height: 500px;
 }
+
+#content {
+    height: auto;
+}
