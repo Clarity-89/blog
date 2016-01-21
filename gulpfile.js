@@ -27,6 +27,9 @@ gulp.task('bundle-vendor', function () {
         .pipe(gulp.dest('./angular_flask/static/dist'));
 });
 
+// Run all three build tasks
+gulp.task('build', ['bundle-css', 'bundle-js', 'bundle-vendor']);
+
 // Watch
 gulp.task('watch', function () {
     gulp.watch('angular_flask/static/src/js/*.js', ['bundle-js']);
