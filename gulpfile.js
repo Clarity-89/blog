@@ -9,9 +9,26 @@ gulp.task('clean', function () {
 });
 
 
-gulp.task('bundle', ['clean'], function () {
-    return gulp.src('./bundle.config.js')
+gulp.task('bundle-css', function () {
+    return gulp.src('./bundle-css.config.js')
         .pipe(bundle())
         .pipe(gulp.dest('./angular_flask/static/dist'));
 });
 
+gulp.task('bundle-js', function () {
+    return gulp.src('./bundle-js.config.js')
+        .pipe(bundle())
+        .pipe(gulp.dest('./angular_flask/static/dist'));
+});
+
+gulp.task('bundle-vendor', function () {
+    return gulp.src('./bundle-vendor.config.js')
+        .pipe(bundle())
+        .pipe(gulp.dest('./angular_flask/static/dist'));
+});
+
+// Watch
+gulp.task('watch', function () {
+    gulp.watch('angular_flask/static/src/js/*.js', ['bundle-js']);
+    gulp.watch('angular_flask/static/src/css/*.css', ['bundle-css']);
+});

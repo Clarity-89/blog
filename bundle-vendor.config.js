@@ -1,15 +1,5 @@
 module.exports = {
     bundle: {
-        main: {
-            scripts: [
-                './angular_flask/static/src/js/*.js'
-            ],
-            styles: './angular_flask/static/src/css/*.css',
-            options: {
-                uglify: false,
-                rev: false
-            }
-        },
         vendor: {
             scripts: [
                 './node_modules/angular/angular.js',
