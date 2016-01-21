@@ -22,10 +22,16 @@
     "angular-aria": "^1.4.8",
     "angular-material": "^1.0.0",
     "angular-resource": "latest",
+    "del": "^2.2.0",
     "jquery": "latest"
   },
   "bugs": {
     "url": "https://github.com/Clarity-89/blog/issues"
   },
-  "homepage": "https://github.com/Clarity-89/blog#readme"
+  "homepage": "https://github.com/Clarity-89/blog#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-bundle-assets": "^2.23.0",
+    "gulp-useref": "^3.0.4"
+  }
 }

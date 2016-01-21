@@ -5,14 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AngularFlask</title>
-    <link rel="stylesheet" href="../static/css/angular-material.css">
-    <link rel="stylesheet" href="../static/css/main.css">
+
+    <link rel="stylesheet" href="../static/dist/main.css">
+
     <base href="/">
 </head>
 <body>
 <header>
     <md-toolbar md-scroll-shrink class="md-primary md-hue-2">
-        <div layout="row" layout-padding  layout-align="space-between center">
+        <div layout="row" layout-padding layout-align="space-between center">
             <div class="nav-buttons">
                 <md-button ng-href='/' class="md-raised">Home</md-button>
                 <md-button ng-href='/about'>About</md-button>
@@ -47,22 +48,26 @@
 </footer>
 
 
-<script src="../static/vendor/angular.js"></script>
+<script src="../static/dist/vendor.js"></script>
+<script src="../static/dist/main.js"></script>
+
+
+<!--<script src="../static/vendor/angular.js"></script>
 <script src="../static/vendor/angular-resource.js"></script>
 <script src="../static/vendor/angular-route.js"></script>
 
-<!-- jQuery -->
+
 <script src="../static/vendor/jquery.min.js"></script>
 
-<!-- Angular material and dependencies-->
+
 <script src="../static/vendor/angular-animate.min.js"></script>
 <script src="../static/vendor/angular-aria.min.js"></script>
 <script src="../static/vendor/angular-material.js"></script>
 
-<!--Custom JS-->
-<script src="../static/js/app.js"></script>
-<script src="../static/js/controllers.js"></script>
-<script src="../static/js/services.js"></script>
+
+<script src="../static/src/js/app.js"></script>
+<script src="../static/src/js/controllers.js"></script>
+<script src="../static/src/js/services.js"></script>-->
 
 </body>
 </html>

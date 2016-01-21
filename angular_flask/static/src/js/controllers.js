@@ -9,7 +9,7 @@ angular.module('AngularFlask')
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
                 $scope.showPost = true;
-                console.log('The response is:', $scope.posts)
+                console.log('The response is:', new Date($scope.posts[0].date))
             },
             function (response) {
                 $scope.message = "Error: " + response.status + " " + response.statusText;
@@ -18,7 +18,6 @@ angular.module('AngularFlask')
     .controller('NewPostController', ['$scope', 'newPost', function ($scope, newPost) {
 
         $scope.createPost = function () {
-            console.log('scope is:', $scope.post)
             var post = new newPost($scope.post);
             post.$save();
         }
