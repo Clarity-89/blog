@@ -4,6 +4,7 @@ from flask import Flask, request, Response, jsonify
 from flask import render_template, url_for, redirect, send_from_directory
 from flask import send_file, make_response, abort
 from sqlalchemy.orm.exc import NoResultFound
+from werkzeug import secure_filename
 
 from angular_flask import app
 from angular_flask.core import db
@@ -19,6 +20,7 @@ from angular_flask.models import *
 
 session = api_manager.session
 
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 # routing for basic pages (pass routing onto the Angular app)
 @app.route('/')
@@ -47,6 +49,23 @@ def get_post(id):
         return render_template('404.html'), 404
 
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+@app.route('/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+    return
+
+
 # Add a new post
 @app.route('/blog/api/posts/new', methods=['POST'])
 def add_post():
@@ -54,9 +73,13 @@ def add_post():
         abort(400)"""
     content = json.loads(request.form['content'])
     post = Post(title=content["title"], body=content["body"], author='alex')
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     session.add(post)
     session.commit()
-    return render_template('index.html')
+    return redirect('/')
 
 
 # special file handlers and error handlers
