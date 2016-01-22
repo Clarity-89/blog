@@ -9,19 +9,25 @@ angular.module('AngularFlask')
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
                 $scope.showPost = true;
-                console.log('The response is:', new Date($scope.posts[0].date))
+
             },
             function (response) {
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('NewPostController', ['$scope', 'newPost', function ($scope, newPost) {
+    .controller('NewPostController', ['$scope', 'fileUpload', function ($scope, fileUpload) {
 
+        /*$scope.createPost = function () {
+         console.log('The form data is:', $scope.post)
+         var post = new newPost($scope.post);
+         post.$save();
+         }*/
         $scope.createPost = function () {
-            var post = new newPost($scope.post);
-            post.$save();
-        }
+            var file = $scope.myFile;
+            console.log('loggin scope', $scope.myFile);
 
+            fileUpload.newPost(file, $scope.post);
+        }
     }])
 
 function IndexController($scope) {

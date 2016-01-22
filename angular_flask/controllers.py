@@ -50,9 +50,10 @@ def get_post(id):
 # Add a new post
 @app.route('/blog/api/posts/new', methods=['POST'])
 def add_post():
-    if not request.json or not 'title' in request.json:
-        abort(400)
-    post = Post(title=request.json["title"], body=request.json["body"], author='alex')
+    """if not request.json or not 'title' in request.json:
+        abort(400)"""
+    print 'showing the req:', request.data
+    post = Post(title=request.data["title"], body=request.data["body"], author='alex')
     session.add(post)
     session.commit()
     return render_template('index.html')
