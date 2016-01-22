@@ -1,4 +1,4 @@
-import os
+import os, json
 
 from flask import Flask, request, Response, jsonify
 from flask import render_template, url_for, redirect, send_from_directory
@@ -52,8 +52,8 @@ def get_post(id):
 def add_post():
     """if not request.json or not 'title' in request.json:
         abort(400)"""
-    print 'showing the req:', request.data
-    post = Post(title=request.data["title"], body=request.data["body"], author='alex')
+    content = json.loads(request.form['content'])
+    post = Post(title=content["title"], body=content["body"], author='alex')
     session.add(post)
     session.commit()
     return render_template('index.html')
