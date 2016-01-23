@@ -12,8 +12,8 @@
                 <input type="file" name="coverPic" file-model="myFile">
             </md-input-container>
             <md-input-container class="md-block">
-                <label for="content">Content</label>
-                <textarea required name="body" id="content" rows="1" ng-model="post.body"></textarea>
+
+               <div text-angular ng-model="htmlVariable"></div>
                 <div ng-messages="post.body.$error">
                     <div ng-message="required">Content is required.</div>
                 </div>
@@ -21,4 +21,5 @@
             <md-button type="submit" class="md-raised md-warn" id="publish">Publish</md-button>
         </form>
     </md-content>
+
 </div>

@@ -23,7 +23,8 @@
     "angular-material": "^1.0.0",
     "angular-resource": "latest",
     "del": "^2.2.0",
-    "jquery": "latest"
+    "jquery": "latest",
+    "textangular": "^1.5.0"
   },
   "bugs": {
     "url": "https://github.com/Clarity-89/blog/issues"
