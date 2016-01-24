@@ -71,8 +71,10 @@ def upload_file():
 def add_post():
     """if not request.json or not 'title' in request.json:
         abort(400)"""
-    content = json.loads(request.form['content'])
-    post = Post(title=content["title"], body=content["body"], author='alex')
+    title = json.loads(request.form['content'])
+    body = json.loads(request.form['content2'])
+    print 'form', json.loads(request.form['content2'])
+    post = Post(title=title["title"], body=body, author='alex')
     file = request.files['file']
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
