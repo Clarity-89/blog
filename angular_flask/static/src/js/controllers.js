@@ -24,10 +24,10 @@ angular.module('AngularFlask')
          }*/
         $scope.createPost = function () {
             var file = $scope.myFile;
-            console.log('loggin scope', $scope.myFile);
-
+            console.log('logging scope', $scope.myFile);
             fileUpload.newPost(file, $scope.post);
-        }
+        };
+
     }])
 
 function IndexController($scope) {

@@ -7,6 +7,7 @@ body {
     height: 100%;
     width: 100%;
     background: #E0E0E0 fixed;
+    font-family: Roboto sans-serif;
 }
 
 header {
@@ -55,5 +56,5 @@ form {
     overflow: auto;
     font-family: inherit;
     font-size: 100%;
-    margin:20px 0;
- }
+    margin: 20px 0;
+}

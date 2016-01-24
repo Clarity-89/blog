@@ -39,5 +39,20 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .backgroundPalette('grey');
 
             $locationProvider.html5Mode(true);
-        }])
+
+
+        }]).config(function ($provide) {
+
+    $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function (taRegisterTool, taOptions) {
+        taRegisterTool('uploadImage', {
+            buttontext: 'Upload Image',
+            iconclass: "fa fa-image",
+            action: function () {
+                angular.element('#uploadImage').click();
+            }
+        });
+        taOptions.toolbar[1].push('uploadImage');
+        return taOptions;
+    }]);
+})
 ;
