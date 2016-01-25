@@ -24,7 +24,7 @@ angular.module('AngularFlask')
          }*/
         $scope.createPost = function () {
             var file = $scope.myFile;
-            console.log('logging scope', $scope.htmlVariable);
+            //console.log('logging scope', $scope.htmlVariable);
             fileUpload.newPost(file, $scope.post, $scope.htmlVariable);
         };
 

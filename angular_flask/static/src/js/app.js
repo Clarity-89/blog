@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular'])
+angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize'])
     .config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
         function ($routeProvider, $locationProvider, $mdThemingProvider) {
             $routeProvider
@@ -48,7 +48,8 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
             buttontext: 'Upload Image',
             iconclass: "fa fa-image",
             action: function () {
-                angular.element('#uploadImage').click();
+                //angular.element('#uploadImage').click();
+                document.getElementById('uploadImage').click();
             }
         });
         taOptions.toolbar[1].push('uploadImage');
