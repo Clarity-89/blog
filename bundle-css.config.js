@@ -2,9 +2,9 @@ module.exports = {
     bundle: {
         main: {
             styles: [
-                './angular_flask/static/src/css/*.css',
-                './node_modules/textangular/dist/*.css',
-                ],
+                /*'./node_modules/textangular/dist/*.css',*/
+                './angular_flask/static/src/css/*.css'
+            ],
             options: {
                 rev: false
             }

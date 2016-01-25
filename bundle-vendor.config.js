@@ -2,7 +2,6 @@ module.exports = {
     bundle: {
         vendor: {
             scripts: [
-                /*'./node_modules/jquery/dist/jquery.js',*/
                 './node_modules/angular/angular.js',
                 './node_modules/angular-resource/angular-resource.js',
                 './node_modules/angular-route/angular-route.js',
@@ -12,8 +11,7 @@ module.exports = {
                 './node_modules/textangular/dist/textAngular.js',
                 './node_modules/textangular/dist/textAngular-rangy.min.js',
                 './node_modules/textangular/dist/textAngular-sanitize.js',
-                './node_modules/textangular/dist/textAngularSetup.js',
-                /*'./node_modules/angular-sanitize/angular-sanitize.js'*/
+                './node_modules/textangular/dist/textAngularSetup.js'
             ],
             options: {
                 rev: false
