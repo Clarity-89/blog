@@ -58,3 +58,8 @@ form {
     font-size: 100%;
     margin: 20px 0;
 }
+
+.md-card-image {
+    height: 300px;
+    width: 100%;
+}

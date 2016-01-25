@@ -22,9 +22,7 @@
     "angular-aria": "^1.4.8",
     "angular-material": "^1.0.0",
     "angular-resource": "latest",
-    "angular-sanitize": "^1.4.9",
-    "del": "^2.2.0",
-    "jquery": "latest",
+    "bootstrap": "^3.3.6",
     "textangular": "^1.5.0"
   },
   "bugs": {
@@ -34,6 +32,7 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-bundle-assets": "^2.23.0",
-    "gulp-useref": "^3.0.4"
+    "gulp-useref": "^3.0.4",
+    "del": "^2.2.0"
   }
 }
