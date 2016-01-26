@@ -16,8 +16,7 @@
                         <span class="md-subhead">{{ post.date }}</span>
                     </md-card-header-text>
                 </md-card-header>
-                <img src="{{ post.cover_photo }}" class="md-card-image"
-                     alt="Washed Out">
+                <div class="md-card-image" ng-style="{'background-image':'url({{ post.cover_photo }})'}"></div>
                 <md-card-title>
                     <md-card-title-text>
                         <span class="md-headline">{{ post.title }}</span>

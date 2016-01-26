@@ -62,9 +62,11 @@ form {
 .md-card-image {
     height: 300px;
     width: 100%;
+    background-size: cover;
 }
 
 .body-text {
     max-height: 200px;
     overflow: hidden;
 }
+
