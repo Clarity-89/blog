@@ -4,7 +4,6 @@ from flask import Flask, request, Response, jsonify
 from flask import render_template, url_for, redirect, send_from_directory
 from flask import send_file, make_response, abort
 from sqlalchemy.orm.exc import NoResultFound
-from werkzeug import secure_filename
 
 from angular_flask import app
 from angular_flask.core import db
@@ -29,7 +28,6 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 @app.route('/blog')
 @app.route('/new')
 def basic_pages(**kwargs):
-    print os.path.join(app.config['UPLOAD_FOLDER'])
     # return make_response(open('angular_flask/templates/index.html').read())
     return render_template('index.html')
 
@@ -63,18 +61,6 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-@app.route('/', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
-    return
-
-
 # Add a new post
 @app.route('/blog/api/posts/new', methods=['POST'])
 def add_post():
@@ -82,12 +68,12 @@ def add_post():
         abort(400)"""
     title = json.loads(request.form['content'])
     body = json.loads(request.form['content2'])
-    print 'form', json.loads(request.form['content2'])
-    file = request.files['file']
-    if file and allowed_file(file.filename):
+
+    if request.files:
         # Generate unique file name
-        filename = str(uuid.uuid4()) + '.' + file.filename.rsplit('.', 1)[1]
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        image = request.files['file']
+        filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         post = Post(title=title["title"], body=body, cover_photo='../img/' + filename,
                     author='alex')
     else:

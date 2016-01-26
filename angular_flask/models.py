@@ -27,7 +27,7 @@ class Post(db.Model):
             'favorited': self.favorited
         }
 
-    def __init__(self, title, body, cover_photo, author):
+    def __init__(self, title, body, author, cover_photo='../img/default.jpg', ):
         self.title = title
         self.body = body
         self.cover_photo = cover_photo
