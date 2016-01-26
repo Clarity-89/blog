@@ -10,6 +10,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(240))
     body = db.Column(db.String())
+    cover_photo = db.Column(db.String(), default='../img/default.jpg')
     date = db.Column(db.DateTime, default=datetime.utcnow)
     author = db.Column(db.String(32))
     favorited = db.Column(db.Integer, default=0)
@@ -20,6 +21,7 @@ class Post(db.Model):
             'id': self.id,
             'title': self.title,
             'body': self.body,
+            'cover_photo': self.cover_photo,
             'date': self.date,
             'author': self.author,
             'favorited': self.favorited
@@ -33,5 +35,3 @@ class Post(db.Model):
 
 def __repr__(self):
     return '<id {}>'.format(self.id)  # models for which we want to create API endpoints
-
-

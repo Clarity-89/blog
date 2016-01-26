@@ -1,4 +1,4 @@
-import os, json
+import os, json, uuid
 
 from flask import Flask, request, Response, jsonify
 from flask import render_template, url_for, redirect, send_from_directory
@@ -22,14 +22,23 @@ session = api_manager.session
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
+
 # routing for basic pages (pass routing onto the Angular app)
 @app.route('/')
 @app.route('/about')
 @app.route('/blog')
 @app.route('/new')
 def basic_pages(**kwargs):
+    print os.path.join(app.config['UPLOAD_FOLDER'])
     # return make_response(open('angular_flask/templates/index.html').read())
     return render_template('index.html')
+
+
+# Serve images
+@app.route('/img/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 
 # Endpoint for all posts
@@ -74,11 +83,13 @@ def add_post():
     title = json.loads(request.form['content'])
     body = json.loads(request.form['content2'])
     print 'form', json.loads(request.form['content2'])
-    post = Post(title=title["title"], body=body, author='alex')
     file = request.files['file']
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
+        # Generate unique file name
+        filename = str(uuid.uuid4()) + '.' + file.filename.rsplit('.', 1)[1]
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    post = Post(title=title["title"], body=body, cover_photo=os.path.join(app.config['UPLOAD_FOLDER'], filename),
+                author='alex')
     session.add(post)
     session.commit()
     return redirect('/')
