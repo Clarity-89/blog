@@ -3,5 +3,6 @@ venv
 *~
 .DS_Store
 ignore
-/angular_flask/static/vendor
+/angular_flask/static/dist/vendor.js
 .idea
+/node_modules
