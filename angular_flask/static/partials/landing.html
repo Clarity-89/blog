@@ -2,11 +2,11 @@
 
     <h2 class="center">Latest posts</h2>
 
-    <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap="" layout-align="center center" layout-xs="column">
+    <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap="" layout-align="center center"
+         layout-xs="column">
         <div flex="50" flex-xs="100" layout="column">
             <md-card>
                 <md-card-header>
-
                     <md-card-avatar>
                         <img class="md-user-avatar"
                              src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
@@ -16,10 +16,15 @@
                         <span class="md-subhead">{{ post.date }}</span>
                     </md-card-header-text>
                 </md-card-header>
-                <div class="md-card-image" ng-style="{'background-image':'url({{ post.cover_photo }})'}"> <span class="md-headline">{{ post.title }}</span></div>
+                <a href="/post/{{ post.id }}">
+                    <div class="md-card-image" ng-style="{'background-image':'url({{ post.cover_photo }})'}">
+                        <span class="md-headline">{{ post.title }}</span>
+                    </div>
+                </a>
                 <md-card-content>
-                   <div class="body-text" ta-bind ng-model="post.body"> </div>
+                    <div class="body-text" ta-bind ng-model="post.body"></div>
                 </md-card-content>
+
             </md-card>
         </div>
     </div>

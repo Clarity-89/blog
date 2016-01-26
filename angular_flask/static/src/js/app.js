@@ -21,19 +21,18 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                     templateUrl: 'static/partials/new_post.html',
 
                 })
-                .when('/post/:postId', {
+                .when('/post/:id', {
                     templateUrl: '/static/partials/post-detail.html',
-                    controller: PostDetailController
                 })
                 /* Create a "/blog" route that takes the user to the same place as "/post" */
                 .when('/blog', {
                     templateUrl: 'static/partials/post-list.html',
-
-
                 })
                 .otherwise({
                     redirectTo: '/'
                 });
+
+            //Customize themes for Angular Material
             $mdThemingProvider.theme('default')
                 .primaryPalette('blue-grey')
                 .accentPalette('orange')

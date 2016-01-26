@@ -21,19 +21,18 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                     templateUrl: 'static/partials/new_post.html',
 
                 })
-                .when('/post/:postId', {
+                .when('/post/:id', {
                     templateUrl: '/static/partials/post-detail.html',
-                    controller: PostDetailController
                 })
                 /* Create a "/blog" route that takes the user to the same place as "/post" */
                 .when('/blog', {
                     templateUrl: 'static/partials/post-list.html',
-
-
                 })
                 .otherwise({
                     redirectTo: '/'
                 });
+
+            //Customize themes for Angular Material
             $mdThemingProvider.theme('default')
                 .primaryPalette('blue-grey')
                 .accentPalette('orange')
@@ -69,7 +68,6 @@ angular.module('AngularFlask')
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
                 $scope.showPost = true;
-
             },
             function (response) {
                 $scope.message = "Error: " + response.status + " " + response.statusText;
@@ -89,6 +87,19 @@ angular.module('AngularFlask')
             $location.path('/');
         };
 
+    }])
+    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', function ($scope, allPosts, $routeParams) {
+        console.log($routeParams.id)
+        $scope.post = {};
+        allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
+            .$promise.then(function (response) {
+                console.log('response is: ', response)
+                $scope.post = response.post;
+                $scope.showPost = true;
+            },
+            function (response) {
+                $scope.message = "Error: " + response.status + " " + response.statusText;
+            });
     }])
 
 function IndexController($scope) {
@@ -137,7 +148,7 @@ angular.module('AngularFlask')
     .constant("baseURL", "http://0.0.0.0:5000")
     .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
         this.getPosts = function () {
-            return $resource(baseURL + '/blog/api/posts', {}, {
+            return $resource(baseURL + '/blog/api/posts/:id', {}, {
                 query: {
                     method: 'GET',
                     isArray: true
@@ -145,7 +156,7 @@ angular.module('AngularFlask')
             });
         }
     }])
-    /*.service('newPost', ['$resource', 'baseURL', function ($resource, baseURL) {
+    /* .service('postDetail', ['$resource', 'baseURL', function ($resource, baseURL) {
      return $resource(baseURL + "/blog/api/posts/new", {});
      }])*/
     .service('fileUpload', ['$http', function ($http) {

@@ -9,7 +9,6 @@ angular.module('AngularFlask')
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
                 $scope.showPost = true;
-
             },
             function (response) {
                 $scope.message = "Error: " + response.status + " " + response.statusText;
@@ -29,6 +28,19 @@ angular.module('AngularFlask')
             $location.path('/');
         };
 
+    }])
+    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', function ($scope, allPosts, $routeParams) {
+        console.log($routeParams.id)
+        $scope.post = {};
+        allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
+            .$promise.then(function (response) {
+                console.log('response is: ', response)
+                $scope.post = response.post;
+                $scope.showPost = true;
+            },
+            function (response) {
+                $scope.message = "Error: " + response.status + " " + response.statusText;
+            });
     }])
 
 function IndexController($scope) {

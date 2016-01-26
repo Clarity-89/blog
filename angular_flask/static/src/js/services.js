@@ -4,7 +4,7 @@ angular.module('AngularFlask')
     .constant("baseURL", "http://0.0.0.0:5000")
     .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
         this.getPosts = function () {
-            return $resource(baseURL + '/blog/api/posts', {}, {
+            return $resource(baseURL + '/blog/api/posts/:id', {}, {
                 query: {
                     method: 'GET',
                     isArray: true
@@ -12,7 +12,7 @@ angular.module('AngularFlask')
             });
         }
     }])
-    /*.service('newPost', ['$resource', 'baseURL', function ($resource, baseURL) {
+    /* .service('postDetail', ['$resource', 'baseURL', function ($resource, baseURL) {
      return $resource(baseURL + "/blog/api/posts/new", {});
      }])*/
     .service('fileUpload', ['$http', function ($http) {

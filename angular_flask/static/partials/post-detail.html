@@ -1,6 +1,25 @@
-<div>
-	<h2>{{ post.title | uppercase }}</h2>
-	<h4>{{ post.body }}</h4>
-
-	<p><a href="/blog">back</a></p>
+<div ng-controller="PostDetailController">
+    <div class="md-padding" layout="row" layout-wrap=""
+         layout-align="center center"
+         layout-xs="column">
+        <div flex="50" flex-xs="100" layout="column">
+            <md-card>
+                <md-card-header>
+                    <md-card-avatar>
+                        <img class="md-user-avatar"
+                             src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+                    </md-card-avatar>
+                    <md-card-header-text>
+                        <span class="md-title">{{ post.author }}</span>
+                        <span class="md-subhead">{{ post.date }}</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <div class="md-card-image" ng-style="{'background-image':'url({{ post.cover_photo }})'}"><span
+                        class="md-headline">{{ post.title }}</span></div>
+                <md-card-content>
+                    <div class="body-text" ta-bind ng-model="post.body"></div>
+                </md-card-content>
+            </md-card>
+        </div>
+    </div>
 </div>
