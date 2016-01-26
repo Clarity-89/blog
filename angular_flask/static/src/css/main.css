@@ -63,3 +63,8 @@ form {
     height: 300px;
     width: 100%;
 }
+
+.body-text {
+    max-height: 200px;
+    overflow: hidden;
+}

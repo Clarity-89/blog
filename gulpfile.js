@@ -33,5 +33,4 @@ gulp.task('build', ['bundle-css', 'bundle-js', 'bundle-vendor']);
 // Watch
 gulp.task('watch', function () {
     gulp.watch('angular_flask/static/src/js/*.js', ['bundle-js']);
-    gulp.watch('angular_flask/static/src/css/*.css', ['bundle-css']);
 });
