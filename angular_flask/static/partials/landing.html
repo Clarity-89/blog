@@ -17,7 +17,7 @@
                     </md-card-header-text>
                 </md-card-header>
                 <a href="/post/{{ post.id }}">
-                    <div class="md-card-image" ng-style="{'background-image':'url({{ post.cover_photo }})'}">
+                    <div class="md-card-image" ng-style="{'background-image':'url(' + post.cover_photo + ')'}">
                         <span class="md-headline">{{ post.title }}</span>
                     </div>
                 </a>

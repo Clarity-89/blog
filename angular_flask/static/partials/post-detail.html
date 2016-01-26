@@ -2,7 +2,7 @@
     <div class="md-padding" layout="row" layout-wrap=""
          layout-align="center center"
          layout-xs="column">
-        <div flex="50" flex-xs="100" layout="column">
+        <div flex="80" flex-xs="100" layout="column">
             <md-card>
                 <md-card-header>
                     <md-card-avatar>
@@ -14,10 +14,11 @@
                         <span class="md-subhead">{{ post.date }}</span>
                     </md-card-header-text>
                 </md-card-header>
-                <div class="md-card-image" ng-style="{'background-image':'url({{ post.cover_photo }})'}"><span
-                        class="md-headline">{{ post.title }}</span></div>
+                <div class="md-card-image" ng-style="{'background-image':'url(' + post.cover_photo + ')'}">
+                    <span class="md-headline">{{ post.title }}</span>
+                </div>
                 <md-card-content>
-                    <div class="body-text" ta-bind ng-model="post.body"></div>
+                    <div ta-bind ng-model="post.body" class="md-subhead"></div>
                 </md-card-content>
             </md-card>
         </div>
