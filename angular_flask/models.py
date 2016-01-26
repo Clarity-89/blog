@@ -27,9 +27,10 @@ class Post(db.Model):
             'favorited': self.favorited
         }
 
-    def __init__(self, title, body, author):
+    def __init__(self, title, body, cover_photo, author):
         self.title = title
         self.body = body
+        self.cover_photo = cover_photo
         self.author = author
 
 

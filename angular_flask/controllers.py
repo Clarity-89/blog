@@ -88,8 +88,10 @@ def add_post():
         # Generate unique file name
         filename = str(uuid.uuid4()) + '.' + file.filename.rsplit('.', 1)[1]
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    post = Post(title=title["title"], body=body, cover_photo=os.path.join(app.config['UPLOAD_FOLDER'], filename),
-                author='alex')
+        post = Post(title=title["title"], body=body, cover_photo='../img/' + filename,
+                    author='alex')
+    else:
+        post = Post(title=title["title"], body=body, author='alex')
     session.add(post)
     session.commit()
     return redirect('/')
