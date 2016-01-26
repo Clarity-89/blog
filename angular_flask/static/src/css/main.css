@@ -60,9 +60,17 @@ form {
 }
 
 .md-card-image {
+    position: relative;
+    padding: 20px;
     height: 300px;
     width: 100%;
     background-size: cover;
+}
+
+.md-headline {
+    position: absolute;
+    bottom: 20px;
+    color: white;
 }
 
 .body-text {
