@@ -12,6 +12,7 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                     templateUrl: 'static/partials/about.html',
                     controller: AboutController
                 })
+
                 .when('/post', {
                     templateUrl: 'static/partials/post-list.html',
 
@@ -74,7 +75,7 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('NewPostController', ['$scope', 'fileUpload', function ($scope, fileUpload) {
+    .controller('NewPostController', ['$scope', 'fileUpload', '$location', function ($scope, fileUpload, $location) {
 
         /*$scope.createPost = function () {
          console.log('The form data is:', $scope.post)
@@ -85,6 +86,7 @@ angular.module('AngularFlask')
             var file = $scope.myFile;
             //console.log('logging scope', $scope.htmlVariable);
             fileUpload.newPost(file, $scope.post, $scope.htmlVariable);
+            $location.path('/');
         };
 
     }])
