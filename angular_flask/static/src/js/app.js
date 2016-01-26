@@ -12,6 +12,7 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                     templateUrl: 'static/partials/about.html',
                     controller: AboutController
                 })
+
                 .when('/post', {
                     templateUrl: 'static/partials/post-list.html',
 
