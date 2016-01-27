@@ -13,7 +13,7 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                     controller: AboutController
                 })
 
-                .when('/post', {
+                .when('/posts', {
                     templateUrl: 'static/partials/post-list.html',
 
                 })
@@ -21,7 +21,7 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                     templateUrl: 'static/partials/new_post.html',
 
                 })
-                .when('/post/:id', {
+                .when('/posts/:id', {
                     templateUrl: '/static/partials/post-detail.html',
                 })
                 /* Create a "/blog" route that takes the user to the same place as "/post" */

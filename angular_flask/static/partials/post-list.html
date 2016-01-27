@@ -1,8 +1,29 @@
+<div ng-controller="PostListController">
 
-<div ng-repeat="post in posts | orderBy: 'id':true ">
-	<h4><a href="/post/{{ post.id }}">{{ post.title }}</a></h4>
-	<p>{{ post.body }}<p>
+     <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap="" layout-align="center center"
+         layout-xs="column">
+        <div flex="50" flex-xs="100" layout="column">
+            <md-card>
+                <md-card-header>
+                    <md-card-avatar>
+                        <img class="md-user-avatar"
+                             src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+                    </md-card-avatar>
+                    <md-card-header-text>
+                        <span class="md-title">{{ post.author }}</span>
+                        <span class="md-subhead">{{ post.date }}</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <a href="/posts/{{ post.id }}">
+                    <div class="md-card-image" ng-style="{'background-image':'url(' + post.cover_photo + ')'}">
+                        <span class="md-headline">{{ post.title }}</span>
+                    </div>
+                </a>
+                <md-card-content>
+                    <div class="body-text" ta-bind ng-model="post.body"></div>
+                </md-card-content>
 
+            </md-card>
+        </div>
+    </div>
 </div>
-
- <p>Serving from post-list. This is a basic AngularJS + Flask application.</p>
