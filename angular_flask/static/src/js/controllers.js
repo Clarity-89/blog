@@ -14,6 +14,46 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
+    .controller('PostListController2', ['$scope', 'allPosts', function ($scope, allPosts) {
+        $scope.posts = [];
+        $scope.showPost = false;
+        $scope.message = "Loading ...";
+        allPosts.getPosts().get()
+            .$promise.then(function (response) {
+                $scope.posts = response.posts;
+                $scope.showPost = true;
+                buildGridModel($scope.posts);
+            },
+            function (response) {
+                $scope.message = "Error: " + response.status + " " + response.statusText;
+            });
+
+        function buildGridModel(posts) {
+            var it, results = [];
+            for (var j = 0; j < posts.length; j++) {
+                it = posts[j];
+                it.span = {row: 1, col: 1};
+                switch (j + 1) {
+                    case 1:
+                        it.span.row = it.span.col = 2;
+                        break;
+                    case 4:
+                        it.span.col = 2;
+                        break;
+                    case 5:
+                        it.span.row = it.span.col = 2;
+                        break;
+                    default:
+                        it.span = {row: 1, col: 1};
+                        break;
+                }
+                results.push(it);
+            }
+            console.log('logging posts', posts);
+            return posts;
+        }
+
+    }])
     .controller('NewPostController', ['$scope', 'fileUpload', '$location', function ($scope, fileUpload, $location) {
 
         /*$scope.createPost = function () {

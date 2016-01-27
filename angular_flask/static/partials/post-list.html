@@ -1,9 +1,10 @@
-<div ng-controller="PostListController">
+<div ng-controller="PostListController2 as vm" flex="" ng-cloak="" layout-padding>
+    <md-grid-list md-cols-sm="1" md-cols-md="2" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="4:3"
+                  md-gutter="8px" md-gutter-gt-sm="4px">
 
-     <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap="" layout-align="center center"
-         layout-xs="column">
-        <div flex="50" flex-xs="100" layout="column">
-            <md-card>
+        <md-grid-tile ng-repeat="post in posts" md-rowspan="{{ post.span.row }}" md-colspan="{{ post.span.col }}"
+                      md-colspan-sm="1">
+            <md-card layout-fill>
                 <md-card-header>
                     <md-card-avatar>
                         <img class="md-user-avatar"
@@ -22,8 +23,7 @@
                 <md-card-content>
                     <div class="body-text" ta-bind ng-model="post.body"></div>
                 </md-card-content>
-
             </md-card>
-        </div>
-    </div>
+        </md-grid-tile>
+    </md-grid-list>
 </div>

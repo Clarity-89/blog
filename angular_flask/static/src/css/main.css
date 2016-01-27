@@ -74,7 +74,7 @@ form {
     color: white;
 }
 
-.body-text {
+md-card md-card-content {
     max-height: 200px;
     overflow: hidden;
 }
