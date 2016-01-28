@@ -8,6 +8,10 @@ angular.module('AngularFlask')
         allPosts.getPosts().get()
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
+                $scope.posts.sort(function (a, b) {
+                    return a.date > b.date ? -1 : a.date === b.date ? 0 : 1;
+                });
+                $scope.posts.length = 5;
                 $scope.showPost = true;
             },
             function (response) {
