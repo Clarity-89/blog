@@ -1,7 +1,7 @@
 'use strict';
 angular.module('AngularFlask')
 
-    .controller('PostListController', ['$scope', 'allPosts', function ($scope, allPosts) {
+    .controller('LatestController', ['$scope', 'allPosts', function ($scope, allPosts) {
         $scope.posts = [];
         $scope.showPost = false;
         $scope.message = "Loading ...";
@@ -14,7 +14,7 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('PostListController2', ['$scope', 'allPosts', function ($scope, allPosts) {
+    .controller('PostListController', ['$scope', 'allPosts', function ($scope, allPosts) {
         $scope.posts = [];
         $scope.showPost = false;
         $scope.message = "Loading ...";

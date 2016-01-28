@@ -6,3 +6,4 @@ ignore
 .idea
 /node_modules
 /data/posts.db
+todo.txt
