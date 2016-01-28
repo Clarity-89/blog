@@ -92,18 +92,21 @@ angular.module('AngularFlask')
             for (var j = 0; j < posts.length; j++) {
                 it = posts[j];
                 it.span = {row: 1, col: 1};
+                it.img = 'img-sm';
+                it.para = 'para-sm';
                 switch (j + 1) {
                     case 1:
                         it.span.row = it.span.col = 2;
+                        it.img = 'img-lg';
+                        it.para = 'para-lg';
                         break;
                     case 4:
                         it.span.col = 2;
                         break;
                     case 5:
                         it.span.row = it.span.col = 2;
-                        break;
-                    default:
-                        it.span = {row: 1, col: 1};
+                        it.img = 'img-lg';
+                        it.para = 'para-lg';
                         break;
                 }
                 results.push(it);

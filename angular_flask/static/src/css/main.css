@@ -84,3 +84,19 @@ a {
     color: inherit;
 }
 
+/* Custom card classes */
+.img-sm {
+    height: 150px;
+}
+
+.para-sm {
+    height: 80px;
+}
+
+.img-lg {
+    height: 300px;
+}
+
+.para-lg {
+    height: 160px;
+}
