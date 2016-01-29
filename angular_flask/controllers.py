@@ -30,6 +30,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 @app.route('/new')
 @app.route('/posts')
 @app.route('/posts/<int:id>')
+@app.route('/register')
 def basic_pages(**kwargs):
     # return make_response(open('angular_flask/templates/index.html').read())
     return render_template('index.html')
@@ -95,7 +96,8 @@ def new_user():
 
     if username is None or password is None:
         abort(400)  # missing arguments
-    if User.query.filter_by(username=username).first() is not None or User.query.filter_by(email=email).first() is not None:
+    if User.query.filter_by(username=username).first() is not None or User.query.filter_by(
+            email=email).first() is not None:
         abort(400)  # existing user or email
     user = User(username=username, email=email)
     user.hash_password(password)
@@ -135,14 +137,6 @@ def verify_password(username_or_token, password):
             return False
     g.user = user
     return True
-
-
-@app.route('/blog/api/users/<int:id>')
-def get_user(id):
-    user = User.query.get(id)
-    if not user:
-        abort(400)
-    return jsonify({'username': user.username})
 
 
 @app.route('/blog/api/token')

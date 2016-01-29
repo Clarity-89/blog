@@ -43,10 +43,6 @@ footer {
     margin-top: 100px;
 }
 
-form {
-    min-height: 500px;
-}
-
 #content {
     height: auto;
 }
@@ -106,4 +102,8 @@ a {
 
 .para-lg {
     height: 160px;
+}
+
+#register {
+    width: 60%;
 }

@@ -27,6 +27,9 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .when('/blog', {
                     templateUrl: 'static/partials/post-list.html',
                 })
+                .when('/register', {
+                    templateUrl: 'static/partials/register.html',
+                })
                 .otherwise({
                     redirectTo: '/'
                 });

@@ -81,13 +81,19 @@ angular.module('AngularFlask')
         $scope.post = {};
         allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
             .$promise.then(function (response) {
-                console.log('response is: ', response)
+                //console.log('response is: ', response)
                 $scope.post = response.post;
                 $scope.showPost = true;
             },
             function (response) {
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
+    }])
+    .controller('UserController', ['$scope', function ($scope) {
+        $scope.hasAccount = false;
+        $scope.changeForm = function () {
+            $scope.hasAccount = !$scope.hasAccount;
+        }
     }])
 
 function IndexController($scope) {
