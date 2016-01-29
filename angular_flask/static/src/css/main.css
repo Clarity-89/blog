@@ -18,11 +18,14 @@ header {
 
 main {
     min-height: 100%;
-    /*background: #E0E0E0 fixed;*/
     background: url("../../img/laptop.jpg") fixed no-repeat;
     background-size: cover;
     padding-top: 75px;
     flex: 1;
+}
+
+#list-background {
+    background: #BDBDBD fixed;
 }
 
 footer {

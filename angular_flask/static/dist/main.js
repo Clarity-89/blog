@@ -19,7 +19,6 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 })
                 .when('/new', {
                     templateUrl: 'static/partials/new_post.html',
-
                 })
                 .when('/posts/:id', {
                     templateUrl: '/static/partials/post-detail.html',
