@@ -21,12 +21,12 @@
     "angular-animate": "^1.4.8",
     "angular-aria": "^1.4.8",
     "angular-material": "^1.0.0",
+    "angular-messages": "^1.4.9",
     "angular-resource": "latest",
     "angular-route": "^1.4.9",
     "bootstrap": "^3.3.6",
     "textangular": "^1.5.0"
   },
-
   "bugs": {
     "url": "https://github.com/Clarity-89/blog/issues"
   },
