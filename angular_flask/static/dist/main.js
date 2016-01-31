@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize'])
+angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize', 'ngMessages', 'ngPassword'])
     .config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
         function ($routeProvider, $locationProvider, $mdThemingProvider) {
             $routeProvider
@@ -154,6 +154,11 @@ angular.module('AngularFlask')
         $scope.hasAccount = false;
         $scope.changeForm = function () {
             $scope.hasAccount = !$scope.hasAccount;
+        };
+        $scope.user = {
+            name: "",
+            email: "",
+            password: ""
         }
     }])
 

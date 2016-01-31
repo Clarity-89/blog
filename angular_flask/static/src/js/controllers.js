@@ -93,6 +93,11 @@ angular.module('AngularFlask')
         $scope.hasAccount = false;
         $scope.changeForm = function () {
             $scope.hasAccount = !$scope.hasAccount;
+        };
+        $scope.user = {
+            name: "",
+            email: "",
+            password: ""
         }
     }])
 

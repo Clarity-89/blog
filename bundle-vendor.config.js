@@ -12,7 +12,8 @@ module.exports = {
                 './node_modules/textangular/dist/textAngular-rangy.min.js',
                 './node_modules/textangular/dist/textAngular-sanitize.js',
                 './node_modules/textangular/dist/textAngularSetup.js',
-                './node_modules/angular-messages/angular-messages.js'
+                './node_modules/angular-messages/angular-messages.js',
+                './node_modules/angular-password/angular-password.js'
             ],
             options: {
                 rev: false

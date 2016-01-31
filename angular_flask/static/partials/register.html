@@ -1,4 +1,5 @@
 <div ng-cloak flex-xs="100" flex-sm="60" flex-md="50" flex-gt-lg="30" ng-controller="UserController">
+    <!--Register form-->
     <md-content layout-padding ng-if="!hasAccount">
         <h1>Create an Account</h1>
         <form ng-submit="register()" name="userForm" novalidate>
@@ -11,31 +12,38 @@
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="email">Email</label>
-                <input type="email" id="email" required name="email" minlength="10" maxlength="100"
-                       ng-pattern="/^.+@.+\..+$/"
+                <input type="email" id="email" required name="email" ng-pattern="/^.+@.+\..+$/"
                        ng-model="user.email">
                 <div ng-messages="userForm.email.$error">
-                    <div ng-message="required">Email is required.</div>
-                    <div ng-message="minlength">
-                        Your email must be at least 10 characters long.
-                    </div>
-                    <div ng-message="maxlength">Email cannot be longer than 50 characters.</div>
-                    <div ng-message="pattern">Enter a valid email address.</div>
+                    <div ng-message-exp="['pattern', 'required']">Enter a valid email address.</div>
                 </div>
             </md-input-container>
-            <md-input-container class="md-block">
 
+            <md-input-container class="md-block">
                 <label for="password">Password</label>
-                <input type="password" id="password">
+                <input type="password" id="password" ng-model="user.password" required name="password" ng-minlength="6">
+                <div ng-messages="userForm.password.$error" role="alert">
+                    <div ng-message="required" class="message slide-left">Password is required.</div>
+                    <div ng-message="minlength">Password should be at least 6 characters long.</div>
+                </div>
+
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password2">Password (again)</label>
-                <input type="password" id="password2">
+                <input type="password" id="password2" name="confirmPassword" match-password="password"
+                       ng-model="user.confirmPassword">
+                <div ng-messages="userForm.confirmPassword.$error">
+
+                    <div ng-message="required" class="message slide-left">You did not enter a field name</div>
+                    <div ng-message="passwordMatch" class="message slide-left">Your passwords did not match</div>
+                </div>
             </md-input-container>
             <md-button type="submit" class="md-raised md-warn" id="newUser">Register</md-button>
         </form>
         <p>If you already have an account <a href="#" ng-click="changeForm()">Sign in</a></p>
     </md-content>
+
+    <!--Sign In form-->
     <md-content layout-padding ng-if="hasAccount">
         <h1>Sign in</h1>
         <form ng-submit="register()" name="newPost" novalidate>
