@@ -89,15 +89,19 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('UserController', ['$scope', function ($scope) {
+    .controller('UserController', ['$scope', 'createUser', function ($scope, createUser) {
         $scope.hasAccount = false;
         $scope.changeForm = function () {
             $scope.hasAccount = !$scope.hasAccount;
         };
         $scope.user = {
-            name: "",
+            username: "",
             email: "",
             password: ""
+        };
+        $scope.register = function () {
+            var user = $scope.user;
+            createUser.newUser(user);
         }
     }])
 

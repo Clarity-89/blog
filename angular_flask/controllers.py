@@ -93,7 +93,7 @@ def new_user():
     username = request.json.get('username')
     email = request.json.get('email')
     password = request.json.get('password')
-
+    print 'received user ', request.json
     if username is None or password is None:
         abort(400)  # missing arguments
     if User.query.filter_by(username=username).first() is not None or User.query.filter_by(
@@ -101,6 +101,7 @@ def new_user():
         abort(400)  # existing user or email
     user = User(username=username, email=email)
     user.hash_password(password)
+
     db.session.add(user)
     db.session.commit()
     return jsonify({'username': user.username}), 201, {'Location': url_for('get_user', id=user.id, _external=True)}

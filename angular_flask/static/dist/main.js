@@ -150,15 +150,19 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('UserController', ['$scope', function ($scope) {
+    .controller('UserController', ['$scope', 'createUser', function ($scope, createUser) {
         $scope.hasAccount = false;
         $scope.changeForm = function () {
             $scope.hasAccount = !$scope.hasAccount;
         };
         $scope.user = {
-            name: "",
+            username: "",
             email: "",
             password: ""
+        };
+        $scope.register = function () {
+            var user = $scope.user;
+            createUser.newUser(user);
         }
     }])
 
@@ -236,6 +240,18 @@ angular.module('AngularFlask')
                     console.log('Error, did not save', data);
                 });
         }
+    }])
+    .service('createUser', ['$http', function ($http) {
+        this.newUser = function (user) {
+            $http.post("http://0.0.0.0:5000" + "/blog/api/users", user)
+                .success(function () {
+                    console.log('User registered');
+                })
+                .error(function (data) {
+                    console.log('Error, did register' + '\n', data);
+                });
+        }
+
     }])
 ;
 

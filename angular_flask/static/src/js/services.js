@@ -33,6 +33,18 @@ angular.module('AngularFlask')
                 });
         }
     }])
+    .service('createUser', ['$http', function ($http) {
+        this.newUser = function (user) {
+            $http.post("http://0.0.0.0:5000" + "/blog/api/users", user)
+                .success(function () {
+                    console.log('User registered');
+                })
+                .error(function (data) {
+                    console.log('Error, did register' + '\n', data);
+                });
+        }
+
+    }])
 ;
 
 
