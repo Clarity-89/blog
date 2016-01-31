@@ -23,19 +23,17 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" ng-model="user.password" required name="password" ng-minlength="6">
                 <div ng-messages="userForm.password.$error" role="alert">
-                    <div ng-message="required" class="message slide-left">Password is required.</div>
-                    <div ng-message="minlength">Password should be at least 6 characters long.</div>
+                    <div ng-message-exp="['required', 'minlength']">Password is required and should be at least 6
+                        characters long.
+                    </div>
                 </div>
-
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password2">Password (again)</label>
                 <input type="password" id="password2" name="confirmPassword" match-password="password"
                        ng-model="user.confirmPassword">
                 <div ng-messages="userForm.confirmPassword.$error">
-
-                    <div ng-message="required" class="message slide-left">You did not enter a field name</div>
-                    <div ng-message="passwordMatch" class="message slide-left">Your passwords did not match</div>
+                    <div ng-message="passwordMatch">Your passwords did not match</div>
                 </div>
             </md-input-container>
             <md-button type="submit" class="md-raised md-warn" id="newUser">Register</md-button>
