@@ -143,7 +143,7 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('UserController', ['$scope', 'createUser', function ($scope, createUser) {
+    .controller('UserController', ['$scope', 'createUser', '$location', function ($scope, createUser, $location) {
         $scope.hasAccount = false;
         $scope.changeForm = function () {
             $scope.hasAccount = !$scope.hasAccount;
@@ -155,10 +155,9 @@ angular.module('AngularFlask')
         };
         $scope.register = function () {
             var user = $scope.user;
-            user.confirmPassword = '';
             createUser.newUser(user)
-                .then(function success(response) {
-                    console.log('user created', response);
+                .then(function success() {
+                    $location.path('/posts');
                 }, function error(response) {
                     console.log('failed to create user', response);
                 });
