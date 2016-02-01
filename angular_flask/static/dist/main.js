@@ -6,11 +6,9 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
             $routeProvider
                 .when('/', {
                     templateUrl: 'static/partials/landing.html',
-                    controller: IndexController
                 })
                 .when('/about', {
                     templateUrl: 'static/partials/about.html',
-                    controller: AboutController
                 })
 
                 .when('/posts', {
@@ -23,7 +21,6 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .when('/posts/:id', {
                     templateUrl: '/static/partials/post-detail.html',
                 })
-                /* Create a "/blog" route that takes the user to the same place as "/post" */
                 .when('/blog', {
                     templateUrl: 'static/partials/post-list.html',
                 })
@@ -174,21 +171,6 @@ angular.module('AngularFlask')
                 });
         }
     }])
-
-function IndexController($scope) {
-
-}
-
-function AboutController($scope) {
-
-}
-
-
-function PostDetailController($scope, $routeParams, Post) {
-    var postQuery = Post.get({postId: $routeParams.postId}, function (post) {
-        $scope.post = post;
-    });
-}
 
 angular.module('AngularFlask')
     .directive('fileModel', ['$parse', function ($parse) {
