@@ -107,3 +107,14 @@ a {
 #register {
     width: 60%;
 }
+
+.error {
+    color: rgb(221, 44, 0);
+    font-size: 12px;
+    line-height: 14px;
+    overflow: hidden;
+    transition: all .3s cubic-bezier(.55,0,.55,.2);
+    opacity: 1;
+    margin-top: 0;
+    padding-top: 5px;
+}

@@ -155,11 +155,18 @@ angular.module('AngularFlask')
         };
         $scope.register = function () {
             var user = $scope.user;
+            $scope.userError = false;
+            $scope.emailError = false;
             createUser.newUser(user)
                 .then(function success() {
                     $location.path('/posts');
                 }, function error(response) {
-                    console.log('failed to create user', response);
+                    $scope.userMessage = response.data.message;
+                    if ($scope.userMessage.split(' ')[0] === 'User') {
+                        $scope.userError = true;
+                    } else if ($scope.userMessage.split(' ')[0] === 'Email') {
+                        $scope.emailError = true;
+                    }
                 });
         }
     }])
