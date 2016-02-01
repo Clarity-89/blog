@@ -2,7 +2,7 @@
     <!--Register form-->
     <md-content layout-padding ng-if="!hasAccount">
         <h1>Create an Account</h1>
-        <form ng-submit="register()" name="userForm" novalidate>
+        <form name="userForm" novalidate ng-submit="userForm.$valid && register()">
             <md-input-container class="md-block">
                 <label for="username">Username</label>
                 <input required name="username" id="username" ng-model="user.username">

@@ -74,7 +74,6 @@ angular.module('AngularFlask')
 
     }])
     .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', function ($scope, allPosts, $routeParams) {
-        console.log($routeParams.id)
         $scope.post = {};
         allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
             .$promise.then(function (response) {

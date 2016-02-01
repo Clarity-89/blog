@@ -66,12 +66,12 @@ angular.module('AngularFlask')
         allPosts.getPosts().get()
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
-            if ($scope.posts.length > 5){
-               $scope.posts.sort(function (a, b) {
-                    return a.date > b.date ? -1 : a.date === b.date ? 0 : 1;
-                });
-                $scope.posts.length = 5;
-            }
+                if ($scope.posts.length > 5) {
+                    $scope.posts.sort(function (a, b) {
+                        return a.date > b.date ? -1 : a.date === b.date ? 0 : 1;
+                    });
+                    $scope.posts.length = 5;
+                }
                 $scope.showPost = true;
             },
             function (response) {
@@ -124,21 +124,14 @@ angular.module('AngularFlask')
     }])
     .controller('NewPostController', ['$scope', 'fileUpload', '$location', function ($scope, fileUpload, $location) {
 
-        /*$scope.createPost = function () {
-         console.log('The form data is:', $scope.post)
-         var post = new newPost($scope.post);
-         post.$save();
-         }*/
         $scope.createPost = function () {
             var file = $scope.myFile;
-            //console.log('logging scope', $scope.htmlVariable);
             fileUpload.newPost(file, $scope.post, $scope.htmlVariable);
             $location.path('/');
         };
 
     }])
     .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', function ($scope, allPosts, $routeParams) {
-        console.log($routeParams.id)
         $scope.post = {};
         allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
             .$promise.then(function (response) {
@@ -211,9 +204,6 @@ angular.module('AngularFlask')
             });
         }
     }])
-    /* .service('postDetail', ['$resource', 'baseURL', function ($resource, baseURL) {
-     return $resource(baseURL + "/blog/api/posts/new", {});
-     }])*/
     .service('fileUpload', ['$http', function ($http) {
         this.newPost = function (file, data1, data2) {
             var fd = new FormData();
