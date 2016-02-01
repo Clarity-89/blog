@@ -12,9 +12,6 @@ angular.module('AngularFlask')
             });
         }
     }])
-    /* .service('postDetail', ['$resource', 'baseURL', function ($resource, baseURL) {
-     return $resource(baseURL + "/blog/api/posts/new", {});
-     }])*/
     .service('fileUpload', ['$http', function ($http) {
         this.newPost = function (file, data1, data2) {
             var fd = new FormData();
