@@ -26,7 +26,10 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 # Override default error message
 @app.errorhandler(400)
 def custom400(error):
-    return jsonify({'message': error.description})
+    response = jsonify({'message': error.description})
+    response.status_code = 400
+    response.status_text = 'error. Bad Request'
+    return response
 
 
 # routing for basic pages (pass routing onto the Angular app)

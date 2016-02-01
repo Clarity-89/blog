@@ -69,10 +69,12 @@ angular.module('AngularFlask')
         allPosts.getPosts().get()
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
-                $scope.posts.sort(function (a, b) {
+            if ($scope.posts.length > 5){
+               $scope.posts.sort(function (a, b) {
                     return a.date > b.date ? -1 : a.date === b.date ? 0 : 1;
                 });
                 $scope.posts.length = 5;
+            }
                 $scope.showPost = true;
             },
             function (response) {
@@ -87,6 +89,7 @@ angular.module('AngularFlask')
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
                 $scope.showPost = true;
+
                 buildGridModel($scope.posts);
             },
             function (response) {
@@ -117,7 +120,7 @@ angular.module('AngularFlask')
                 }
                 results.push(it);
             }
-            console.log('logging posts', posts);
+
             return posts;
         }
 
@@ -162,7 +165,13 @@ angular.module('AngularFlask')
         };
         $scope.register = function () {
             var user = $scope.user;
-            createUser.newUser(user);
+            user.confirmPassword = '';
+            createUser.newUser(user)
+                .then(function success(response) {
+                    console.log('user created', response);
+                }, function error(response) {
+                    console.log('failed to create user', response);
+                });
         }
     }])
 
@@ -243,13 +252,7 @@ angular.module('AngularFlask')
     }])
     .service('createUser', ['$http', function ($http) {
         this.newUser = function (user) {
-            $http.post("http://0.0.0.0:5000" + "/blog/api/users", user)
-                .then(function success(response) {
-                    console.log('user created', response);
-                }, function error(response) {
-                    console.log('failed to create user', response.data.split('<p>'));
-                })
-
+            return $http.post("http://0.0.0.0:5000" + "/blog/api/users", user);
         }
     }])
 ;
