@@ -23,6 +23,12 @@ auth = HTTPBasicAuth()
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
+# Override default error message
+@app.errorhandler(400)
+def custom400(error):
+    return jsonify({'message': error.description})
+
+
 # routing for basic pages (pass routing onto the Angular app)
 @app.route('/')
 @app.route('/about')
@@ -96,12 +102,12 @@ def new_user():
     print 'received user ', request.json
     if username is None or password is None:
         abort(400)  # missing arguments
-    if User.query.filter_by(username=username).first() is not None or User.query.filter_by(
-            email=email).first() is not None:
-        abort(400)  # existing user or email
+    if User.query.filter_by(username=username).first() is not None:
+        abort(400, 'User already exists')
+    elif User.query.filter_by(email=email).first() is not None:
+        abort(400, 'Email already exists')
     user = User(username=username, email=email)
     user.hash_password(password)
-
     db.session.add(user)
     db.session.commit()
     return jsonify({'username': user.username}), 201, {'Location': url_for('get_user', id=user.id, _external=True)}
