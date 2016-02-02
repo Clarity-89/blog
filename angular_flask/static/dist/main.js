@@ -264,15 +264,9 @@ angular.module('AngularFlask')
             fd.append("content", JSON.stringify(data1));
             fd.append("content2", JSON.stringify(data2));
             $http.post("http://0.0.0.0:5000" + "/blog/api/posts/new", fd, {
-                    transformRequest: angular.identity,
-                    headers: {'Content-Type': undefined}
-                })
-                .success(function () {
-                    console.log('File saved');
-                })
-                .error(function (data) {
-                    console.log('Error, did not save', data);
-                });
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
         }
     }])
     .service('createUser', ['$http', function ($http) {
@@ -284,8 +278,8 @@ angular.module('AngularFlask')
         }
     }])
     .service('logoutUser', ['$http', function ($http) {
-        this.logout = function(){
-           return $http.post("http://0.0.0.0:5000/logout", {});
+        this.logout = function () {
+            return $http.post("http://0.0.0.0:5000/logout", {});
         }
     }])
 ;
