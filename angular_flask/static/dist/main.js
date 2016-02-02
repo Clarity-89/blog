@@ -30,9 +30,9 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .when('/login', {
                     templateUrl: 'static/partials/register.html',
                 })
-                .otherwise({
-                    redirectTo: '/'
-                });
+            /* .otherwise({
+             redirectTo: '/'
+             });*/
 
             //Customize themes for Angular Material
             $mdThemingProvider.theme('default')
@@ -42,57 +42,66 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
 
             $locationProvider.html5Mode(true);
 
-           /* $httpProvider.responseInterceptors.push(['$rootScope', '$q', '$injector', '$location',
-                function ($rootScope, $q, $injector, $location) {
-                    return function (promise) {
-                        return promise.then(function (response) {
-                            return response; // no action, was successful
-                        }, function (response) { // error - was it 401 or something else?
-                            if (response.status === 401 && response.data.error && response.data.error === "invalid_token") {
-                                var deferred = $q.defer(); // defer until we can re-request a new token
-                                // Get a new token... (cannot inject $http directly as will cause a circular ref)
-                                $injector.get("$http").jsonp('/blog/api/token')
-                                    .then(function (loginResponse) {
-                                        if (loginResponse.data) {
-                                            $rootScope.oauth = loginResponse.data.oauth; // we have a new oauth token - set at $rootScope
-                                            // now let's retry the original request - transformRequest in .run() below will add the new OAuth token
-                                            $injector.get("$http")(response.config).then(function (response) {
-                                                // we have a successful response - resolve it using deferred
-                                                deferred.resolve(response);
-                                            }, function (response) {
-                                                deferred.reject(); // something went wrong
-                                            });
-                                        } else {
-                                            deferred.reject(); // login.json didn't give us data
-                                        }
-                                    }, function (response) {
-                                        deferred.reject(); // token retry failed, redirect so user can login again
-                                        $location.path('/register');
-                                        return;
-                                    });
-                                return deferred.promise; // return the deferred promise
-                            }
-                            return $q.reject(response); // not a recoverable error
-                        });
-                    };
-                }])*/
+            /* $httpProvider.responseInterceptors.push(['$rootScope', '$q', '$injector', '$location',
+             function ($rootScope, $q, $injector, $location) {
+             return function (promise) {
+             return promise.then(function (response) {
+             return response; // no action, was successful
+             }, function (response) { // error - was it 401 or something else?
+             if (response.status === 401 && response.data.error && response.data.error === "invalid_token") {
+             var deferred = $q.defer(); // defer until we can re-request a new token
+             // Get a new token... (cannot inject $http directly as will cause a circular ref)
+             $injector.get("$http").jsonp('/blog/api/token')
+             .then(function (loginResponse) {
+             if (loginResponse.data) {
+             $rootScope.oauth = loginResponse.data.oauth; // we have a new oauth token - set at $rootScope
+             // now let's retry the original request - transformRequest in .run() below will add the new OAuth token
+             $injector.get("$http")(response.config).then(function (response) {
+             // we have a successful response - resolve it using deferred
+             deferred.resolve(response);
+             }, function (response) {
+             deferred.reject(); // something went wrong
+             });
+             } else {
+             deferred.reject(); // login.json didn't give us data
+             }
+             }, function (response) {
+             deferred.reject(); // token retry failed, redirect so user can login again
+             $location.path('/register');
+             return;
+             });
+             return deferred.promise; // return the deferred promise
+             }
+             return $q.reject(response); // not a recoverable error
+             });
+             };
+             }])*/
         }
     ])
     .config(function ($provide) {
 
-    $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function (taRegisterTool, taOptions) {
-        taRegisterTool('uploadImage', {
-            buttontext: 'Upload Image',
-            iconclass: "fa fa-image",
-            action: function () {
-                //angular.element('#uploadImage').click();
-                document.getElementById('uploadImage').click();
+        $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function (taRegisterTool, taOptions) {
+            taRegisterTool('uploadImage', {
+                buttontext: 'Upload Image',
+                iconclass: "fa fa-image",
+                action: function () {
+                    //angular.element('#uploadImage').click();
+                    document.getElementById('uploadImage').click();
+                }
+            });
+            taOptions.toolbar[1].push('uploadImage');
+            return taOptions;
+        }]);
+    })
+    .run(function ($rootScope, $location) {
+        $rootScope.$on("$routeChangeStart", function (event, next) {
+            if (next.templateUrl == 'static/partials/new_post.html') {
+                if ($rootScope.loggedUser == null) {
+                    $location.path("/login");
+                }
             }
         });
-        taOptions.toolbar[1].push('uploadImage');
-        return taOptions;
-    }]);
-})
+    })
 ;
 'use strict';
 angular.module('AngularFlask')
@@ -181,7 +190,7 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', function ($scope, createUser, $location, $timeout) {
+    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', function ($scope, createUser, $location, $timeout, $rootScope) {
         $scope.hasAccount = true;
         $scope.changeForm = function () {
             $scope.hasAccount = !$scope.hasAccount;
@@ -219,9 +228,21 @@ angular.module('AngularFlask')
             createUser.loginUser(user)
                 .then(function success() {
                     console.log("Successfully logged in");
+                    $rootScope.loggedUser = user;
                     $location.path('/posts');
                 }, function error(response) {
                     console.log('Error: ', response);
+                });
+        }
+    }])
+    .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', function ($scope, $rootScope, logoutUser) {
+        $scope.logout = function () {
+            logoutUser
+                .then(function success() {
+                    console.log('logged out');
+                    $rootScope.loggedUser = null;
+                }, function error(response) {
+                    console.log('Could not log out', response);
                 });
         }
     }])
@@ -290,6 +311,9 @@ angular.module('AngularFlask')
         this.loginUser = function (user) {
             return $http.post("http://0.0.0.0:5000" + "/login", user);
         }
+    }])
+    .service('logoutUser', ['$http', function ($http) {
+        return $http.post("http://0.0.0.0:5000/logout", {});
     }])
 ;
 

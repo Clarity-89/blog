@@ -85,7 +85,7 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', function ($scope, createUser, $location, $timeout) {
+    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', function ($scope, createUser, $location, $timeout, $rootScope) {
         $scope.hasAccount = true;
         $scope.changeForm = function () {
             $scope.hasAccount = !$scope.hasAccount;
@@ -123,9 +123,21 @@ angular.module('AngularFlask')
             createUser.loginUser(user)
                 .then(function success() {
                     console.log("Successfully logged in");
+                    $rootScope.loggedUser = user;
                     $location.path('/posts');
                 }, function error(response) {
                     console.log('Error: ', response);
+                });
+        }
+    }])
+    .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', function ($scope, $rootScope, logoutUser) {
+        $scope.logout = function () {
+            logoutUser
+                .then(function success() {
+                    console.log('logged out');
+                    $rootScope.loggedUser = null;
+                }, function error(response) {
+                    console.log('Could not log out', response);
                 });
         }
     }])

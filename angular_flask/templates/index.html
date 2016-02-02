@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../static/src/css/main.css">
     <base href="/">
 </head>
-<body>
+<body ng-controller="MainCtrl">
 <header>
     <md-toolbar md-scroll-shrink class="md-primary md-hue-2">
         <div layout="row" layout-padding layout-align="space-between center">
@@ -28,6 +28,7 @@
             <div class="nav-buttons">
                 <md-button ng-href='/' class="md-raised md-accent">My profile</md-button>
                 <md-button ng-href='/register' class="md-raised md-warn">Log In</md-button>
+                <md-button ng-click="logout()" class="md-raised md-warn">Log Out</md-button>
             </div>
         </div>
     </md-toolbar>

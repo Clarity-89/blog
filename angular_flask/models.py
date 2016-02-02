@@ -4,6 +4,7 @@ from angular_flask.core import db
 from angular_flask import app
 from passlib.apps import custom_app_context as pwd_context
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
+from flask.ext.login import UserMixin
 
 
 class Post(db.Model):
@@ -40,7 +41,7 @@ def __repr__(self):
     return '<id {}>'.format(self.id)  # models for which we want to create API endpoints
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -57,18 +58,6 @@ class User(db.Model):
     def generate_auth_token(self, expiration=600):
         s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': self.id})
-
-    def is_authenticated(self):
-        return True
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return unicode(self.id)
 
     def __repr__(self):
         return '<User %r>' % (self.username)\

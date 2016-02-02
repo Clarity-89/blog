@@ -7,7 +7,6 @@ from sqlalchemy.orm.exc import NoResultFound
 from flask.ext.httpauth import HTTPBasicAuth
 from angular_flask import app
 from angular_flask.core import db
-from angular_flask.models import Post
 
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 
@@ -41,7 +40,6 @@ def custom400(error):
 @app.route('/')
 @app.route('/about')
 @app.route('/blog')
-@app.route('/new')
 @app.route('/posts')
 @app.route('/posts/<int:id>')
 @app.route('/register')
@@ -50,11 +48,19 @@ def basic_pages(**kwargs):
     return render_template('index.html')
 
 
+@app.route('/new')
+def new_post():
+    if current_user.is_authenticated:
+        return render_template('index.html')
+    else:
+        abort(400, 'Need to log in')
+        return redirect('/login')
+
+
 # Serve images
 @app.route('/img/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 # Endpoint for all posts
@@ -86,7 +92,6 @@ def add_post():
         abort(400)"""
     title = json.loads(request.form['content'])
     body = json.loads(request.form['content2'])
-
     if request.files:
         # Generate unique file name
         image = request.files['file']
@@ -136,14 +141,22 @@ def get_user(id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print 'received response: ', request.json
     if request.method == 'GET':
         return render_template('index.html')
     username = request.json.get('username')
     password = request.json.get('password')
     if not verify_password(username, password):
         return abort(400, 'Incorrect Username or Password')
-    return render_template('index.html')
+    return redirect('/posts')
+
+
+@app.route('/logout', methods=['POST'])
+# @login_required
+def logout():
+    if current_user.is_authenticated:
+        logout_user()
+        print 'logged out the user', current_user.is_authenticated
+    return redirect('/posts')
 
 
 # special file handlers and error handlers
@@ -167,7 +180,7 @@ def verify_password(username_or_token, password):
         user = User.query.filter_by(username=username_or_token).first()
         if not user or not user.verify_password(password):
             return False
-    #g.user = user
+    # g.user = user
     login_user(user)
     return True
 
