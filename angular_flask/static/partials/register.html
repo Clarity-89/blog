@@ -45,17 +45,17 @@
     <!--Sign In form-->
     <md-content layout-padding ng-if="hasAccount">
         <h1>Sign in</h1>
-        <form ng-submit="register()" name="newPost" novalidate>
+        <form name="loginForm" novalidate ng-submit="loginForm.$valid && login()" >
             <md-input-container class="md-block">
                 <label for="username">Username</label>
-                <input required name="username" id="username" ng-model="post.title">
-                <div ng-messages="post.title.$error">
-                    <div ng-message="required">Title is required.</div>
+                <input required name="username" id="username" ng-model="user.username">
+                <div ng-messages="loginForm.username.$error">
+                    <div ng-message="required">Username is required.</div>
                 </div>
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password">Password</label>
-                <input type="password" id="password">
+                <input required type="password" id="password" ng-model="user.username">
             </md-input-container>
             <md-button type="submit" class="md-raised md-warn" id="newUser">Log In</md-button>
         </form>

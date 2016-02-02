@@ -1,6 +1,6 @@
 import os, json, uuid
 
-from flask import Flask, request, Response, jsonify
+from flask import Flask, request, Response, jsonify, g
 from flask import render_template, url_for, redirect, send_from_directory
 from flask import send_file, make_response, abort
 from sqlalchemy.orm.exc import NoResultFound
@@ -8,6 +8,11 @@ from flask.ext.httpauth import HTTPBasicAuth
 from angular_flask import app
 from angular_flask.core import db
 from angular_flask.models import Post
+
+from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 # routing for API endpoints, generated from the models designated as API_MODELS
 from angular_flask.core import api_manager
@@ -96,6 +101,11 @@ def add_post():
     return redirect('/')
 
 
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+
 # Register new user
 @app.route('/blog/api/users', methods=['POST'])
 def new_user():
@@ -122,6 +132,19 @@ def get_user(id):
     if not user:
         abort(400)
     return jsonify({'username': user.username})
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('index.html')
+    username = request.form['username']
+    password = request.form['password']
+    registered_user = User.query.filter_by(username=username, password=password).first()
+    if registered_user is None:
+        return redirect(url_for('login'))
+    login_user(registered_user)
+    return redirect(request.args.get('next') or url_for('index'))
 
 
 # special file handlers and error handlers
