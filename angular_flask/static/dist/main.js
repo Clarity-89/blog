@@ -209,12 +209,15 @@ angular.module('AngularFlask')
             if ($cookies.get('current_user')) {
                 logoutUser.logout()
                     .then(function success() {
-                    $cookies.remove('current_user');
-                    console.log('logged out');
-                }, function error(response) {
-                    console.log('Could not log out', response);
-                });
+                        $cookies.remove('current_user');
+                        console.log('logged out');
+                    }, function error(response) {
+                        console.log('Could not log out', response);
+                    });
             }
+        };
+        $scope.isLoggedIn = function () {
+            return $cookies.get('current_user');
         }
     }])
 
