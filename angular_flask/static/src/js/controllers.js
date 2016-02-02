@@ -85,7 +85,7 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('UserController', ['$scope', 'createUser', '$location', function ($scope, createUser, $location) {
+    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', function ($scope, createUser, $location, $timeout) {
         $scope.hasAccount = false;
         $scope.changeForm = function () {
             $scope.hasAccount = !$scope.hasAccount;
@@ -96,6 +96,7 @@ angular.module('AngularFlask')
             password: ""
         };
         $scope.register = function () {
+            var self = this;
             var user = $scope.user;
             $scope.userError = false;
             $scope.emailError = false;
@@ -105,9 +106,15 @@ angular.module('AngularFlask')
                 }, function error(response) {
                     $scope.userMessage = response.data.message;
                     if ($scope.userMessage.split(' ')[0] === 'User') {
-                        $scope.userError = true;
+                        self.userForm.username.$setValidity("userExists", false);
+                        $timeout(function () {
+                            self.userForm.username.$setValidity("userExists", true);
+                        }, 2000);
                     } else if ($scope.userMessage.split(' ')[0] === 'Email') {
-                        $scope.emailError = true;
+                        self.userForm.email.$setValidity("emailExists", false);
+                        $timeout(function () {
+                            self.userForm.email.$setValidity("emailExists", true);
+                        }, 2000);
                     }
                 });
         }

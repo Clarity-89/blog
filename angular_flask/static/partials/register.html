@@ -8,8 +8,8 @@
                 <input required name="username" id="username" ng-model="user.username">
                 <div ng-messages="userForm.username.$error">
                     <div ng-message="required">Username is required.</div>
+                    <div ng-message="userExists">User already exists.</div>
                 </div>
-                <div ng-show="userError" class="error">User already exists.</div>
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="email">Email</label>
@@ -17,10 +17,9 @@
                        ng-model="user.email">
                 <div ng-messages="userForm.email.$error">
                     <div ng-message-exp="['pattern', 'required']">Enter a valid email address.</div>
+                    <div ng-message="emailExists">Email already exists.</div>
                 </div>
-                <div ng-show="emailError" class="error">Email already exists.</div>
             </md-input-container>
-
             <md-input-container class="md-block">
                 <label for="password">Password</label>
                 <input type="password" id="password" ng-model="user.password" required name="password" ng-minlength="6">
