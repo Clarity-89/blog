@@ -98,7 +98,7 @@ def add_post():
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
         image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         post = Post(title=title["title"], body=body, cover_photo='../img/' + filename,
-                    author='alex')
+                    author=current_user.username)
     else:
         post = Post(title=title["title"], body=body, author='alex')
     session.add(post)
@@ -182,7 +182,7 @@ def verify_password(username_or_token, password):
             return False
     # g.user = user
     login_user(user)
-    print 'logged in the user', user
+    print 'logged in the user', current_user.username
     return True
 
 
