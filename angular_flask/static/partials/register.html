@@ -37,7 +37,7 @@
                     <div ng-message="passwordMatch">Your passwords did not match</div>
                 </div>
             </md-input-container>
-            <md-button type="submit" class="md-raised md-warn" id="newUser">Register</md-button>
+            <md-button type="submit" class="md-raised md-warn">Register</md-button>
         </form>
         <p>If you already have an account <a href="#" ng-click="changeForm()">Sign in</a></p>
     </md-content>
@@ -45,7 +45,7 @@
     <!--Sign In form-->
     <md-content layout-padding ng-if="hasAccount">
         <h1>Sign in</h1>
-        <form name="loginForm" novalidate ng-submit="loginForm.$valid && login()" >
+        <form name="loginForm" novalidate ng-submit="loginForm.$valid && login()">
             <md-input-container class="md-block">
                 <label for="username">Username</label>
                 <input required name="username" id="username" ng-model="user.username">
@@ -55,11 +55,13 @@
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password">Password</label>
-                <input required type="password" id="password" ng-model="user.username">
+                <input required type="password" id="password" ng-model="user.password">
+                <div ng-messages="loginForm.password.$error">
+                    <div ng-message="required">Password is required.</div>
+                </div>
             </md-input-container>
-            <md-button type="submit" class="md-raised md-warn" id="newUser">Log In</md-button>
+            <md-button type="submit" class="md-raised md-warn">Log In</md-button>
         </form>
         <p>Don't have an account? <a href="#" ng-click="changeForm()">Register</a></p>
     </md-content>
-
 </div>

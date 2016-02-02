@@ -136,15 +136,14 @@ def get_user(id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    print 'received response: ', request.json
     if request.method == 'GET':
         return render_template('index.html')
-    username = request.form['username']
-    password = request.form['password']
-    registered_user = User.query.filter_by(username=username, password=password).first()
-    if registered_user is None:
-        return redirect(url_for('login'))
-    login_user(registered_user)
-    return redirect(request.args.get('next') or url_for('index'))
+    username = request.json.get('username')
+    password = request.json.get('password')
+    if not verify_password(username, password):
+        return abort(400, 'Incorrect Username or Password')
+    return render_template('index.html')
 
 
 # special file handlers and error handlers
@@ -168,7 +167,8 @@ def verify_password(username_or_token, password):
         user = User.query.filter_by(username=username_or_token).first()
         if not user or not user.verify_password(password):
             return False
-    g.user = user
+    #g.user = user
+    login_user(user)
     return True
 
 

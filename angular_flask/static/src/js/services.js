@@ -33,6 +33,9 @@ angular.module('AngularFlask')
     .service('createUser', ['$http', function ($http) {
         this.newUser = function (user) {
             return $http.post("http://0.0.0.0:5000" + "/blog/api/users", user);
+        };
+        this.loginUser = function (user) {
+            return $http.post("http://0.0.0.0:5000" + "/login", user);
         }
     }])
 ;

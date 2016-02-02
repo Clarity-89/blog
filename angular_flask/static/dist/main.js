@@ -182,7 +182,7 @@ angular.module('AngularFlask')
             });
     }])
     .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', function ($scope, createUser, $location, $timeout) {
-        $scope.hasAccount = false;
+        $scope.hasAccount = true;
         $scope.changeForm = function () {
             $scope.hasAccount = !$scope.hasAccount;
         };
@@ -194,8 +194,6 @@ angular.module('AngularFlask')
         $scope.register = function () {
             var self = this;
             var user = $scope.user;
-            $scope.userError = false;
-            $scope.emailError = false;
             createUser.newUser(user)
                 .then(function success() {
                     $location.path('/posts');
@@ -213,6 +211,17 @@ angular.module('AngularFlask')
                             self.userForm.email.$setValidity("emailExists", true);
                         }, 2000);
                     }
+                });
+        };
+        $scope.login = function () {
+            var user = $scope.user;
+            console.log('User ', user);
+            createUser.loginUser(user)
+                .then(function success() {
+                    console.log("Successfully logged in");
+                    $location.path('/posts');
+                }, function error(response) {
+                    console.log('Error: ', response);
                 });
         }
     }])
@@ -277,6 +286,9 @@ angular.module('AngularFlask')
     .service('createUser', ['$http', function ($http) {
         this.newUser = function (user) {
             return $http.post("http://0.0.0.0:5000" + "/blog/api/users", user);
+        };
+        this.loginUser = function (user) {
+            return $http.post("http://0.0.0.0:5000" + "/login", user);
         }
     }])
 ;
