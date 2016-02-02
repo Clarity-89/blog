@@ -108,6 +108,7 @@ angular.module('AngularFlask')
                     if ($scope.userMessage.split(' ')[0] === 'User') {
                         self.userForm.username.$setValidity("userExists", false);
                         $timeout(function () {
+                            // Set form to valid after timeout to enable submitting it again
                             self.userForm.username.$setValidity("userExists", true);
                         }, 2000);
                     } else if ($scope.userMessage.split(' ')[0] === 'Email') {
