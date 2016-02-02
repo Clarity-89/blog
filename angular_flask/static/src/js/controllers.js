@@ -85,59 +85,63 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', function ($scope, createUser, $location, $timeout, $rootScope) {
-        $scope.hasAccount = true;
-        $scope.changeForm = function () {
-            $scope.hasAccount = !$scope.hasAccount;
-        };
-        $scope.user = {
-            username: "",
-            email: "",
-            password: ""
-        };
-        $scope.register = function () {
-            var self = this;
-            var user = $scope.user;
-            createUser.newUser(user)
-                .then(function success() {
-                    $location.path('/posts');
-                }, function error(response) {
-                    $scope.userMessage = response.data.message;
-                    if ($scope.userMessage.split(' ')[0] === 'User') {
-                        self.userForm.username.$setValidity("userExists", false);
-                        $timeout(function () {
-                            // Set form to valid after timeout to enable submitting it again
-                            self.userForm.username.$setValidity("userExists", true);
-                        }, 2000);
-                    } else if ($scope.userMessage.split(' ')[0] === 'Email') {
-                        self.userForm.email.$setValidity("emailExists", false);
-                        $timeout(function () {
-                            self.userForm.email.$setValidity("emailExists", true);
-                        }, 2000);
-                    }
-                });
-        };
-        $scope.login = function () {
-            var user = $scope.user;
-            console.log('User ', user);
-            createUser.loginUser(user)
-                .then(function success() {
-                    console.log("Successfully logged in");
-                    $rootScope.loggedUser = user;
-                    $location.path('/posts');
-                }, function error(response) {
-                    console.log('Error: ', response);
-                });
-        }
-    }])
-    .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', function ($scope, $rootScope, logoutUser) {
+    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies',
+        function ($scope, createUser, $location, $timeout, $rootScope, $cookies) {
+            $scope.hasAccount = true;
+            $scope.changeForm = function () {
+                $scope.hasAccount = !$scope.hasAccount;
+            };
+            $scope.user = {
+                username: "",
+                email: "",
+                password: ""
+            };
+            $scope.register = function () {
+                var self = this;
+                var user = $scope.user;
+                createUser.newUser(user)
+                    .then(function success() {
+                        $location.path('/posts');
+                    }, function error(response) {
+                        $scope.userMessage = response.data.message;
+                        if ($scope.userMessage.split(' ')[0] === 'User') {
+                            self.userForm.username.$setValidity("userExists", false);
+                            $timeout(function () {
+                                // Set form to valid after timeout to enable submitting it again
+                                self.userForm.username.$setValidity("userExists", true);
+                            }, 2000);
+                        } else if ($scope.userMessage.split(' ')[0] === 'Email') {
+                            self.userForm.email.$setValidity("emailExists", false);
+                            $timeout(function () {
+                                self.userForm.email.$setValidity("emailExists", true);
+                            }, 2000);
+                        }
+                    });
+            };
+            $scope.login = function () {
+                var user = $scope.user;
+                console.log('User ', user);
+                createUser.loginUser(user)
+                    .then(function success() {
+                        console.log("Successfully logged in");
+                        //$rootScope.loggedUser = user;
+                        $cookies.putObject('current_user', user);
+                        $location.path('/posts');
+                    }, function error(response) {
+                        console.log('Error: ', response);
+                    });
+            }
+        }])
+    .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', function ($scope, $rootScope, logoutUser, $cookies) {
         $scope.logout = function () {
-            logoutUser
-                .then(function success() {
+            if ($cookies.get('current_user')) {
+                logoutUser.logout()
+                    .then(function success() {
+                    $cookies.remove('current_user');
                     console.log('logged out');
-                    $rootScope.loggedUser = null;
                 }, function error(response) {
                     console.log('Could not log out', response);
                 });
+            }
         }
     }])

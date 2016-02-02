@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize', 'ngMessages', 'ngPassword'])
+angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize', 'ngMessages', 'ngPassword', 'ngCookies'])
     .config(['$routeProvider', '$locationProvider', '$mdThemingProvider', '$httpProvider',
         function ($routeProvider, $locationProvider, $mdThemingProvider, $httpProvider) {
             $routeProvider
@@ -41,41 +41,6 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .backgroundPalette('grey');
 
             $locationProvider.html5Mode(true);
-
-            /* $httpProvider.responseInterceptors.push(['$rootScope', '$q', '$injector', '$location',
-             function ($rootScope, $q, $injector, $location) {
-             return function (promise) {
-             return promise.then(function (response) {
-             return response; // no action, was successful
-             }, function (response) { // error - was it 401 or something else?
-             if (response.status === 401 && response.data.error && response.data.error === "invalid_token") {
-             var deferred = $q.defer(); // defer until we can re-request a new token
-             // Get a new token... (cannot inject $http directly as will cause a circular ref)
-             $injector.get("$http").jsonp('/blog/api/token')
-             .then(function (loginResponse) {
-             if (loginResponse.data) {
-             $rootScope.oauth = loginResponse.data.oauth; // we have a new oauth token - set at $rootScope
-             // now let's retry the original request - transformRequest in .run() below will add the new OAuth token
-             $injector.get("$http")(response.config).then(function (response) {
-             // we have a successful response - resolve it using deferred
-             deferred.resolve(response);
-             }, function (response) {
-             deferred.reject(); // something went wrong
-             });
-             } else {
-             deferred.reject(); // login.json didn't give us data
-             }
-             }, function (response) {
-             deferred.reject(); // token retry failed, redirect so user can login again
-             $location.path('/register');
-             return;
-             });
-             return deferred.promise; // return the deferred promise
-             }
-             return $q.reject(response); // not a recoverable error
-             });
-             };
-             }])*/
         }
     ])
     .config(function ($provide) {
@@ -93,10 +58,12 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
             return taOptions;
         }]);
     })
-    .run(function ($rootScope, $location) {
+    .run(function ($rootScope, $location, $cookies) {
         $rootScope.$on("$routeChangeStart", function (event, next) {
             if (next.templateUrl == 'static/partials/new_post.html') {
-                if ($rootScope.loggedUser == null) {
+                var user = $cookies.get('current_user');
+                console.log('user is: ', user);
+                if (!user) {
                     $location.path("/login");
                 }
             }

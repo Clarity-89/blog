@@ -20,6 +20,7 @@
     "angular": "^1.4.9",
     "angular-animate": "^1.4.9",
     "angular-aria": "^1.4.9",
+    "angular-cookies": "^1.4.9",
     "angular-material": "^1.0.4",
     "angular-messages": "^1.4.9",
     "angular-password": "^1.0.1",

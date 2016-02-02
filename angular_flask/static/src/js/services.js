@@ -39,7 +39,9 @@ angular.module('AngularFlask')
         }
     }])
     .service('logoutUser', ['$http', function ($http) {
-        return $http.post("http://0.0.0.0:5000/logout", {});
+        this.logout = function(){
+           return $http.post("http://0.0.0.0:5000/logout", {});
+        }
     }])
 ;
 

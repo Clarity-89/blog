@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize', 'ngMessages', 'ngPassword'])
+angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize', 'ngMessages', 'ngPassword', 'ngCookies'])
     .config(['$routeProvider', '$locationProvider', '$mdThemingProvider', '$httpProvider',
         function ($routeProvider, $locationProvider, $mdThemingProvider, $httpProvider) {
             $routeProvider
@@ -41,41 +41,6 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .backgroundPalette('grey');
 
             $locationProvider.html5Mode(true);
-
-            /* $httpProvider.responseInterceptors.push(['$rootScope', '$q', '$injector', '$location',
-             function ($rootScope, $q, $injector, $location) {
-             return function (promise) {
-             return promise.then(function (response) {
-             return response; // no action, was successful
-             }, function (response) { // error - was it 401 or something else?
-             if (response.status === 401 && response.data.error && response.data.error === "invalid_token") {
-             var deferred = $q.defer(); // defer until we can re-request a new token
-             // Get a new token... (cannot inject $http directly as will cause a circular ref)
-             $injector.get("$http").jsonp('/blog/api/token')
-             .then(function (loginResponse) {
-             if (loginResponse.data) {
-             $rootScope.oauth = loginResponse.data.oauth; // we have a new oauth token - set at $rootScope
-             // now let's retry the original request - transformRequest in .run() below will add the new OAuth token
-             $injector.get("$http")(response.config).then(function (response) {
-             // we have a successful response - resolve it using deferred
-             deferred.resolve(response);
-             }, function (response) {
-             deferred.reject(); // something went wrong
-             });
-             } else {
-             deferred.reject(); // login.json didn't give us data
-             }
-             }, function (response) {
-             deferred.reject(); // token retry failed, redirect so user can login again
-             $location.path('/register');
-             return;
-             });
-             return deferred.promise; // return the deferred promise
-             }
-             return $q.reject(response); // not a recoverable error
-             });
-             };
-             }])*/
         }
     ])
     .config(function ($provide) {
@@ -93,10 +58,12 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
             return taOptions;
         }]);
     })
-    .run(function ($rootScope, $location) {
+    .run(function ($rootScope, $location, $cookies) {
         $rootScope.$on("$routeChangeStart", function (event, next) {
             if (next.templateUrl == 'static/partials/new_post.html') {
-                if ($rootScope.loggedUser == null) {
+                var user = $cookies.get('current_user');
+                console.log('user is: ', user);
+                if (!user) {
                     $location.path("/login");
                 }
             }
@@ -190,60 +157,64 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', function ($scope, createUser, $location, $timeout, $rootScope) {
-        $scope.hasAccount = true;
-        $scope.changeForm = function () {
-            $scope.hasAccount = !$scope.hasAccount;
-        };
-        $scope.user = {
-            username: "",
-            email: "",
-            password: ""
-        };
-        $scope.register = function () {
-            var self = this;
-            var user = $scope.user;
-            createUser.newUser(user)
-                .then(function success() {
-                    $location.path('/posts');
-                }, function error(response) {
-                    $scope.userMessage = response.data.message;
-                    if ($scope.userMessage.split(' ')[0] === 'User') {
-                        self.userForm.username.$setValidity("userExists", false);
-                        $timeout(function () {
-                            // Set form to valid after timeout to enable submitting it again
-                            self.userForm.username.$setValidity("userExists", true);
-                        }, 2000);
-                    } else if ($scope.userMessage.split(' ')[0] === 'Email') {
-                        self.userForm.email.$setValidity("emailExists", false);
-                        $timeout(function () {
-                            self.userForm.email.$setValidity("emailExists", true);
-                        }, 2000);
-                    }
-                });
-        };
-        $scope.login = function () {
-            var user = $scope.user;
-            console.log('User ', user);
-            createUser.loginUser(user)
-                .then(function success() {
-                    console.log("Successfully logged in");
-                    $rootScope.loggedUser = user;
-                    $location.path('/posts');
-                }, function error(response) {
-                    console.log('Error: ', response);
-                });
-        }
-    }])
-    .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', function ($scope, $rootScope, logoutUser) {
+    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies',
+        function ($scope, createUser, $location, $timeout, $rootScope, $cookies) {
+            $scope.hasAccount = true;
+            $scope.changeForm = function () {
+                $scope.hasAccount = !$scope.hasAccount;
+            };
+            $scope.user = {
+                username: "",
+                email: "",
+                password: ""
+            };
+            $scope.register = function () {
+                var self = this;
+                var user = $scope.user;
+                createUser.newUser(user)
+                    .then(function success() {
+                        $location.path('/posts');
+                    }, function error(response) {
+                        $scope.userMessage = response.data.message;
+                        if ($scope.userMessage.split(' ')[0] === 'User') {
+                            self.userForm.username.$setValidity("userExists", false);
+                            $timeout(function () {
+                                // Set form to valid after timeout to enable submitting it again
+                                self.userForm.username.$setValidity("userExists", true);
+                            }, 2000);
+                        } else if ($scope.userMessage.split(' ')[0] === 'Email') {
+                            self.userForm.email.$setValidity("emailExists", false);
+                            $timeout(function () {
+                                self.userForm.email.$setValidity("emailExists", true);
+                            }, 2000);
+                        }
+                    });
+            };
+            $scope.login = function () {
+                var user = $scope.user;
+                console.log('User ', user);
+                createUser.loginUser(user)
+                    .then(function success() {
+                        console.log("Successfully logged in");
+                        //$rootScope.loggedUser = user;
+                        $cookies.putObject('current_user', user);
+                        $location.path('/posts');
+                    }, function error(response) {
+                        console.log('Error: ', response);
+                    });
+            }
+        }])
+    .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', function ($scope, $rootScope, logoutUser, $cookies) {
         $scope.logout = function () {
-            logoutUser
-                .then(function success() {
+            if ($cookies.get('current_user')) {
+                logoutUser.logout()
+                    .then(function success() {
+                    $cookies.remove('current_user');
                     console.log('logged out');
-                    $rootScope.loggedUser = null;
                 }, function error(response) {
                     console.log('Could not log out', response);
                 });
+            }
         }
     }])
 
@@ -313,7 +284,9 @@ angular.module('AngularFlask')
         }
     }])
     .service('logoutUser', ['$http', function ($http) {
-        return $http.post("http://0.0.0.0:5000/logout", {});
+        this.logout = function(){
+           return $http.post("http://0.0.0.0:5000/logout", {});
+        }
     }])
 ;
 

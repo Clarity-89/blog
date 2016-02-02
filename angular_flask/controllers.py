@@ -50,10 +50,10 @@ def basic_pages(**kwargs):
 
 @app.route('/new')
 def new_post():
+    print 'user', current_user
     if current_user.is_authenticated:
         return render_template('index.html')
     else:
-        abort(400, 'Need to log in')
         return redirect('/login')
 
 
@@ -151,11 +151,11 @@ def login():
 
 
 @app.route('/logout', methods=['POST'])
-# @login_required
+@login_required
 def logout():
     if current_user.is_authenticated:
         logout_user()
-        print 'logged out the user', current_user.is_authenticated
+        print 'logged out the user', current_user
     return redirect('/posts')
 
 
@@ -182,6 +182,7 @@ def verify_password(username_or_token, password):
             return False
     # g.user = user
     login_user(user)
+    print 'logged in the user', user
     return True
 
 
