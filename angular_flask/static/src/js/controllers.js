@@ -1,25 +1,5 @@
 'use strict';
 angular.module('AngularFlask')
-
-    .controller('LatestController', ['$scope', 'allPosts', function ($scope, allPosts) {
-        $scope.posts = [];
-        $scope.showPost = false;
-        $scope.message = "Loading ...";
-        allPosts.getPosts().get()
-            .$promise.then(function (response) {
-                $scope.posts = response.posts;
-                if ($scope.posts.length > 5) {
-                    $scope.posts.sort(function (a, b) {
-                        return a.date > b.date ? -1 : a.date === b.date ? 0 : 1;
-                    });
-                    $scope.posts.length = 5;
-                }
-                $scope.showPost = true;
-            },
-            function (response) {
-                $scope.message = "Error: " + response.status + " " + response.statusText;
-            });
-    }])
     .controller('PostListController', ['$scope', 'allPosts', function ($scope, allPosts) {
         $scope.posts = [];
         $scope.showPost = false;
@@ -28,7 +8,6 @@ angular.module('AngularFlask')
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
                 $scope.showPost = true;
-
                 buildGridModel($scope.posts);
             },
             function (response) {
@@ -59,10 +38,8 @@ angular.module('AngularFlask')
                 }
                 results.push(it);
             }
-
             return posts;
         }
-
     }])
     .controller('NewPostController', ['$scope', 'fileUpload', '$location', function ($scope, fileUpload, $location) {
 
