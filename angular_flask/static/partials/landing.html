@@ -13,7 +13,7 @@
                     </md-card-avatar>
                     <md-card-header-text>
                         <span class="md-title">{{ post.author }}</span>
-                        <span class="md-subhead">{{ post.date }}</span>
+                        <span class="md-subhead">{{ post.date | date: 'MM/dd/yy HH:mm'}}</span>
                     </md-card-header-text>
                 </md-card-header>
                 <a href="/posts/{{ post.id }}">

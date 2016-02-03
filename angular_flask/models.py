@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import time
 from angular_flask.core import db
 from angular_flask import app
 from passlib.apps import custom_app_context as pwd_context
@@ -14,7 +14,8 @@ class Post(db.Model):
     title = db.Column(db.String(240))
     body = db.Column(db.String())
     cover_photo = db.Column(db.String(), default='../img/default.jpg')
-    date = db.Column(db.DateTime, default=datetime.utcnow)
+    # Store time as integer in milliseconds
+    date = db.Column(db.Integer, default=int(round(time.time() * 1000)))
     author = db.Column(db.String(32))
     favorited = db.Column(db.Integer, default=0)
 
