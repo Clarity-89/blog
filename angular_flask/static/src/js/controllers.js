@@ -96,16 +96,28 @@ angular.module('AngularFlask')
                     });
             };
             $scope.login = function () {
+                var self = this;
                 var user = $scope.user;
-                console.log('User ', user);
                 createUser.loginUser(user)
                     .then(function success() {
                         console.log("Successfully logged in");
-                        //$rootScope.loggedUser = user;
                         $cookies.putObject('current_user', user);
                         $location.path('/posts');
                     }, function error(response) {
-                        console.log('Error: ', response);
+                        $scope.userMessage = response.data.message;
+                        console.log('Error message: ', $scope.userMessage)
+                        if ($scope.userMessage === 'username') {
+                            self.loginForm.username.$setValidity("userExists", false);
+                            $timeout(function () {
+                                // Set form to valid after timeout to enable submitting it again
+                                self.loginForm.username.$setValidity("userExists", true);
+                            }, 2000);
+                        } else if ($scope.userMessage === 'password') {
+                            self.loginForm.password.$setValidity("passwordIncorrect", false);
+                            $timeout(function () {
+                                self.loginForm.password.$setValidity("passwordIncorrect", true);
+                            }, 2000);
+                        }
                     });
             }
         }])

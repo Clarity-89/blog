@@ -150,6 +150,23 @@ def login():
     return redirect('/posts')
 
 
+@auth.verify_password
+def verify_password(username_or_token, password):
+    # first try to authenticate by token
+    user = User.verify_auth_token(username_or_token)
+    if not user:
+        # try to authenticate with username/password
+        user = User.query.filter_by(username=username_or_token).first()
+        if not user:
+            return abort(400, 'username')
+        elif not user.verify_password(password):
+            return abort(400, 'password')
+    # g.user = user
+    login_user(user)
+    print 'logged in the user', current_user.username
+    return True
+
+
 @app.route('/logout', methods=['POST'])
 @login_required
 def logout():
@@ -171,19 +188,7 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
-@auth.verify_password
-def verify_password(username_or_token, password):
-    # first try to authenticate by token
-    user = User.verify_auth_token(username_or_token)
-    if not user:
-        # try to authenticate with username/password
-        user = User.query.filter_by(username=username_or_token).first()
-        if not user or not user.verify_password(password):
-            return False
-    # g.user = user
-    login_user(user)
-    print 'logged in the user', current_user.username
-    return True
+
 
 
 @app.route('/blog/api/token')

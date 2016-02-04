@@ -51,13 +51,15 @@
                 <input required name="username" id="username" ng-model="user.username">
                 <div ng-messages="loginForm.username.$error">
                     <div ng-message="required">Username is required.</div>
+                    <div ng-message="userExists">Username not found.</div>
                 </div>
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password">Password</label>
-                <input required type="password" id="password" ng-model="user.password">
+                <input required type="password" name="password" id="password" ng-model="user.password">
                 <div ng-messages="loginForm.password.$error">
                     <div ng-message="required">Password is required.</div>
+                     <div ng-message="passwordIncorrect">Incorrect password.</div>
                 </div>
             </md-input-container>
             <md-button type="submit" class="md-raised md-warn">Log In</md-button>
