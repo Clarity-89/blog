@@ -191,6 +191,17 @@ angular.module('AngularFlask')
                             }, 2000);
                         }
                     });
+            };
+            $scope.setFile = function (element) {
+                $scope.currentFile = element.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function (event) {
+                    $scope.imageSrc = event.target.result;
+                    $scope.$apply();
+                };
+                // when the file is read it triggers the onload event above.
+                reader.readAsDataURL(element.files[0]);
             }
         }])
     .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', function ($scope, $rootScope, logoutUser, $cookies) {
@@ -225,7 +236,18 @@ angular.module('AngularFlask')
                 });
             }
         };
-    }]);
+    }])
+    .directive("ngFileSelect", function () {
+        return {
+            link: function ($scope, el) {
+                el.bind("change", function (e) {
+                    $scope.file = el[0].files[0];
+                    $scope.getFile();
+                    console.log('File from directive', $scope.file)
+                });
+            }
+        }
+    })
 'use strict';
 
 /* Filters */

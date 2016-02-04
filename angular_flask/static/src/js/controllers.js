@@ -119,6 +119,17 @@ angular.module('AngularFlask')
                             }, 2000);
                         }
                     });
+            };
+            $scope.setFile = function (element) {
+                $scope.currentFile = element.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function (event) {
+                    $scope.imageSrc = event.target.result;
+                    $scope.$apply();
+                };
+                // when the file is read it triggers the onload event above.
+                reader.readAsDataURL(element.files[0]);
             }
         }])
     .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', function ($scope, $rootScope, logoutUser, $cookies) {

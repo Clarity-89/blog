@@ -20,6 +20,11 @@
                     <div ng-message="emailExists">Email already exists.</div>
                 </div>
             </md-input-container>
+            <md-input-container>
+                <input type="file" onchange="angular.element(this).scope().setFile(this)">
+                <i ng-hide="imageSrc">No image chosen...</i>
+                <img height="200" ng-src="{{ imageSrc }}"/>
+            </md-input-container>
             <md-input-container class="md-block">
                 <label for="password">Password</label>
                 <input type="password" id="password" ng-model="user.password" required name="password" ng-minlength="6">
@@ -59,7 +64,7 @@
                 <input required type="password" name="password" id="password" ng-model="user.password">
                 <div ng-messages="loginForm.password.$error">
                     <div ng-message="required">Password is required.</div>
-                     <div ng-message="passwordIncorrect">Incorrect password.</div>
+                    <div ng-message="passwordIncorrect">Incorrect password.</div>
                 </div>
             </md-input-container>
             <md-button type="submit" class="md-raised md-warn">Log In</md-button>
