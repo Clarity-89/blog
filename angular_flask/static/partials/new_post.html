@@ -4,7 +4,7 @@
             <md-input-container class="md-block">
                 <label for="title">Title</label>
                 <input required name="title" id="title" ng-model="post.title">
-                <div ng-messages="post.title.$error">
+                <div ng-messages="newPost.title.$error">
                     <div ng-message="required">Title is required.</div>
                 </div>
             </md-input-container>
@@ -13,8 +13,8 @@
             </md-input-container>
             <md-input-container class="md-block">
 
-               <div text-angular ng-model="htmlVariable"></div>
-                <div ng-messages="post.body.$error">
+               <div text-angular name="body" ng-model="htmlVariable" required></div>
+                <div ng-messages="newPost.body.$error">
                     <div ng-message="required">Content is required.</div>
                 </div>
             </md-input-container>
