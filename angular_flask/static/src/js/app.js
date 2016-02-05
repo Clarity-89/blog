@@ -50,7 +50,6 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 buttontext: 'Upload Image',
                 iconclass: "fa fa-image",
                 action: function () {
-                    //angular.element('#uploadImage').click();
                     document.getElementById('uploadImage').click();
                 }
             });

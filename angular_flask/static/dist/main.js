@@ -50,7 +50,6 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 buttontext: 'Upload Image',
                 iconclass: "fa fa-image",
                 action: function () {
-                    //angular.element('#uploadImage').click();
                     document.getElementById('uploadImage').click();
                 }
             });
@@ -194,6 +193,7 @@ angular.module('AngularFlask')
             };
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
+                console.log('Filesize: ', Math.round(element.files[0].size/1024)+'KB');
                 var reader = new FileReader();
 
                 reader.onload = function (event) {
@@ -202,6 +202,9 @@ angular.module('AngularFlask')
                 };
                 // when the file is read it triggers the onload event above.
                 reader.readAsDataURL(element.files[0]);
+            };
+            $scope.activateUpload = function(){
+                document.getElementById('uploadAva').click();
             }
         }])
     .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', function ($scope, $rootScope, logoutUser, $cookies) {

@@ -21,9 +21,9 @@
                 </div>
             </md-input-container>
             <md-input-container>
-                <input type="file" onchange="angular.element(this).scope().setFile(this)">
-                <i ng-hide="imageSrc">No image chosen...</i>
-                <img height="200" ng-src="{{ imageSrc }}"/>
+                <input type="file" class="ng-hide" id="uploadAva" onchange="angular.element(this).scope().setFile(this)">
+                <md-button class="md-raised md-warn" ng-click="activateUpload()">Upload image</md-button>
+                <img id="imgPreview" ng-src="{{ imageSrc }}" alt="No image chosen..."/>
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password">Password</label>
