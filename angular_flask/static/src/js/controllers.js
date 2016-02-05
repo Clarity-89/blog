@@ -121,8 +121,20 @@ angular.module('AngularFlask')
                     });
             };
             $scope.setFile = function (element) {
+                var self = this;
                 $scope.currentFile = element.files[0];
-                console.log('Filesize: ', Math.round(element.files[0].size/1024)+'KB');
+                var filesize = Math.round(element.files[0].size / 1024);
+                console.log('filesize', filesize);
+                if (filesize > 500) {
+                    self.userForm.ava.$setValidity('imgsize', false);
+                    $scope.hidden = true;
+                    $timeout(function () {
+                        // Set form to valid after timeout to enable submitting it again
+                        self.userForm.ava.$setValidity("size", true);
+                        //$scope.hidden = false;
+                    }, 2000);
+
+                }
                 var reader = new FileReader();
 
                 reader.onload = function (event) {
@@ -132,7 +144,7 @@ angular.module('AngularFlask')
                 // when the file is read it triggers the onload event above.
                 reader.readAsDataURL(element.files[0]);
             };
-            $scope.activateUpload = function(){
+            $scope.activateUpload = function () {
                 document.getElementById('uploadAva').click();
             }
         }])

@@ -2,7 +2,7 @@
     <!--Register form-->
     <md-content layout-padding ng-if="!hasAccount">
         <h1>Create an Account</h1>
-        <form name="userForm" novalidate ng-submit="userForm.$valid && register()">
+        <form name="userForm" enctype='multipart/form-data' novalidate ng-submit="userForm.$valid && register()">
             <md-input-container class="md-block">
                 <label for="username">Username</label>
                 <input required name="username" id="username" ng-model="user.username">
@@ -21,9 +21,13 @@
                 </div>
             </md-input-container>
             <md-input-container>
-                <input type="file" class="ng-hide" id="uploadAva" onchange="angular.element(this).scope().setFile(this)">
+                <input type="file" class="ng-hide" id="uploadAva" name="ava" ng-model="user.ava"
+                       onchange="angular.element(this).scope().setFile(this)">
                 <md-button class="md-raised md-warn" ng-click="activateUpload()">Upload image</md-button>
                 <img id="imgPreview" ng-src="{{ imageSrc }}" alt="No image chosen..."/>
+                <div ng-messages="userForm.ava.$error">
+                    <div ng-message="imgsize">The picture should be smaller than 500 KB.</div>
+                </div>
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password">Password</label>

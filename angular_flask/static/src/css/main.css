@@ -124,3 +124,8 @@ a {
     width: 140px;
     float: left;
 }
+
+#custom-error {
+    opacity: 1; !important;
+    margin-top: 0; !important;
+}
