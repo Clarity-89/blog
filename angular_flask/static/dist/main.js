@@ -61,7 +61,6 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
         $rootScope.$on("$routeChangeStart", function (event, next) {
             if (next.templateUrl == 'static/partials/new_post.html') {
                 var user = $cookies.get('current_user');
-                console.log('user is: ', user);
                 if (!user) {
                     $location.path("/login");
                 }
@@ -252,17 +251,7 @@ angular.module('AngularFlask')
             }
         };
     }])
-    .directive("ngFileSelect", function () {
-        return {
-            link: function ($scope, el) {
-                el.bind("change", function (e) {
-                    $scope.file = el[0].files[0];
-                    $scope.getFile();
-                    console.log('File from directive', $scope.file)
-                });
-            }
-        }
-    })
+
 'use strict';
 
 /* Filters */

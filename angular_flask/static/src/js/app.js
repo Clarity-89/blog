@@ -61,7 +61,6 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
         $rootScope.$on("$routeChangeStart", function (event, next) {
             if (next.templateUrl == 'static/partials/new_post.html') {
                 var user = $cookies.get('current_user');
-                console.log('user is: ', user);
                 if (!user) {
                     $location.path("/login");
                 }
