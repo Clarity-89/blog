@@ -16,7 +16,7 @@ class Post(db.Model):
     cover_photo = db.Column(db.String(), default='../img/covers/default.jpg')
     # Store time as integer in milliseconds
     date = db.Column(db.Integer, default=int(round(time.time() * 1000)))
-    author = db.Column(db.String(32), db.ForeignKey('user.username'))
+    user_id = db.Column(db.String(32), db.ForeignKey('user.id'))
     favorited = db.Column(db.Integer, default=0)
 
     @property
@@ -27,7 +27,8 @@ class Post(db.Model):
             'body': self.body,
             'cover_photo': self.cover_photo,
             'date': self.date,
-            'author': self.author,
+            'author': self.author.username,
+            'avatar': self.author.avatar,
             'favorited': self.favorited
         }
 
@@ -43,14 +44,14 @@ def __repr__(self):
 
 
 class User(db.Model, UserMixin):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32))
     email = db.Column(db.String(32))
-    avatar = db.Column(db.String(), default='../img/avatars/default.jpg')
+    avatar = db.Column(db.String(), default='../img/avatars/default.png')
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='user', lazy='dynamic')
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     def hash_password(self, password):
         self.password_hash = pwd_context.encrypt(password)

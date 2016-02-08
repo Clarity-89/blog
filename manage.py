@@ -2,9 +2,9 @@ import os
 import json
 import argparse
 import requests
-
+from passlib.apps import custom_app_context as pwd_context
 from angular_flask.core import app, db
-from angular_flask.models import Post
+from angular_flask.models import Post, User
 from flask.ext.script import Manager, prompt_bool
 
 manager = Manager(app)
@@ -13,9 +13,13 @@ manager = Manager(app)
 @manager.command
 def initdb():
     db.create_all()
-    db.session.add(Post(title='First post',
+    password = pwd_context.encrypt('111111')
+    u = User(username='Alex', email='me@test.com', password_hash=password)
+    p = Post(title='First post',
                         body="Welcome to my blog. I will be putting up posts about various topics, so make sure to check back soon.",
-                        author='alex'))
+                        author=u)
+    db.session.add(u)
+    db.session.add(p)
     db.session.commit()
     print 'Initialized the db'
 
