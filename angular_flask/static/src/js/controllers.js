@@ -7,7 +7,7 @@ angular.module('AngularFlask')
         allPosts.getPosts().get()
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
-                console.log('Got posts:', response);
+                //console.log('Got posts:', response);
                 $scope.showPost = true;
                 buildGridModel($scope.posts);
             },
@@ -75,9 +75,10 @@ angular.module('AngularFlask')
                 password: ""
             };
             $scope.register = function () {
-                var self = this;
-                var user = $scope.user;
-                createUser.newUser(user)
+                var self = this,
+                    file = self.myAva,
+                    user = $scope.user;
+                createUser.newUser(file, user)
                     .then(function success() {
                         $location.path('/posts');
                     }, function error(response) {

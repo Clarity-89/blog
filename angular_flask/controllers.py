@@ -96,11 +96,11 @@ def add_post():
         # Generate unique file name
         image = request.files['file']
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-        image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        post = Post(title=title["title"], body=body, cover_photo='../img/covers' + filename,
-                    author=current_user.username)
+        image.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+        post = Post(title=title["title"], body=body, cover_photo='../img/covers/' + filename,
+                    author=current_user)
     else:
-        post = Post(title=title["title"], body=body, author=current_user.username)
+        post = Post(title=title["title"], body=body, author=current_user)
     session.add(post)
     session.commit()
     return redirect('/')
@@ -114,21 +114,29 @@ def load_user(id):
 # Register new user
 @app.route('/blog/api/users', methods=['POST'])
 def new_user():
-    username = request.json.get('username')
-    email = request.json.get('email')
-    password = request.json.get('password')
-    print 'received user ', request.json
+    print 'received user ', request.files
+    user = json.loads(request.form['user'])
+    username = user.get('username')
+    email = user.get('email')
+    password = user.get('password')
     if username is None or password is None:
         abort(400)  # missing arguments
     if User.query.filter_by(username=username).first() is not None:
         abort(400, 'User already exists')
-    elif User.query.filter_by(email=email).first() is not None:
+    if User.query.filter_by(email=email).first() is not None:
         abort(400, 'Email already exists')
-    user = User(username=username, email=email)
-    user.hash_password(password)
-    db.session.add(user)
+    if request.files:
+        # Generate unique file name
+        ava = request.files['file']
+        filename = str(uuid.uuid4()) + '.' + ava.filename.rsplit('.', 1)[1]
+        ava.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
+        u = User(username=username, email=email, avatar='../img/avatars/' + filename)
+    else:
+        u = User(username=username, email=email)
+    u.hash_password(password)
+    db.session.add(u)
     db.session.commit()
-    return jsonify({'username': user.username}), 201, {'Location': url_for('get_user', id=user.id, _external=True)}
+    return jsonify({'username': u.username}), 201
 
 
 @app.route('/blog/api/users/<int:id>')
@@ -186,9 +194,6 @@ def favicon():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
-
-
-
 
 
 @app.route('/blog/api/token')

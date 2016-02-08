@@ -77,7 +77,7 @@ angular.module('AngularFlask')
         allPosts.getPosts().get()
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
-                console.log('Got posts:', response);
+                //console.log('Got posts:', response);
                 $scope.showPost = true;
                 buildGridModel($scope.posts);
             },
@@ -145,9 +145,10 @@ angular.module('AngularFlask')
                 password: ""
             };
             $scope.register = function () {
-                var self = this;
-                var user = $scope.user;
-                createUser.newUser(user)
+                var self = this,
+                    file = self.myAva,
+                    user = $scope.user;
+                createUser.newUser(file, user)
                     .then(function success() {
                         $location.path('/posts');
                     }, function error(response) {
@@ -271,18 +272,24 @@ angular.module('AngularFlask')
             fd.append('file', file);
             fd.append("content", JSON.stringify(data1));
             fd.append("content2", JSON.stringify(data2));
-            $http.post("http://0.0.0.0:5000" + "/blog/api/posts/new", fd, {
+            $http.post("http://0.0.0.0:5000/blog/api/posts/new", fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
         }
     }])
     .service('createUser', ['$http', function ($http) {
-        this.newUser = function (user) {
-            return $http.post("http://0.0.0.0:5000" + "/blog/api/users", user);
+        this.newUser = function (file, user) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('user', JSON.stringify(user));
+            return $http.post("http://0.0.0.0:5000/blog/api/users", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            });
         };
         this.loginUser = function (user) {
-            return $http.post("http://0.0.0.0:5000" + "/login", user);
+            return $http.post("http://0.0.0.0:5000/login", user);
         }
     }])
     .service('logoutUser', ['$http', function ($http) {
