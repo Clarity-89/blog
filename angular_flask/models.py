@@ -13,10 +13,10 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(240))
     body = db.Column(db.String())
-    cover_photo = db.Column(db.String(), default='../img/default.jpg')
+    cover_photo = db.Column(db.String(), default='../img/covers/default.jpg')
     # Store time as integer in milliseconds
     date = db.Column(db.Integer, default=int(round(time.time() * 1000)))
-    author = db.Column(db.String(32))
+    author = db.Column(db.String(32), db.ForeignKey('user.username'))
     favorited = db.Column(db.Integer, default=0)
 
     @property
@@ -31,7 +31,7 @@ class Post(db.Model):
             'favorited': self.favorited
         }
 
-    def __init__(self, title, body, author, cover_photo='../img/default.jpg', ):
+    def __init__(self, title, body, author, cover_photo='../img/covers/default.jpg', ):
         self.title = title
         self.body = body
         self.cover_photo = cover_photo
@@ -48,7 +48,9 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32))
     email = db.Column(db.String(32))
+    avatar = db.Column(db.String(), default='../img/avatars/default.jpg')
     password_hash = db.Column(db.String(128))
+    posts = db.relationship('Post', backref='user', lazy='dynamic')
 
     def hash_password(self, password):
         self.password_hash = pwd_context.encrypt(password)
@@ -61,8 +63,7 @@ class User(db.Model, UserMixin):
         return s.dumps({'id': self.id})
 
     def __repr__(self):
-        return '<User %r>' % (self.username)\
-
+        return '<User %r>' % self.username
 
     @staticmethod
     def verify_auth_token(token):
@@ -75,6 +76,3 @@ class User(db.Model, UserMixin):
             return None  # invalid token
         user = User.query.get(data['id'])
         return user
-
-
-

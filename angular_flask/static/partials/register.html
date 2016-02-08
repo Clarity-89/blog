@@ -1,4 +1,4 @@
-<div ng-cloak flex-xs="100" flex-sm="60" flex-md="50" flex-gt-lg="30" ng-controller="UserController">
+<div ng-cloak flex-xs="100" flex-sm="60" flex-md="50" flex-gt-lg="30" ng-controller="UserController as userctrl">
     <!--Register form-->
     <md-content layout-padding ng-if="!hasAccount">
         <h1>Create an Account</h1>
@@ -15,19 +15,17 @@
                 <label for="email">Email</label>
                 <input type="email" id="email" required name="email" ng-pattern="/^.+@.+\..+$/"
                        ng-model="user.email">
-                <div ng-messages="userForm.email.$error">
+                <div ng-messages="userForm.email.$error" ng-if="userForm.email.$touched">
                     <div ng-message-exp="['pattern', 'required']">Enter a valid email address.</div>
                     <div ng-message="emailExists">Email already exists.</div>
                 </div>
             </md-input-container>
-            <md-input-container>
-                <input type="file" class="ng-hide" id="uploadAva" name="ava" ng-model="user.ava"
+            <md-input-container class="md-block">
+                <input type="file" class="ng-hide" id="uploadAva" name="ava" aria-label="upload avatar"
+                       ng-model="ava"
                        onchange="angular.element(this).scope().setFile(this)">
                 <md-button class="md-raised md-warn" ng-click="activateUpload()">Upload image</md-button>
                 <img id="imgPreview" ng-src="{{ imageSrc }}" alt="No image chosen..."/>
-                <div ng-messages="userForm.ava.$error">
-                    <div ng-message="imgsize">The picture should be smaller than 500 KB.</div>
-                </div>
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password">Password</label>

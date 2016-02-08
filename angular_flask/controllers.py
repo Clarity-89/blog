@@ -58,15 +58,15 @@ def new_post():
 
 
 # Serve images
-@app.route('/img/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+@app.route('/img/<type>/<filename>')
+def uploaded_file(type, filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'] + '/' + type, filename)
 
 
 # Endpoint for all posts
 @app.route('/blog/api/posts', methods=['GET'])
 def get_posts():
-    posts = Post.query.all()
+    posts = Post.query.join(User)
     return jsonify(posts=[post.serialize for post in posts])
 
 
@@ -97,10 +97,10 @@ def add_post():
         image = request.files['file']
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
         image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        post = Post(title=title["title"], body=body, cover_photo='../img/' + filename,
+        post = Post(title=title["title"], body=body, cover_photo='../img/covers' + filename,
                     author=current_user.username)
     else:
-        post = Post(title=title["title"], body=body, author='alex')
+        post = Post(title=title["title"], body=body, author=current_user.username)
     session.add(post)
     session.commit()
     return redirect('/')
