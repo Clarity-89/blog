@@ -16,6 +16,9 @@ header {
     z-index: 10;
 }
 
+section {
+    height: 100%;
+}
 main {
     min-height: 100%;
     background: url("../../img/laptop.jpg") fixed no-repeat;
@@ -77,7 +80,7 @@ footer {
     text-shadow: 0px 0px 3px #000;
 }
 
-md-card md-card-content {
+md-card md-card-content .body-text {
     max-height: 200px;
     overflow: hidden;
 }
@@ -108,24 +111,18 @@ a {
     width: 60%;
 }
 
-.error {
-    color: rgb(221, 44, 0);
-    font-size: 12px;
-    line-height: 14px;
-    overflow: hidden;
-    transition: all .3s cubic-bezier(.55, 0, .55, .2);
-    opacity: 1;
-    margin-top: 0;
-    padding-top: 5px;
-}
-
 #imgPreview {
     height: 140px;
     width: 140px;
     float: left;
 }
 
-#custom-error {
-    opacity: 1; !important;
-    margin-top: 0; !important;
+#card-body {
+    min-height: 360px;
+    padding: 20px 50px;
+}
+
+.md-user-avatar {
+    width: 40px;
+    height: 40px;
 }

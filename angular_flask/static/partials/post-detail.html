@@ -3,7 +3,7 @@
     <div class="md-padding" layout="row" layout-wrap=""
          layout-align="center center"
          layout-xs="column">
-        <div flex="80" flex-xs="100" layout="column">
+        <div flex="80" flex-xs="100" flex-gt-lg="60" layout="column">
             <md-card>
                 <md-card-header>
                     <md-card-avatar>
@@ -19,7 +19,7 @@
                     <span class="md-headline">{{ post.title }}</span>
                 </div>
                 <md-card-content>
-                    <div ta-bind ng-model="post.body" class="md-subhead"></div>
+                    <div ta-bind ng-model="post.body" id="card-body"></div>
                 </md-card-content>
             </md-card>
         </div>
