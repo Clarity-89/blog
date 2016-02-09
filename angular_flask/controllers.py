@@ -132,7 +132,10 @@ def new_user():
         # Generate unique file name
         ava = request.files['file']
         filename = str(uuid.uuid4()) + '.' + ava.filename.rsplit('.', 1)[1]
-        ava.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
+        img = Image.open(ava)
+        maxsize = (480, 480)
+        img.thumbnail(maxsize, Image.ANTIALIAS)
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
         u = User(username=username, email=email, avatar='../img/avatars/' + filename)
     else:
         u = User(username=username, email=email)
