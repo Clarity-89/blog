@@ -6,7 +6,6 @@ from flask import send_file, make_response, abort
 from sqlalchemy.orm.exc import NoResultFound
 from flask.ext.httpauth import HTTPBasicAuth
 from angular_flask import app
-from angular_flask.core import db
 
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 
