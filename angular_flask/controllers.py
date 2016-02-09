@@ -6,6 +6,7 @@ from flask import send_file, make_response, abort
 from sqlalchemy.orm.exc import NoResultFound
 from flask.ext.httpauth import HTTPBasicAuth
 from angular_flask import app
+from PIL import Image
 
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 
@@ -94,8 +95,11 @@ def add_post():
     if request.files:
         # Generate unique file name
         image = request.files['file']
+        img = Image.open(image)
+        maxsize = (1028, 1028)
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-        image.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+        img.thumbnail(maxsize, Image.ANTIALIAS)
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
         post = Post(title=title["title"], body=body, cover_photo='../img/covers/' + filename,
                     author=current_user)
     else:
