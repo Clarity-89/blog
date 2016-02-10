@@ -139,28 +139,30 @@ angular.module('AngularFlask')
                 document.getElementById('uploadAva').click();
             }
         }])
-    .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', function ($scope, $rootScope, logoutUser, $cookies) {
+    .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location',
+        function ($scope, $rootScope, logoutUser, $cookies, $location) {
 
-        $scope.currentUser = function () {
-            return $cookies.get('current_user');
-        };
+            $scope.currentUser = function () {
+                return $cookies.get('current_user');
+            };
 
-        // Separate function to get user details to avoid loops with JSON.parse
-        $scope.getUserDetails = function () {
-            if ($scope.currentUser()) {
-                return JSON.parse($scope.currentUser());
-            }
-        };
+            // Separate function to get user details to avoid loops with JSON.parse
+            $scope.getUserDetails = function () {
+                if ($scope.currentUser()) {
+                    return JSON.parse($scope.currentUser());
+                }
+            };
 
-        $scope.logout = function () {
-            if ($scope.currentUser()) {
-                logoutUser.logout()
-                    .then(function success() {
-                        $cookies.remove('current_user');
-                        console.log('logged out');
-                    }, function error(response) {
-                        console.log('Could not log out', response);
-                    });
-            }
-        };
-    }])
+            $scope.logout = function () {
+                if ($scope.currentUser()) {
+                    logoutUser.logout()
+                        .then(function success() {
+                            $cookies.remove('current_user');
+                            console.log('logged out');
+                            $location.path('/');
+                        }, function error(response) {
+                            console.log('Could not log out', response);
+                        });
+                }
+            };
+        }])
