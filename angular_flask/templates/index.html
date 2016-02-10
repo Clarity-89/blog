@@ -23,8 +23,6 @@
                 <md-button ng-href='/' class="md-raised">Home</md-button>
                 <md-button ng-href='/posts'>Posts</md-button>
                 <md-button ng-href='/about'>About</md-button>
-                <md-button ng-href='/new'>Create post</md-button>
-
             </div>
             <div class="nav-buttons">
                 <md-menu md-offset="2 80" ng-show="currentUser()">
@@ -34,15 +32,11 @@
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item>
-                            <md-button>
-                                <md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>
-                                Redial
-                            </md-button>
+                            <md-button ng-href='/new'>Create post</md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button disabled="disabled">
-                                <md-icon md-svg-icon="call:voicemail"></md-icon>
-                                Check voicemail
+                            <md-button>
+                                Your posts
                             </md-button>
                         </md-menu-item>
                         <md-menu-divider></md-menu-divider>
