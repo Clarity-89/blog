@@ -27,10 +27,10 @@
 
             </div>
             <div class="nav-buttons">
-                <md-menu>
-                    <md-button aria-label="Open phone interactions menu" class="md-icon-button"
+                <md-menu md-offset="2 80" ng-show="currentUser()">
+                    <md-button ng-href="#" aria-label="Open user menu"
                                ng-click="$mdOpenMenu(ev)">
-                        <md-icon md-menu-origin><img ng-src="{{ currentUser.ava }}"/></md-icon>
+                        <img id="current-user" md-menu-origin ng-src="{{ getUserDetails().ava }}"/>
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item>
@@ -47,15 +47,14 @@
                         </md-menu-item>
                         <md-menu-divider></md-menu-divider>
                         <md-menu-item>
-                            <md-button>
-                                Hello
+                            <md-button ng-click="logout()" ng-href='#'>
+                                Log Out
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
-                <md-button ng-href='/register' class="md-raised md-warn" ng-if="!currentUser">Log In</md-button>
-                <md-button ng-click="logout()" ng-href='#' class="md-raised md-warn" ng-if="currentUser">Log Out
-                </md-button>
+                <md-button ng-href='/register' class="md-raised md-warn" ng-hide="currentUser()">Log In</md-button>
+
             </div>
         </div>
     </md-toolbar>

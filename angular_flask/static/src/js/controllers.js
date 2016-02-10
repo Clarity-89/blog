@@ -140,9 +140,20 @@ angular.module('AngularFlask')
             }
         }])
     .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', function ($scope, $rootScope, logoutUser, $cookies) {
-        $scope.currentUser = JSON.parse($cookies.get('current_user'));
+
+        $scope.currentUser = function () {
+            return $cookies.get('current_user');
+        };
+
+        // Separate function to get user details to avoid loops with JSON.parse
+        $scope.getUserDetails = function () {
+            if ($scope.currentUser()) {
+                return JSON.parse($scope.currentUser());
+            }
+        };
+
         $scope.logout = function () {
-            if ($scope.currentUser) {
+            if ($scope.currentUser()) {
                 logoutUser.logout()
                     .then(function success() {
                         $cookies.remove('current_user');

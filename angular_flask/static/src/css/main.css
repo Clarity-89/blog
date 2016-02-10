@@ -137,3 +137,9 @@ a {
 md-toolbar.md-theme-indigo {
     height: 150px;
 }
+
+#current-user {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
