@@ -30,7 +30,7 @@
                 <md-menu>
                     <md-button aria-label="Open phone interactions menu" class="md-icon-button"
                                ng-click="$mdOpenMenu(ev)">
-                        <md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>
+                        <md-icon md-menu-origin><img ng-src="{{ currentUser.ava }}"/></md-icon>
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item>
@@ -53,14 +53,13 @@
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
-                <md-button ng-href='/register' class="md-raised md-warn" ng-if="!getCurrentUser()">Log In</md-button>
-                <md-button ng-click="logout()" ng-href='#' class="md-raised md-warn" ng-if="getCurrentUser()">Log Out
+                <md-button ng-href='/register' class="md-raised md-warn" ng-if="!currentUser">Log In</md-button>
+                <md-button ng-click="logout()" ng-href='#' class="md-raised md-warn" ng-if="currentUser">Log Out
                 </md-button>
             </div>
         </div>
     </md-toolbar>
 </header>
-
 
 <main layout="row" flex layout-align="center" layout-xs="column" ng-view autoscroll>
 

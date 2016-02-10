@@ -140,11 +140,9 @@ angular.module('AngularFlask')
             }
         }])
     .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', function ($scope, $rootScope, logoutUser, $cookies) {
-        $scope.getCurrentUser = function () {
-            return $cookies.get('current_user');
-        };
+        $scope.currentUser = JSON.parse($cookies.get('current_user'));
         $scope.logout = function () {
-            if ($scope.getCurrentUser()) {
+            if ($scope.currentUser) {
                 logoutUser.logout()
                     .then(function success() {
                         $cookies.remove('current_user');
@@ -154,5 +152,4 @@ angular.module('AngularFlask')
                     });
             }
         };
-
     }])
