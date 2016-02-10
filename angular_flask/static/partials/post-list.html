@@ -1,5 +1,6 @@
-<div ng-controller="PostListController" flex="" ng-cloak="" layout-padding id="list-background">
-    <md-grid-list md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="4:3"
+<div ng-controller="PostListController" flex ng-cloak="" layout-padding id="list-background">
+    <md-grid-list md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="6" md-row-height-gt-md="1:1"
+                  md-row-height="4:3"
                   md-gutter="8px" md-gutter-gt-sm="4px">
 
         <md-grid-tile ng-repeat="post in posts" md-rowspan="{{ post.span.row }}" md-colspan="{{ post.span.col }}"
@@ -16,12 +17,13 @@
                     </md-card-header-text>
                 </md-card-header>
                 <a href="/posts/{{ post.id }}">
-                    <div class="md-card-image" ng-class=" post.img " ng-style="{'background-image':'url(' + post.cover_photo + ')'}">
+                    <div class="md-card-image" ng-class=" post.img "
+                         ng-style="{'background-image':'url(' + post.cover_photo + ')'}">
                         <span class="md-headline">{{ post.title }}</span>
                     </div>
                 </a>
-                <md-card-content ng-class="post.para">
-                    <div class="body-text" ta-bind ng-model="post.body"></div>
+                <md-card-content>
+                    <div class="body-text" ta-bind ng-model="post.body" ng-class="post.para"></div>
                 </md-card-content>
             </md-card>
         </md-grid-tile>

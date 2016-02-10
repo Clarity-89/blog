@@ -6,7 +6,7 @@ html {
 body {
     height: 100%;
     width: 100%;
-    background: #E0E0E0 fixed;
+    /* background: url("../../img/laptop.jpg") fixed;*/
     font-family: Roboto sans-serif;
 }
 
@@ -19,6 +19,7 @@ header {
 section {
     height: 100%;
 }
+
 main {
     min-height: 100%;
     background: url("../../img/laptop.jpg") fixed no-repeat;
@@ -96,7 +97,9 @@ a {
 }
 
 .para-sm {
-    height: 80px;
+    height: 45px;
+    -webkit-column-width: 150px;
+    column-width: 200px;
 }
 
 .img-lg {
@@ -125,4 +128,12 @@ a {
 .md-user-avatar {
     width: 40px;
     height: 40px;
+}
+
+.nav-header {
+    height: 100px;
+}
+
+md-toolbar.md-theme-indigo {
+    height: 150px;
 }

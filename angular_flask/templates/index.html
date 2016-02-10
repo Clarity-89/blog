@@ -14,26 +14,10 @@
     <link rel="stylesheet" href="../static/src/css/main.css">
     <base href="/">
 </head>
-<body ng-controller="MainCtrl" layout="row">
+<body ng-controller="MainCtrl">
 
-
-        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
-                    md-is-locked-open="$mdMedia('gt-md')">
-            <md-toolbar class="md-theme-indigo">
-                <h1 class="md-toolbar-tools">Sidenav Left</h1>
-            </md-toolbar>
-            <md-content layout-padding>
-                <md-button ng-click="close()" class="md-primary" hide-gt-md>
-                    Close Sidenav Left
-                </md-button>
-                <p hide-md show-gt-md>
-                    This sidenav is locked open on your device. To go back to the default behavior,
-                    narrow your display.
-                </p>
-            </md-content>
-        </md-sidenav>
-
-  <div layout="column">  <md-toolbar md-scroll-shrink class="md-primary md-hue-2">
+<header>
+    <md-toolbar md-scroll-shrink class="md-primary md-hue-2">
         <div layout="row" layout-padding layout-align="space-between center">
             <div class="nav-buttons">
                 <md-button ng-href='/' class="md-raised">Home</md-button>
@@ -50,20 +34,18 @@
             </div>
         </div>
     </md-toolbar>
+</header>
 
 
-<main layout="row" layout-align="center" layout-xs="column" ng-view autoscroll>
+<main layout="column" flex layout-align="center" layout-xs="column" ng-view autoscroll>
 
 </main>
-
 
 <footer>
     <div layout="row" layout-align="center center">
         <h4>&copy; 2016 AngularFlask</h4>
     </div>
 </footer>
-</div>
-
 <script src="../static/dist/vendor.js"></script>
 <script src="../static/dist/main.js"></script>
 
