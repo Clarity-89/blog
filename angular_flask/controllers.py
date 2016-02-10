@@ -161,7 +161,8 @@ def login():
     password = request.json.get('password')
     if not verify_password(username, password):
         return abort(400, 'Incorrect Username or Password')
-    return redirect('/posts')
+    user = User.query.filter_by(username=username).first()
+    return jsonify({'username': user.username, 'ava': user.avatar})
 
 
 @auth.verify_password
@@ -186,7 +187,6 @@ def verify_password(username_or_token, password):
 def logout():
     if current_user.is_authenticated:
         logout_user()
-        print 'logged out the user', current_user
     return redirect('/posts')
 
 

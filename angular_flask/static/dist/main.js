@@ -171,9 +171,9 @@ angular.module('AngularFlask')
                 var self = this;
                 var user = $scope.user;
                 createUser.loginUser(user)
-                    .then(function success() {
-                        console.log("Successfully logged in");
-                        $cookies.putObject('current_user', user);
+                    .then(function success(response) {
+                        var u = response.data;
+                        $cookies.putObject('current_user', u);
                         $location.path('/posts');
                     }, function error(response) {
                         $scope.userMessage = response.data.message;
@@ -210,8 +210,11 @@ angular.module('AngularFlask')
             }
         }])
     .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', function ($scope, $rootScope, logoutUser, $cookies) {
+        $scope.getCurrentUser = function () {
+            return $cookies.get('current_user');
+        };
         $scope.logout = function () {
-            if ($cookies.get('current_user')) {
+            if ($scope.getCurrentUser()) {
                 logoutUser.logout()
                     .then(function success() {
                         $cookies.remove('current_user');
@@ -221,9 +224,7 @@ angular.module('AngularFlask')
                     });
             }
         };
-        $scope.isLoggedIn = function () {
-            return $cookies.get('current_user');
-        }
+
     }])
 
 angular.module('AngularFlask')

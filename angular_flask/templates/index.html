@@ -27,9 +27,34 @@
 
             </div>
             <div class="nav-buttons">
-                <md-button ng-href='/' class="md-raised md-accent" type="button">My profile</md-button>
-                <md-button ng-href='/register' class="md-raised md-warn" ng-if="!isLoggedIn()">Log In</md-button>
-                <md-button ng-click="logout()" ng-href='#' class="md-raised md-warn" ng-if="isLoggedIn()">Log Out
+                <md-menu>
+                    <md-button aria-label="Open phone interactions menu" class="md-icon-button"
+                               ng-click="$mdOpenMenu(ev)">
+                        <md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button>
+                                <md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>
+                                Redial
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button disabled="disabled">
+                                <md-icon md-svg-icon="call:voicemail"></md-icon>
+                                Check voicemail
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button>
+                                Hello
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-button ng-href='/register' class="md-raised md-warn" ng-if="!getCurrentUser()">Log In</md-button>
+                <md-button ng-click="logout()" ng-href='#' class="md-raised md-warn" ng-if="getCurrentUser()">Log Out
                 </md-button>
             </div>
         </div>
