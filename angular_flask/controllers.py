@@ -154,16 +154,17 @@ def get_user(id):
     return jsonify({'username': user.username})
 
 
-# Get all post by user
-@app.route('/blog/api/users/<int:id>/posts')
+# Get all post by a user
+@app.route('/blog/api/users/<int:id>/posts', methods=['GET'])
 def get_user_posts(id):
     user = User.query.get(id)
-    print "user's posts: ", user.posts
+    return jsonify(posts=[post.serialize for post in user.posts])
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template('index.html')
+        return make_response(open('angular_flask/templates/index.html').read())
     username = request.json.get('username')
     password = request.json.get('password')
     if not verify_password(username, password):
