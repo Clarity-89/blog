@@ -240,7 +240,9 @@ angular.module('AngularFlask')
                 }
             };
         }])
+    .controller('UserPostsController', ['$scope', function ($scope) {
 
+    }])
 angular.module('AngularFlask')
     .directive('fileModel', ['$parse', function ($parse) {
         return {
@@ -316,6 +318,11 @@ angular.module('AngularFlask')
     .service('logoutUser', ['$http', function ($http) {
         this.logout = function () {
             return $http.post("http://0.0.0.0:5000/logout", {});
+        }
+    }])
+    .service('userPosts', ['$http', function ($http) {
+        this.getPosts = function(){
+            return $http.get("http://0.0.0.0:5000/blog/api/users/posts/")
         }
     }])
 ;

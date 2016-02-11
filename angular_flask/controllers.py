@@ -154,6 +154,12 @@ def get_user(id):
     return jsonify({'username': user.username})
 
 
+# Get all post by user
+@app.route('/blog/api/users/<int:id>/posts')
+def get_user_posts(id):
+    user = User.query.get(id)
+    print "user's posts: ", user.posts
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':

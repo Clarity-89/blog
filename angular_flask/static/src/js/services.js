@@ -43,6 +43,11 @@ angular.module('AngularFlask')
             return $http.post("http://0.0.0.0:5000/logout", {});
         }
     }])
+    .service('userPosts', ['$http', function ($http) {
+        this.getPosts = function(){
+            return $http.get("http://0.0.0.0:5000/blog/api/users/posts/")
+        }
+    }])
 ;
 
 

@@ -167,3 +167,6 @@ angular.module('AngularFlask')
                 }
             };
         }])
+    .controller('UserPostsController', ['$scope', function ($scope) {
+
+    }])
