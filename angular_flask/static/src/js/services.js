@@ -44,8 +44,8 @@ angular.module('AngularFlask')
         }
     }])
     .service('userPosts', ['$http', function ($http) {
-        this.getPosts = function(){
-            return $http.get("http://0.0.0.0:5000/blog/api/:user/posts/")
+        this.getPosts = function(user_id){
+            return $http.get("http://0.0.0.0:5000/blog/api/users/" + user_id+ "/posts")
         }
     }])
 ;

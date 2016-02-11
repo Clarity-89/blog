@@ -30,7 +30,7 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .when('/login', {
                     templateUrl: 'static/partials/register.html',
                 })
-                .when('/user/:userId/posts', {
+                .when('/me/posts', {
                     templateUrl: 'static/partials/my_posts.html',
                 })
             /* .otherwise({

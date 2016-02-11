@@ -30,7 +30,7 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .when('/login', {
                     templateUrl: 'static/partials/register.html',
                 })
-                .when('/user/:userId/posts', {
+                .when('/me/posts', {
                     templateUrl: 'static/partials/my_posts.html',
                 })
             /* .otherwise({
@@ -240,8 +240,15 @@ angular.module('AngularFlask')
                 }
             };
         }])
-    .controller('UserPostsController', ['$scope', function ($scope) {
-
+    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', function ($scope, userPosts, $cookies) {
+        userPosts.getPosts(JSON.parse($cookies.get('current_user')).id)
+            .then(function (response) {
+                    console.log('response is: ', response);
+                    $scope.posts = response.data.posts;
+                },
+                function (response) {
+                    $scope.message = "Error: " + response.status + " " + response.statusText;
+                });
     }])
 angular.module('AngularFlask')
     .directive('fileModel', ['$parse', function ($parse) {
@@ -321,8 +328,8 @@ angular.module('AngularFlask')
         }
     }])
     .service('userPosts', ['$http', function ($http) {
-        this.getPosts = function(){
-            return $http.get("http://0.0.0.0:5000/blog/api/users/posts/")
+        this.getPosts = function(user_id){
+            return $http.get("http://0.0.0.0:5000/blog/api/users/" + user_id+ "/posts")
         }
     }])
 ;
