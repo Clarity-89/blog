@@ -216,7 +216,8 @@ angular.module('AngularFlask')
                 return $cookies.get('current_user');
             };
 
-            // Separate function to get user details to avoid loops with JSON.parse
+            /* Separate function to get user details to avoid loops with JSON.parse since
+             currentUser() is called constantly */
             $scope.getUserDetails = function () {
                 if ($scope.currentUser()) {
                     return JSON.parse($scope.currentUser());

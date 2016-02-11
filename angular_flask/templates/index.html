@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AngularFlask</title>
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="../static/dist/vendor.css">
@@ -32,16 +34,28 @@
                     </md-button>
                     <md-menu-content width="4">
                         <md-menu-item>
-                            <md-button ng-href='/new'>Create post</md-button>
+                            <md-button ng-href='/new'>
+                                <md-icon md-font-set="material-icons">add</md-icon>
+                                Create post
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button>
+                                <md-icon md-font-set="material-icons">list</md-icon>
+                                My posts
+                            </md-button>
                         </md-menu-item>
                         <md-menu-item>
                             <md-button>
-                                Your posts
+                                <md-icon md-font-set="material-icons">settings</md-icon>
+                                Profile
                             </md-button>
                         </md-menu-item>
                         <md-menu-divider></md-menu-divider>
                         <md-menu-item>
                             <md-button ng-click="logout()" ng-href='#'>
+                                <md-icon md-font-set="material-icons">power_settings_new</md-icon>
                                 Log Out
                             </md-button>
                         </md-menu-item>
