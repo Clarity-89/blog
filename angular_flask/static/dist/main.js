@@ -30,6 +30,9 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .when('/login', {
                     templateUrl: 'static/partials/register.html',
                 })
+                .when('/user/:userId/posts', {
+                    templateUrl: 'static/partials/my_posts.html',
+                })
             /* .otherwise({
              redirectTo: '/'
              });*/
@@ -254,7 +257,13 @@ angular.module('AngularFlask')
             }
         };
     }])
-
+    .directive('post', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'static/partials/post.html',
+            replace: true
+        };
+    });
 'use strict';
 
 /* Filters */

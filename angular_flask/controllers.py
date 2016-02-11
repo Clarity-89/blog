@@ -43,6 +43,7 @@ def custom400(error):
 @app.route('/posts')
 @app.route('/posts/<int:id>')
 @app.route('/register')
+@app.route('/user/<int:userID>/posts')
 def basic_pages(**kwargs):
     return make_response(open('angular_flask/templates/index.html').read())
     #return render_template('index.html')

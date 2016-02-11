@@ -14,3 +14,10 @@ angular.module('AngularFlask')
             }
         };
     }])
+    .directive('post', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'static/partials/post.html',
+            replace: true
+        };
+    });
