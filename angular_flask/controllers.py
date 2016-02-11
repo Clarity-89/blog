@@ -52,7 +52,7 @@ def basic_pages(**kwargs):
 def new_post():
     print 'user', current_user
     if current_user.is_authenticated:
-        return render_template('index.html')
+        return make_response(open('angular_flask/templates/index.html').read())
     else:
         return redirect('/login')
 

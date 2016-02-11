@@ -143,3 +143,7 @@ md-toolbar.md-theme-indigo {
     height: 50px;
     border-radius: 50%;
 }
+
+img {
+    outline: 0;
+}

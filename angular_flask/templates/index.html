@@ -28,10 +28,8 @@
             </div>
             <div class="nav-buttons">
                 <md-menu md-offset="2 80" ng-show="currentUser()">
-                    <md-button ng-href="#" aria-label="Open user menu"
-                               ng-click="$mdOpenMenu(ev)">
-                        <img id="current-user" md-menu-origin ng-src="{{ getUserDetails().ava }}"/>
-                    </md-button>
+                    <img ng-click="$mdOpenMenu(ev)" id="current-user" md-menu-origin
+                         ng-src="{{ getUserDetails().ava }}"/>
                     <md-menu-content width="4">
                         <md-menu-item>
                             <md-button ng-href='/new'>
