@@ -1,6 +1,10 @@
-<div ng-controller="UserPostsController">
+<div ng-controller="UserPostsController" ng-cloak>
 
-    <h2 class="center">My posts</h2>
+    <h2 class="center no-posts">My posts</h2>
+
+    <div ng-hide="posts" layout-align="center center" class="no-posts">
+        <h3>You haven't published any posts yet.</h3>
+    </div>
 
     <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap=""
          layout-align="center center"
