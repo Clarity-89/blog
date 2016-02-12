@@ -33,6 +33,9 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .when('/me/posts', {
                     templateUrl: 'static/partials/my_posts.html',
                 })
+                .when('/:user', {
+                    templateUrl: 'static/partials/profile.html',
+                })
             /* .otherwise({
              redirectTo: '/'
              });*/
@@ -62,7 +65,8 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
     })
     .run(function ($rootScope, $location, $cookies) {
         $rootScope.$on("$routeChangeStart", function (event, next) {
-            if (next.templateUrl == 'static/partials/new_post.html') {
+            if (next.templateUrl == 'static/partials/new_post.html' || next.templateUrl == 'static/partials/profile.html'
+            || next.templateUrl == 'static/partials/my_posts.html') {
                 var user = $cookies.get('current_user');
                 if (!user) {
                     $location.path("/login");
