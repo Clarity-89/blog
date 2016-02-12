@@ -44,7 +44,7 @@ def custom400(error):
 @app.route('/posts/<int:id>')
 @app.route('/register')
 @app.route('/me/posts')
-@app.route('/<string:username>')
+@app.route('/users/<string:username>')
 def basic_pages(**kwargs):
     return make_response(open('angular_flask/templates/index.html').read())
     #return render_template('index.html')
@@ -209,6 +209,11 @@ def favicon():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('404.html'), 500
 
 
 @app.route('/blog/api/token')
