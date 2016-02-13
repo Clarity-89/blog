@@ -1,7 +1,5 @@
 import os
-import json
-import argparse
-import requests
+
 from passlib.apps import custom_app_context as pwd_context
 from angular_flask.core import app, db
 from angular_flask.models import Post, User
