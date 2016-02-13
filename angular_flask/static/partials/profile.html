@@ -1,8 +1,34 @@
-<div flex="80" flex-xs="100" flex-gt-lg="60" layout="row" layout-align="center center" ng-controller="UserDetailsController">
+<div flex="80" flex-xs="100" flex-gt-lg="60" layout="row" layout-align="center center"
+     ng-controller="UserDetailsController">
     <md-content flex layout-padding>
-       <div id="information">
-       <p>Information</p>
-
-       </div>
+        <div id="information">
+            <p>Information</p>
+            <div layout="row" layout-xs="column">
+                <div flex>
+                    <p>Username</p>
+                    <p>{{ user.username }}</p>
+                    <img class="ava-preview" ng-src="{{ user.ava }}"/>
+                </div>
+                <div flex>
+                    <p>Email</p>
+                    <md-input-container>
+                        <input type="text" ng-model="user.email">
+                    </md-input-container>
+                    <p>Change password (Leave blank if you don't wish to change it)</p>
+                    <div layou="row" layout-xs="column">
+                        <md-input-container>
+                            <input type="password" placeholder="Current Password" ng-model="user.oldPassword">
+                        </md-input-container>
+                        <md-input-container>
+                            <input type="password" placeholder="New Password" ng-model="user.newPassword">
+                        </md-input-container>
+                    </div>
+                    <br>
+                    <md-input-container>
+                        <input type="password" placeholder="Confirm New Password" ng-model="user.newPasswordConfirm">
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
     </md-content>
 </div>

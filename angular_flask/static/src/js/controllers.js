@@ -154,6 +154,8 @@ angular.module('AngularFlask')
                 }
             };
 
+            $scope.user = $scope.getUserDetails();
+
             $scope.logout = function () {
                 if ($scope.currentUser()) {
                     logoutUser.logout()

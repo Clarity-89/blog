@@ -47,7 +47,7 @@ def custom400(error):
 @app.route('/users/<string:username>')
 def basic_pages(**kwargs):
     return make_response(open('angular_flask/templates/index.html').read())
-    #return render_template('index.html')
+    # return render_template('index.html')
 
 
 @app.route('/new')
@@ -171,7 +171,7 @@ def login():
     if not verify_password(username, password):
         return abort(400, 'Incorrect Username or Password')
     user = User.query.filter_by(username=username).first()
-    return jsonify({'username': user.username, 'ava': user.avatar, 'id': user.id})
+    return jsonify({'username': user.username, 'ava': user.avatar, 'id': user.id, 'email': user.email})
 
 
 @auth.verify_password

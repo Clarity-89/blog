@@ -21,10 +21,29 @@
 <header>
     <md-toolbar md-scroll-shrink class="md-primary md-hue-2">
         <div layout="row" layout-padding layout-align="space-between center">
-            <div class="nav-buttons">
+            <div hide-xs hide-sm class="nav-buttons">
                 <md-button ng-href='/' class="md-raised">Home</md-button>
                 <md-button ng-href='/posts'>Posts</md-button>
                 <md-button ng-href='/about'>About</md-button>
+            </div>
+
+
+            <div class="nav-buttons" show-xs show-sm>
+                <md-menu>
+                    <md-icon ng-click="$mdOpenMenu(ev)" md-menu-origin md-font-set="material-icons">menu</md-icon>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button ng-href='/'>Home</md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button ng-href='/posts'>Posts</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-href='/about'>About</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
             </div>
             <div class="nav-buttons">
                 <md-menu md-offset="2 80" ng-show="currentUser()">
