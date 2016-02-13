@@ -1,6 +1,6 @@
-A blog app made with Angular.js (front-end) and Flask Python Microframework (back-end).
+## A blog app made with Angular.js (front-end) and Flask Python Microframework (back-end).
  
- ### To run it on your local machine:
+### To run it on your local machine:
 
  1. Clone this repo
 
