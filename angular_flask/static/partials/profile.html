@@ -14,7 +14,7 @@
                     <md-input-container>
                         <input type="text" ng-model="user.email">
                     </md-input-container>
-                    <p>Change password (Leave blank if you don't wish to change it)</p>
+                    <p>Change password <span class="note">(Leave blank if you don't wish to change it)</span></p>
                     <div layou="row" layout-xs="column">
                         <md-input-container>
                             <input type="password" placeholder="Current Password" ng-model="user.oldPassword">
@@ -29,6 +29,7 @@
                     </md-input-container>
                 </div>
             </div>
+            <md-button type="submit" class="md-raised md-warn">Update</md-button>
         </div>
     </md-content>
 </div>

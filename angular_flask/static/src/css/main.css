@@ -165,6 +165,10 @@ img {
     height: 8.250em;
 }
 
+.note {
+    font-style: italic;
+}
+
 @media screen and (max-device-width: 480px) {
     body {
         font-size: 14px;

@@ -172,7 +172,7 @@ angular.module('AngularFlask')
     .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', function ($scope, userPosts, $cookies) {
         userPosts.getPosts(JSON.parse($cookies.get('current_user')).id)
             .then(function (response) {
-                    console.log('response is: ', response);
+                    //console.log('response is: ', response);
                     $scope.posts = response.data.posts;
                 },
                 function (response) {
