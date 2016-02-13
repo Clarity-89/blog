@@ -216,7 +216,7 @@ angular.module('AngularFlask')
                 document.getElementById('uploadAva').click();
             }
         }])
-    .controller('MainCtrl', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location',
+    .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location',
         function ($scope, $rootScope, logoutUser, $cookies, $location) {
 
             $scope.currentUser = function () {

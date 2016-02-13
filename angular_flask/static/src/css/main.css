@@ -8,6 +8,7 @@ body {
     width: 100%;
     /* background: url("../../img/laptop.jpg") fixed;*/
     font-family: Roboto sans-serif;
+    font-size: 16px;
 }
 
 header {
