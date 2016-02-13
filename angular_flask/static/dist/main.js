@@ -63,12 +63,12 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
             return taOptions;
         }]);
     })
-    .run(function ($rootScope, $location, $cookies) {
+    .run(function ($rootScope, $location, $cookies, $routeParams) {
         $rootScope.$on("$routeChangeStart", function (event, next) {
             if (next.templateUrl == 'static/partials/new_post.html' || next.templateUrl == 'static/partials/profile.html'
-            || next.templateUrl == 'static/partials/my_posts.html') {
-                var user = $cookies.get('current_user');
-                if (!user) {
+                || next.templateUrl == 'static/partials/my_posts.html') {
+                var user = JSON.parse($cookies.get('current_user'));
+                if (!user || user.username != next.params.user) {
                     $location.path("/login");
                 }
             }
