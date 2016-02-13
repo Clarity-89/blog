@@ -9,10 +9,10 @@ manager = Manager(app)
 
 
 @manager.command
-def initdb():
+def init_db():
     db.create_all()
     password = pwd_context.encrypt('111111')
-    u = User(username='Alex', email='me@test.com', password_hash=password)
+    u = User(username='Admin', email='me@test.com', password_hash=password)
     p = Post(title='First post',
                         body="Welcome to my blog. I will be putting up posts about various topics, so make sure to check back soon.",
                         author=u)
@@ -23,7 +23,7 @@ def initdb():
 
 
 @manager.command
-def dropdb():
+def drop_db():
     db.drop_all()
     print 'Dropped the db'
 
