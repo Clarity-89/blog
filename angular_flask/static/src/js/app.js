@@ -68,7 +68,7 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
             if (next.templateUrl == 'static/partials/new_post.html' || next.templateUrl == 'static/partials/profile.html'
                 || next.templateUrl == 'static/partials/my_posts.html') {
                 var user = JSON.parse($cookies.get('current_user'));
-                if (!user || user.username != next.params.user) {
+                if (!user || (next.templateUrl == 'static/partials/profile.html' && user.username != next.params.user)) {
                     $location.path("/login");
                 }
             }
