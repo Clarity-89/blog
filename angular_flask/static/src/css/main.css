@@ -164,3 +164,13 @@ img {
     width: 8.250em;
     height: 8.250em;
 }
+
+@media screen and (max-device-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    #card-body {
+        padding: 0;
+    }
+}
