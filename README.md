@@ -25,7 +25,7 @@
     
     (this will create a 'posts' db with one sample post and a user 'Admin' with email 'me@test.com' and password '111111')
 
- 5. Install necessary packages
+ 5. Install necessary JavaScript packages (you'd also separately install gulp globally)
     > npm install
     
  6. Bundle all the necessary files (this will create a 'dist' directory in the 'static' folder)
