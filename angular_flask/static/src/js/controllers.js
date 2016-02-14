@@ -165,6 +165,10 @@ angular.module('AngularFlask')
                 return imgPreview.preview(element, $scope);
             };
 
+            $scope.activateUpload = function () {
+                return imgPreview.activateUpload('uploadAva');
+            };
+
             $scope.updateUser = function (form) {
                 if (form.$valid) {
                     var user = $scope.user;
