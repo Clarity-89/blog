@@ -47,8 +47,8 @@ def custom400(error):
 @app.route('/users/<string:username>')
 @app.route('/new')
 def basic_pages(**kwargs):
-    return make_response(open('angular_flask/templates/index.html').read())
-    # return render_template('index.html')
+    #return make_response(open('angular_flask/templates/index.html').read())
+    return render_template('index.html')
 
 
 # Serve images
@@ -111,7 +111,6 @@ def load_user(id):
 # Register new user
 @app.route('/blog/api/users', methods=['POST'])
 def new_user():
-    print 'received user ', request.files
     user = json.loads(request.form['user'])
     username = user.get('username')
     email = user.get('email')
@@ -146,6 +145,15 @@ def get_user(id):
         abort(400)
     return jsonify({'username': user.username})
 
+
+# Edit user details
+@app.route('/blog/api/users', methods=['POST'])
+def edit_user():
+    print 'received user ', request.files
+    user = json.loads(request.form['user'])
+    username = user.get('username')
+    email = user.get('email')
+    password = user.get('password')
 
 # Get all post by a user
 @app.route('/blog/api/users/<int:id>/posts', methods=['GET'])

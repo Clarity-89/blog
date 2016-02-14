@@ -10,10 +10,10 @@
           rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="../static/dist/vendor.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/vendor.css')}}">
 
     <!--Custom CSS-->
-    <link rel="stylesheet" href="../static/src/css/main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/css/main.css')}}">
     <base href="/">
 </head>
 <body ng-controller="UserDetailsController">
@@ -47,7 +47,7 @@
             <div class="nav-buttons">
                 <md-menu md-offset="2 80" ng-show="currentUser()">
                     <img ng-click="$mdOpenMenu(ev)" id="current-user" md-menu-origin
-                         ng-src="{{ getUserDetails().ava }}"/>
+                         ng-src={% raw %} "{{  getUserDetails().ava  }}"{% endraw %}/>
                     <md-menu-content width="4">
                         <md-menu-item>
                             <md-button ng-href='/new'>
@@ -63,7 +63,7 @@
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button ng-href='/users/{{ getUserDetails().username }}'>
+                            <md-button ng-href={% raw %}'/users/{{ getUserDetails().username }}'{% endraw %}>
                                 <md-icon md-font-set="material-icons">account_box</md-icon>
                                 Profile
                             </md-button>
@@ -93,8 +93,8 @@
         <h4>&copy; 2016 AngularFlask</h4>
     </div>
 </footer>
-<script src="../static/dist/vendor.js"></script>
-<script src="../static/dist/main.js"></script>
+<script src="{{ url_for('static', filename='dist/vendor.js')}}"></script>
+<script src="{{ url_for('static', filename='dist/main.js')}}"></script>
 
 </body>
 </html>
