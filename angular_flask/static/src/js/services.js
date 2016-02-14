@@ -62,6 +62,17 @@ angular.module('AngularFlask')
             document.getElementById(id).click();
         }
     })
+    .service('updateUser', ['$http', function ($http) {
+        this.update = function (file, user) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('user', JSON.stringify(user));
+            return $http.post("http://0.0.0.0:5000/blog/api/users/edit", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            });
+        };
+    }])
 ;
 
 

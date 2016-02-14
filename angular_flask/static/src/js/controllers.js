@@ -132,7 +132,8 @@ angular.module('AngularFlask')
             }
         }])
     .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
-        function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview) {
+        'updateUser',
+        function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser) {
 
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
@@ -171,7 +172,15 @@ angular.module('AngularFlask')
 
             $scope.updateUser = function (form) {
                 if (form.$valid) {
-                    var user = $scope.user;
+                    var self = this,
+                        file = self.myAva,
+                        user = $scope.user;
+                    updateUser.update(file, user)
+                        .then(function success() {
+                            $location.path('/posts');
+                        }, function error(response) {
+                            throw Error('could not update' + response);
+                        });
                 }
 
             }
