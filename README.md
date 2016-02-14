@@ -10,7 +10,9 @@
 
     In case you get an error 'failed building wheel for pillow' or smth similar and
     you're on Debian or Ubuntu you probably need to install Python’s development libraries for Pillow via
-    > sudo apt-get install python-dev python-setuptools and then install Pillow again with
+    > sudo apt-get install python-dev python-setuptools 
+    
+    and then install Pillow again with
     > pip install pillow
 
  3. Run the app
