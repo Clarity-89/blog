@@ -21,7 +21,9 @@
     
  4. Initialize the db (the server must still be running, so open a new terminal window first)
 
-    > python manage.py init_db (this will create a 'posts' db with one sample post and a user 'Admin' with email 'me@test.com' and password '111111')
+    > python manage.py init_db 
+    
+    (this will create a 'posts' db with one sample post and a user 'Admin' with email 'me@test.com' and password '111111')
 
  5. Install necessary packages
     > npm install
