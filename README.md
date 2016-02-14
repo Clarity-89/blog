@@ -8,6 +8,10 @@
 
     > pip install -r requirements.txt
 
+    (in case you get an error 'failed building wheel for pillow' or smth similar and
+    you're on Debian or Ubuntu you probably need to install Python’s development libraries via
+    > sudo apt-get install python-dev python-setuptools)
+
  3. Run the app
 
     > python runserver.py
