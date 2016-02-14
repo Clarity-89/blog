@@ -184,7 +184,7 @@ def verify_password(username_or_token, password):
 
 
 @app.route('/logout', methods=['POST'])
-@login_required
+#@login_required
 def logout():
     if current_user.is_authenticated:
         logout_user()

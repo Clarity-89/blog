@@ -1,17 +1,14 @@
 <div flex="80" flex-xs="100" flex-gt-lg="60" layout="row" layout-align="center center"
      ng-controller="UserDetailsController">
     <md-content id="information" flex layout-padding>
-        <div>
+        <form name="userDetailsForm" novalidate ng-submit="updateUser(userDetailsForm)">
             <p id="info-header">Information</p>
             <md-divider></md-divider>
             <div layout="row" layout-xs="column" id="info-content">
                 <div flex>
                     <md-subheader>Username</md-subheader>
                     <p>{{ user.username }}</p>
-
-
                     <md-subheader class="custom-subhead">Profile picture</md-subheader>
-
                     <div layout="row" layout-xs="column" layout-align-gt-xs="center center">
                         <div flex><img class="ava-preview" ng-src="{{ user.ava }}"/></div>
                         <div flex>
@@ -22,7 +19,10 @@
                 <div flex>
                     <md-subheader>Email</md-subheader>
                     <md-input-container class="md-block">
-                        <input type="text" ng-model="user.email">
+                        <input type="email" required name="email" ng-pattern="/^.+@.+\..+$/" ng-model="user.email">
+                        <div ng-messages="userDetailsForm.email.$error" ng-if="userDetailsForm.email.$touched">
+                            <div ng-message-exp="['pattern', 'required']">Enter a valid email address.</div>
+                        </div>
                     </md-input-container>
                     <p>Change password <span class="note">(Leave blank if you don't want to change it)</span></p>
                     <div layout="row" layout-xs="column">
@@ -42,6 +42,6 @@
                 </div>
             </div>
             <md-button type="submit" class="md-raised md-warn">Update</md-button>
-        </div>
+        </form>
     </md-content>
 </div>

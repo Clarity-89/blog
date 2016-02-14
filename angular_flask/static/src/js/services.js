@@ -44,10 +44,21 @@ angular.module('AngularFlask')
         }
     }])
     .service('userPosts', ['$http', function ($http) {
-        this.getPosts = function(user_id){
-            return $http.get("http://0.0.0.0:5000/blog/api/users/" + user_id+ "/posts")
+        this.getPosts = function (user_id) {
+            return $http.get("http://0.0.0.0:5000/blog/api/users/" + user_id + "/posts")
         }
     }])
+    .service('imgPreview', function () {
+        this.preview = function (element, scope) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                scope.imageSrc = event.target.result;
+                scope.$apply();
+            };
+            // when the file is read it triggers the onload event above.
+            reader.readAsDataURL(element.files[0]);
+        };
+    })
 ;
 
 

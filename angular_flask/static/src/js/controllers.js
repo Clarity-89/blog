@@ -63,8 +63,8 @@ angular.module('AngularFlask')
                 $scope.message = "Error: " + response.status + " " + response.statusText;
             });
     }])
-    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies',
-        function ($scope, createUser, $location, $timeout, $rootScope, $cookies) {
+    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview',
+        function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview) {
             $scope.hasAccount = true;
             $scope.changeForm = function () {
                 $scope.hasAccount = !$scope.hasAccount;
@@ -122,19 +122,11 @@ angular.module('AngularFlask')
                         }
                     });
             };
-            $scope.setFile = function (element) {
-                /*var self = this;
-                 $scope.currentFile = element.files[0];
-                 var filesize = Math.round(element.files[0].size / 1024);*/
-                var reader = new FileReader();
-                reader.onload = function (event) {
-                    $scope.imageSrc = event.target.result;
-                    $scope.$apply();
 
-                };
-                // when the file is read it triggers the onload event above.
-                reader.readAsDataURL(element.files[0]);
+            $scope.setFile = function (element) {
+                return imgPreview.preview(element, $scope);
             };
+
             $scope.activateUpload = function () {
                 document.getElementById('uploadAva').click();
             }
@@ -168,6 +160,13 @@ angular.module('AngularFlask')
                         });
                 }
             };
+
+            $scope.updateUser = function (form) {
+                if (form.$valid) {
+                    var user = $scope.user;
+                }
+
+            }
         }])
     .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', function ($scope, userPosts, $cookies) {
         userPosts.getPosts(JSON.parse($cookies.get('current_user')).id)
