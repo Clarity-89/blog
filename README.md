@@ -31,8 +31,8 @@
  6. Bundle all the necessary files (this will create a 'dist' directory in the 'static' folder)
     > gulp build 
  
- 7. Start watching JS files for changes to automatically re-bundle them (note that this only watches your custom Js files, if you're adding an Angular module or 
- other third-party libs you need to manually add the path to it to 'bundle-vendor.config.js' and call gulp bundle-vendor to update the vendor.js file).
+ 7. Start watching JS files for changes to automatically re-bundle them (note that this only watches your custom JS files, if you're adding an Angular module or 
+ other third-party libs you need to manually add the path to it to 'bundle-vendor.config.js' and call 'gulp bundle-vendor' to update the vendor.js file).
     > gulp watch
  
  8. The site should be ready and running at http://localhost:5000/
