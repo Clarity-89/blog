@@ -128,11 +128,11 @@ angular.module('AngularFlask')
             };
 
             $scope.activateUpload = function () {
-                document.getElementById('uploadAva').click();
+                return imgPreview.activateUpload('uploadAva');
             }
         }])
-    .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location',
-        function ($scope, $rootScope, logoutUser, $cookies, $location) {
+    .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
+        function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview) {
 
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
@@ -159,6 +159,10 @@ angular.module('AngularFlask')
                             console.log('Could not log out', response);
                         });
                 }
+            };
+
+            $scope.setFile = function (element) {
+                return imgPreview.preview(element, $scope);
             };
 
             $scope.updateUser = function (form) {

@@ -58,6 +58,9 @@ angular.module('AngularFlask')
             // when the file is read it triggers the onload event above.
             reader.readAsDataURL(element.files[0]);
         };
+        this.activateUpload = function (id) {
+            document.getElementById(id).click();
+        }
     })
 ;
 
