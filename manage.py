@@ -1,9 +1,8 @@
-import os
 
 from passlib.apps import custom_app_context as pwd_context
 from angular_flask.core import app, db
 from angular_flask.models import Post, User
-from flask.ext.script import Manager, prompt_bool
+from flask.ext.script import Manager
 
 manager = Manager(app)
 
