@@ -176,7 +176,9 @@ angular.module('AngularFlask')
                         file = self.myAva,
                         user = $scope.user;
                     updateUser.update(file, user)
-                        .then(function success() {
+                        .then(function success(response) {
+                            var u = response.data;
+                            $cookies.putObject('current_user', u);
                             $location.path('/posts');
                         }, function error(response) {
                             throw Error('could not update' + response);

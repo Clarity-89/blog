@@ -147,13 +147,33 @@ def get_user(id):
 
 
 # Edit user details
-@app.route('/blog/api/users', methods=['POST'])
+@app.route('/blog/api/users/edit', methods=['POST'])
 def edit_user():
-    print 'received user ', request.files
+    print 'received user ', json.loads(request.form['user'])
     user = json.loads(request.form['user'])
     username = user.get('username')
     email = user.get('email')
     password = user.get('password')
+    u = User.query.filter_by(username=username).first()
+    if username is None:
+        abort(400, 'User does not exist')
+    print 'email is', u.email
+    u.email = email
+    if request.files:
+        # Generate unique file name
+        ava = request.files['file']
+        filename = u.avatar.rsplit('/', 1)[-1]
+        print 'filename', filename
+        img = Image.open(ava)
+        maxsize = (480, 480)
+        img.thumbnail(maxsize, Image.ANTIALIAS)
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
+    if password:
+        u.hash_password(password)
+    db.session.add(u)
+    db.session.commit()
+    return jsonify({'username': u.username, 'ava': u.avatar, 'id': u.id, 'email': u.email})
+
 
 # Get all post by a user
 @app.route('/blog/api/users/<int:id>/posts', methods=['GET'])
