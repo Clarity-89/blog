@@ -170,6 +170,24 @@ img {
     font-style: italic;
 }
 
+#info-header {
+    text-transform: uppercase;
+}
+
+#info-content {
+    margin-top: 10px;
+}
+
+#information {
+    padding: 16px;
+}
+
+.md-subheader .md-subheader-inner {
+    padding: 10px 0;
+}
+
+/*Media queries*/
+/*Mobile*/
 @media screen and (max-device-width: 480px) {
     body {
         font-size: 14px;
@@ -180,13 +198,7 @@ img {
     }
 }
 
-#ta-body {
-    overflow: auto;
-}
-
-
-
-
+/*Laptop*/
 @media screen and (max-device-width: 1366px) {
     .img-lg {
         height: 200px;

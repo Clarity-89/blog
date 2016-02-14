@@ -1,31 +1,43 @@
 <div flex="80" flex-xs="100" flex-gt-lg="60" layout="row" layout-align="center center"
      ng-controller="UserDetailsController">
-    <md-content flex layout-padding>
-        <div id="information">
-            <p>Information</p>
-            <div layout="row" layout-xs="column">
+    <md-content id="information" flex layout-padding>
+        <div>
+            <p id="info-header">Information</p>
+            <md-divider></md-divider>
+            <div layout="row" layout-xs="column" id="info-content">
                 <div flex>
-                    <p>Username</p>
+                    <md-subheader>Username</md-subheader>
                     <p>{{ user.username }}</p>
-                    <img class="ava-preview" ng-src="{{ user.ava }}"/>
+
+
+                    <md-subheader class="custom-subhead">Profile picture</md-subheader>
+
+                    <div layout="row" layout-xs="column" layout-align-gt-xs="center center">
+                        <div flex><img class="ava-preview" ng-src="{{ user.ava }}"/></div>
+                        <div flex>
+                            <md-button class="md-raised md-warn">Upload New Picture</md-button>
+                        </div>
+                    </div>
                 </div>
                 <div flex>
-                    <p>Email</p>
-                    <md-input-container>
+                    <md-subheader>Email</md-subheader>
+                    <md-input-container class="md-block">
                         <input type="text" ng-model="user.email">
                     </md-input-container>
-                    <p>Change password <span class="note">(Leave blank if you don't wish to change it)</span></p>
-                    <div layou="row" layout-xs="column">
+                    <p>Change password <span class="note">(Leave blank if you don't want to change it)</span></p>
+                    <div layout="row" layout-xs="column">
                         <md-input-container>
-                            <input type="password" placeholder="Current Password" ng-model="user.oldPassword">
+                            <label for="old-password">Current Password</label>
+                            <input type="password" id="old-password" ng-model="user.oldPassword">
                         </md-input-container>
                         <md-input-container>
-                            <input type="password" placeholder="New Password" ng-model="user.newPassword">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" ng-model="user.newPassword">
                         </md-input-container>
                     </div>
-                    <br>
-                    <md-input-container>
-                        <input type="password" placeholder="Confirm New Password" ng-model="user.newPasswordConfirm">
+                    <md-input-container class="md-block">
+                        <label for="confirm-new-password">Confirm New Password</label>
+                        <input type="password" id="confirm-new-password" ng-model="user.newPasswordConfirm">
                     </md-input-container>
                 </div>
             </div>
