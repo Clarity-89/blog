@@ -180,6 +180,13 @@ img {
     }
 }
 
+#ta-body {
+    overflow: auto;
+}
+
+
+
+
 @media screen and (max-device-width: 1366px) {
     .img-lg {
         height: 200px;

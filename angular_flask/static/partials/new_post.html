@@ -12,7 +12,7 @@
                 <input id="uploadImage" aria-label="Upload-image" type="file" name="coverPic" class="ng-hide" file-model="myFile">
             </md-input-container>
             <md-input-container class="md-block">
-               <div text-angular name="body" ng-model="htmlVariable" required></div>
+               <div text-angular id="ta-body" name="body" ng-model="htmlVariable" required></div>
                 <div ng-messages="newPost.body.$error">
                     <div ng-message="required">Content is required.</div>
                 </div>

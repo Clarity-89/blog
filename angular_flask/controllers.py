@@ -45,18 +45,10 @@ def custom400(error):
 @app.route('/register')
 @app.route('/me/posts')
 @app.route('/users/<string:username>')
+@app.route('/new')
 def basic_pages(**kwargs):
     return make_response(open('angular_flask/templates/index.html').read())
     # return render_template('index.html')
-
-
-@app.route('/new')
-def new_post():
-    print 'user', current_user
-    if current_user.is_authenticated:
-        return make_response(open('angular_flask/templates/index.html').read())
-    else:
-        return redirect('/login')
 
 
 # Serve images
