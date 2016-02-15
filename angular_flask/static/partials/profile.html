@@ -30,17 +30,29 @@
                     <p>Change password <span class="note">(Leave blank if you don't want to change it)</span></p>
                     <div layout="row" layout-xs="column">
                         <md-input-container>
-                            <label for="old-password">Current Password</label>
-                            <input type="password" id="old-password" ng-model="user.oldPassword">
+                            <label for="new-password">New Password</label>
+                            <input type="password" name="password" id="new-password" ng-model="user.password"
+                                   ng-minlength="6">
+                            <div ng-messages="userDetailsForm.password.$error">
+                                <div ng-message="minlength">Password should be at least 6 characters long.</div>
+                            </div>
                         </md-input-container>
                         <md-input-container>
-                            <label for="new-password">New Password</label>
-                            <input type="password" id="new-password" ng-model="user.password">
+                            <label for="confirm-new-password">Confirm New Password</label>
+                            <input type="password" name="confirmPassword" id="confirm-new-password"
+                                   ng-model="newPasswordConfirm" match-password="password">
+                            <div ng-messages="userDetailsForm.confirmPassword.$error">
+                                <div ng-message="passwordMatch">Your passwords did not match</div>
+                            </div>
                         </md-input-container>
                     </div>
                     <md-input-container class="md-block">
-                        <label for="confirm-new-password">Confirm New Password</label>
-                        <input type="password" id="confirm-new-password" ng-model="user.newPasswordConfirm">
+                        <label for="old-password">Current Password</label>
+                        <input type="password" name="oldPassword" id="old-password" ng-model="oldPassword"
+                               ng-required="user.password">
+                        <div ng-messages="userDetailsForm.oldPassword.$error" role="alert">
+                            <div ng-message="required">Enter your current password</div>
+                        </div>
                     </md-input-container>
                 </div>
             </div>
