@@ -171,6 +171,9 @@ angular.module('AngularFlask')
             };
 
             $scope.updateUser = function (form) {
+                $scope.change = function () {
+                    self.userDetailsForm.password.$setValidity("passwordIncorrect", true);
+                };
                 if (form.$valid) {
                     var self = this,
                         file = self.myAva,
@@ -182,9 +185,8 @@ angular.module('AngularFlask')
                             $location.path('/posts');
                         }, function error(response) {
                             $scope.message = response.data.message;
-                            console.log('Error message: ', $scope.message)
-                            if ($scope.userMessage === 'password') {
-                                self.userDetailsForm.oldPassword.$setValidity("passwordIncorrect", false);
+                            if ($scope.message === 'password') {
+                                self.userDetailsForm.password.$setValidity("passwordIncorrect", false);
                             }
                         });
                 }

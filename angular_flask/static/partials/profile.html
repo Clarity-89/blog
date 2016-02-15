@@ -49,7 +49,7 @@
                     <md-input-container class="md-block">
                         <label for="old-password">Current Password</label>
                         <input type="password" name="password" id="old-password" ng-model="user.password"
-                               ng-required="user.password">
+                               ng-required="user.password" ng-change="change()">
                         <div ng-messages="userDetailsForm.password.$error" role="alert">
                             <div ng-message="required">Enter your current password.</div>
                             <div ng-message="passwordIncorrect">Incorrect password.</div>
