@@ -15,6 +15,7 @@
     and then install Pillow again with
     > pip install pillow
 
+    More info: https://pillow.readthedocs.org/en/3.0.0/installation.html.
  3. Run the app
 
     > python runserver.py
