@@ -74,53 +74,61 @@ angular.module('AngularFlask')
                 email: "",
                 password: ""
             };
-            $scope.register = function () {
-                var self = this,
-                    file = self.myAva,
-                    user = $scope.user;
-                createUser.newUser(file, user)
-                    .then(function success() {
-                        $location.path('/posts');
-                    }, function error(response) {
-                        $scope.userMessage = response.data.message;
-                        if ($scope.userMessage.split(' ')[0] === 'User') {
-                            self.userForm.username.$setValidity("userExists", false);
-                            $timeout(function () {
-                                // Set form to valid after timeout to enable submitting it again
-                                self.userForm.username.$setValidity("userExists", true);
-                            }, 2000);
-                        } else if ($scope.userMessage.split(' ')[0] === 'Email') {
-                            self.userForm.email.$setValidity("emailExists", false);
-                            $timeout(function () {
-                                self.userForm.email.$setValidity("emailExists", true);
-                            }, 2000);
-                        }
-                    });
-            };
-            $scope.login = function () {
+
+
+            $scope.register = function (form) {
                 var self = this;
-                var user = $scope.user;
-                createUser.loginUser(user)
-                    .then(function success(response) {
-                        var u = response.data;
-                        $cookies.putObject('current_user', u);
-                        $location.path('/posts');
-                    }, function error(response) {
-                        $scope.userMessage = response.data.message;
-                        console.log('Error message: ', $scope.userMessage)
-                        if ($scope.userMessage === 'username') {
-                            self.loginForm.username.$setValidity("userExists", false);
-                            $timeout(function () {
-                                // Set form to valid after timeout to enable submitting it again
-                                self.loginForm.username.$setValidity("userExists", true);
-                            }, 2000);
-                        } else if ($scope.userMessage === 'password') {
-                            self.loginForm.password.$setValidity("passwordIncorrect", false);
-                            $timeout(function () {
-                                self.loginForm.password.$setValidity("passwordIncorrect", true);
-                            }, 2000);
-                        }
-                    });
+
+                $scope.changeUsername = function () {
+                    self.userForm.username.$setValidity("userExists", true);
+                };
+
+                $scope.changeEmail = function () {
+                    self.userForm.email.$setValidity("emailExists", true);
+                };
+
+                if (form.$valid) {
+                    var file = self.myAva,
+                        user = $scope.user;
+                    createUser.newUser(file, user)
+                        .then(function success() {
+                            $location.path('/posts');
+                        }, function error(response) {
+                            $scope.userMessage = response.data.message;
+                            if ($scope.userMessage.split(' ')[0] === 'User') {
+                                self.userForm.username.$setValidity("userExists", false);
+                            } else if ($scope.userMessage.split(' ')[0] === 'Email') {
+                                self.userForm.email.$setValidity("emailExists", false);
+                            }
+                        });
+                }
+            };
+            $scope.login = function (form) {
+                var self = this;
+
+                $scope.changeUsername = function () {
+                    self.loginForm.username.$setValidity("userExists", true);
+                };
+
+                $scope.changePassword = function () {
+                    self.loginForm.password.$setValidity("passwordIncorrect", true);
+                };
+                if (form.$valid) {
+                    var user = $scope.user;
+                    createUser.loginUser(user)
+                        .then(function success(response) {
+                            var u = response.data;
+                            $cookies.putObject('current_user', u);
+                            $location.path('/posts');
+                        }, function error(response) {
+                            $scope.userMessage = response.data.message;
+                            if ($scope.userMessage === 'username') {
+                                self.loginForm.username.$setValidity("userExists", false);
+                            } else if ($scope.userMessage === 'password') {
+                                self.loginForm.password.$setValidity("passwordIncorrect", false);
+                            }
+                        });
+                }
             };
 
             $scope.setFile = function (element) {
@@ -171,12 +179,12 @@ angular.module('AngularFlask')
             };
 
             $scope.updateUser = function (form) {
+                var self = this;
                 $scope.change = function () {
                     self.userDetailsForm.password.$setValidity("passwordIncorrect", true);
                 };
                 if (form.$valid) {
-                    var self = this,
-                        file = self.myAva,
+                    var file = self.myAva,
                         user = $scope.user;
                     updateUser.update(file, user)
                         .then(function success(response) {

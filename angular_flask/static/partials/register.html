@@ -1,11 +1,12 @@
-<div ng-cloak flex-xs="100" flex-sm="60" flex-md="50" flex-lg="40" flex-gt-lg="30" ng-controller="UserController as userctrl">
+<div ng-cloak flex-xs="100" flex-sm="60" flex-md="50" flex-lg="40" flex-gt-lg="30"
+     ng-controller="UserController as userctrl">
     <!--Register form-->
     <md-content layout-padding ng-if="!hasAccount">
         <h1>Create an Account</h1>
-        <form  enctype='multipart/form-data' name="userForm" novalidate ng-submit="userForm.$valid && register()">
+        <form enctype='multipart/form-data' name="userForm" novalidate ng-submit="register(userForm)">
             <md-input-container class="md-block">
                 <label for="username">Username</label>
-                <input required name="username" id="username" ng-model="user.username">
+                <input required name="username" id="username" ng-model="user.username" ng-change="changeUsername()">
                 <div ng-messages="userForm.username.$error">
                     <div ng-message="required">Username is required.</div>
                     <div ng-message="userExists">User already exists.</div>
@@ -14,8 +15,8 @@
             <md-input-container class="md-block">
                 <label for="email">Email</label>
                 <input type="email" id="email" required name="email" ng-pattern="/^.+@.+\..+$/"
-                       ng-model="user.email">
-                <div ng-messages="userForm.email.$error" ng-if="userForm.email.$touched">
+                       ng-model="user.email" ng-change="changeEmail()">
+                <div ng-messages="userForm.email.$error">
                     <div ng-message-exp="['pattern', 'required']">Enter a valid email address.</div>
                     <div ng-message="emailExists">Email already exists.</div>
                 </div>
@@ -24,7 +25,7 @@
                 <input type="file" class="ng-hide" id="uploadAva" name="ava" aria-label="upload avatar"
                        onchange="angular.element(this).scope().setFile(this)" file-model="myAva">
                 <md-button class="md-raised md-warn" ng-click="activateUpload()">Upload image</md-button>
-                <img id="imgPreview" ng-src="{{ imageSrc }}" alt="No image chosen..."/>
+                <img id="imgPreview" ng-src="{{ imageSrc }}" alt="Profile picture"/>
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password">Password</label>
@@ -51,10 +52,10 @@
     <!--Sign In form-->
     <md-content layout-padding ng-if="hasAccount">
         <h1>Sign in</h1>
-        <form name="loginForm" novalidate ng-submit="loginForm.$valid && login()">
+        <form name="loginForm" novalidate ng-submit="login(loginForm)">
             <md-input-container class="md-block">
                 <label for="username">Username</label>
-                <input required name="username" id="username" ng-model="user.username">
+                <input required name="username" id="username" ng-model="user.username" ng-change="changeUsername()">
                 <div ng-messages="loginForm.username.$error">
                     <div ng-message="required">Username is required.</div>
                     <div ng-message="userExists">Username not found.</div>
@@ -62,7 +63,7 @@
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password">Password</label>
-                <input required type="password" name="password" id="password" ng-model="user.password">
+                <input required type="password" name="password" id="password" ng-model="user.password" ng-change="changePassword()">
                 <div ng-messages="loginForm.password.$error">
                     <div ng-message="required">Password is required.</div>
                     <div ng-message="passwordIncorrect">Incorrect password.</div>
