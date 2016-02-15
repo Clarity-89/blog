@@ -153,6 +153,7 @@ def edit_user():
     user = json.loads(request.form['user'])
     username = user.get('username')
     email = user.get('email')
+    new_password = user.get('newPassword')
     password = user.get('password')
     u = User.query.filter_by(username=username).first()
     if username is None:
@@ -160,10 +161,9 @@ def edit_user():
     print 'email is', u.email
     u.email = email
     if request.files:
-        # Generate unique file name
         ava = request.files['file']
         filename = u.avatar.rsplit('/', 1)[-1]
-        print 'filename', filename
+        # Do not overwrite default ava but Generate unique file name instead
         if filename == 'default.png':
             filename = str(uuid.uuid4()) + '.' + ava.filename.rsplit('.', 1)[1]
             u.avatar = '../img/avatars/' + filename
@@ -171,8 +171,11 @@ def edit_user():
         maxsize = (480, 480)
         img.thumbnail(maxsize, Image.ANTIALIAS)
         img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
-    if password:
-        u.hash_password(password)
+    if new_password:
+        if not u.verify_password(password):
+            return abort(400, 'password')
+        else:
+            u.hash_password(new_password)
     db.session.add(u)
     db.session.commit()
     return jsonify({'username': u.username, 'ava': u.avatar, 'id': u.id, 'email': u.email})

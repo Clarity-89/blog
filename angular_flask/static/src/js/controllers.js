@@ -181,7 +181,11 @@ angular.module('AngularFlask')
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
                         }, function error(response) {
-                            throw Error('could not update' + response);
+                            $scope.message = response.data.message;
+                            console.log('Error message: ', $scope.message)
+                            if ($scope.userMessage === 'password') {
+                                self.userDetailsForm.oldPassword.$setValidity("passwordIncorrect", false);
+                            }
                         });
                 }
             }
