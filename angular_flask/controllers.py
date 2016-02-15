@@ -47,7 +47,7 @@ def custom400(error):
 @app.route('/users/<string:username>')
 @app.route('/new')
 def basic_pages(**kwargs):
-    #return make_response(open('angular_flask/templates/index.html').read())
+    # return make_response(open('angular_flask/templates/index.html').read())
     return render_template('index.html')
 
 
@@ -164,6 +164,9 @@ def edit_user():
         ava = request.files['file']
         filename = u.avatar.rsplit('/', 1)[-1]
         print 'filename', filename
+        if filename == 'default.png':
+            filename = str(uuid.uuid4()) + '.' + ava.filename.rsplit('.', 1)[1]
+            u.avatar = '../img/avatars/' + filename
         img = Image.open(ava)
         maxsize = (480, 480)
         img.thumbnail(maxsize, Image.ANTIALIAS)
@@ -212,7 +215,7 @@ def verify_password(username_or_token, password):
 
 
 @app.route('/logout', methods=['POST'])
-#@login_required
+# @login_required
 def logout():
     if current_user.is_authenticated:
         logout_user()
