@@ -2,7 +2,7 @@
 
     <h2 class="center no-posts">My posts</h2>
 
-    <div ng-hide="posts" layout-align="center center" class="no-posts">
+    <div ng-if="!posts.length" layout-align="center center" class="no-posts">
         <h3>You haven't published any posts yet.</h3>
     </div>
 
