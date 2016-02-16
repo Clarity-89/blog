@@ -1,6 +1,6 @@
 <div ng-cloak layout="column" flex="80" flex-xs="100" flex-sm="100" flex-md="80" flex-gt-lg="60"
      ng-controller="NewPostController">
-    <h2 class="center no-posts">Create post</h2>
+    <h2 class="center page-heading">Create post</h2>
     <md-content layout="row" layout-padding>
         <form enctype='multipart/form-data' ng-submit="createPost()" name="newPost" novalidate>
             <md-input-container class="md-block">
@@ -28,7 +28,7 @@
         </form>
     </md-content>
     <div ng-show="showPreview">
-        <h2 class="center no-posts">Preview</h2>
+        <h2 class="center page-heading">Preview</h2>
         <md-card>
             <md-card-header>
                 <md-card-avatar>
