@@ -1,20 +1,25 @@
-<div ng-cloak layout="column" ng-controller="NewPostController">
-    <md-content layout-padding flex="80" flex-xs="100" flex-sm="100" flex-md="80" flex-gt-lg="60">
+<div ng-cloak layout="column" flex="80" flex-xs="100" flex-sm="100" flex-md="80" flex-gt-lg="60"
+     ng-controller="NewPostController">
+    <h2 class="center no-posts">Create post</h2>
+    <md-content layout="row" layout-padding>
         <form enctype='multipart/form-data' ng-submit="createPost()" name="newPost" novalidate>
             <md-input-container class="md-block">
                 <label for="title">Title</label>
-                <input required name="title" id="title" ng-model="post.title">
+                <input required name="title" placeholder="Your title" id="title" ng-model="post.title">
                 <div ng-messages="newPost.title.$error">
                     <div ng-message="required">Title is required.</div>
                 </div>
             </md-input-container>
             <md-input-container class="md-block">
                 <input id="uploadImage" aria-label="Upload-image" type="file" name="coverPic" class="ng-hide"
-                       file-model="myFile">
+                       onchange="angular.element(this).scope().setFile(this)" file-model="myFile">
                 <md-button class="md-raised md-warn" ng-click="activateUpload()">Add cover image</md-button>
+                <md-switch id="enable-preview" ng-model="showPreview" aria-label="Enable preview">
+                    Enable preview
+                </md-switch>
             </md-input-container>
             <md-input-container class="md-block">
-                <div text-angular id="ta-body" name="body" ng-model="htmlVariable" required></div>
+                <div text-angular id="ta-body" name="body" ng-model="post.body" required></div>
                 <div ng-messages="newPost.body.$error">
                     <div ng-message="required">Content is required.</div>
                 </div>
@@ -22,5 +27,26 @@
             <md-button type="submit" class="md-raised md-warn" id="publish">Publish</md-button>
         </form>
     </md-content>
-    <post></post>
+    <div ng-show="showPreview">
+        <h2 class="center no-posts">Preview</h2>
+        <md-card>
+            <md-card-header>
+                <md-card-avatar>
+                    <img class="md-user-avatar" ng-src="{{ post.avatar }}">
+                </md-card-avatar>
+                <md-card-header-text>
+                    <span class="md-title">{{ post.author }}</span>
+                    <span class="md-subhead">{{ post.date | date: 'dd/MM/yy HH:mm'}}</span>
+                </md-card-header-text>
+            </md-card-header>
+            <div class="md-card-image"
+                 ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo+ ')'}">
+                <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
+            </div>
+            <md-card-content>
+                <div id="card-body" ta-bind ng-model="post.body">{{ post.body }}</div>
+            </md-card-content>
+        </md-card>
+    </div>
+
 </div>

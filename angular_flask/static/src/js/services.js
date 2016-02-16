@@ -14,6 +14,7 @@ angular.module('AngularFlask')
     }])
     .service('fileUpload', ['$http', function ($http) {
         this.newPost = function (file, data1, data2) {
+            console.log(data1, data2);
             var fd = new FormData();
             fd.append('file', file);
             fd.append("content", JSON.stringify(data1));

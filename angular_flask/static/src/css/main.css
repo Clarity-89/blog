@@ -157,6 +157,10 @@ img {
     margin-top: 45%;
 }
 
+.no-posts h2 {
+    margin: 40px auto 40px;
+}
+
 .ava-preview {
     width: 8.25em;
     height: 8.25em;
@@ -180,6 +184,14 @@ img {
 
 .md-subheader .md-subheader-inner {
     padding: 10px 0;
+}
+
+.ta-scroll-window > .ta-bind {
+    max-height: 25em; /*400px on PC screen*/
+}
+
+#enable-preview {
+    float: right;
 }
 
 /*Media queries*/

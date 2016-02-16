@@ -42,23 +42,37 @@ angular.module('AngularFlask')
             return posts;
         }
     }])
-    .controller('NewPostController', ['$scope', 'fileUpload', '$location', 'imgPreview',
-        function ($scope, fileUpload, $location, imgPreview) {
+    .controller('NewPostController', ['$scope', 'fileUpload', '$location', 'imgPreview', '$cookies',
+        function ($scope, fileUpload, $location, imgPreview, $cookies) {
 
-        $scope.createPost = function () {
-            var file = $scope.myFile;
-            fileUpload.newPost(file, $scope.post, $scope.htmlVariable);
-            $location.path('/');
-        };
+            $scope.createPost = function (form) {
+
+                if (form.$valid) {
+                    var file = $scope.myFile;
+                    fileUpload.newPost(file, $scope.post, $scope.htmlVariable);
+                    $location.path('/');
+                }
+            };
+
+            var currentUser = $cookies.getObject('current_user');
 
             $scope.post = {
-               title: 'Placeholder title',
+                title: '',
+                author: currentUser.username,
+                avatar: currentUser.ava,
+                date: new Date(),
+                cover_photo: '../img/covers/default.jpg'
 
             };
-        $scope.activateUpload = function () {
-            return imgPreview.activateUpload('uploadImage');
-        }
-    }])
+
+            $scope.setFile = function (element) {
+                return imgPreview.preview(element, $scope);
+            };
+
+            $scope.activateUpload = function () {
+                return imgPreview.activateUpload('uploadImage');
+            }
+        }])
     .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', function ($scope, allPosts, $routeParams) {
         $scope.post = {};
         allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
