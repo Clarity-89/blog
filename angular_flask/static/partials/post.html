@@ -15,6 +15,21 @@
                 <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
             </div>
         </a>
+        <md-card-actions layout="row" layout-align="end center">
+        <span class="num-favorites">{{ post.favorited }}</span>
+        <md-button class="md-icon-button" aria-label="Favorite">
+            <md-tooltip md-direction="bottom">
+                Favorite
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">favorite</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="Share">
+            <md-tooltip md-direction="bottom">
+                Share
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">share</md-icon>
+        </md-button>
+    </md-card-actions>
         <md-card-content>
             <div class="body-text" ta-bind ng-model="post.body"></div>
         </md-card-content>

@@ -56,7 +56,6 @@ angular.module('AngularFlask')
                         }, function error(response) {
                             console.log('Could not post', response);
                         });
-
                 }
             };
 
@@ -67,7 +66,8 @@ angular.module('AngularFlask')
                 author: currentUser.username,
                 avatar: currentUser.ava,
                 date: new Date(),
-                cover_photo: '../img/covers/default.jpg'
+                cover_photo: '../img/covers/default.jpg',
+                disabled: true
 
             };
 

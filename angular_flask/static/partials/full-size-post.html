@@ -9,9 +9,24 @@
         </md-card-header-text>
     </md-card-header>
     <div class="md-card-image"
-         ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo+ ')'}">
+         ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
         <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
     </div>
+    <md-card-actions layout="row" layout-align="end center">
+        <span class="num-favorites">{{ post.favorited }}</span>
+        <md-button class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}">
+            <md-tooltip md-direction="bottom">
+                Favorite
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">favorite</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="Share" disabled="{{ post.disabled }}">
+            <md-tooltip md-direction="bottom">
+                Share
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">share</md-icon>
+        </md-button>
+    </md-card-actions>
     <md-card-content>
         <div id="card-body" ta-bind ng-model="post.body">{{ post.body }}</div>
     </md-card-content>
