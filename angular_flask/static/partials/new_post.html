@@ -2,7 +2,7 @@
      ng-controller="NewPostController">
     <h2 class="center page-heading">Create post</h2>
     <md-content layout="row" layout-padding>
-        <form enctype='multipart/form-data' name="newPost" ng-submit="createPost(newPost)"  novalidate>
+        <form enctype='multipart/form-data' name="newPost" ng-submit="createPost(newPost)" novalidate>
             <md-input-container class="md-block">
                 <label for="title">Title</label>
                 <input required name="title" placeholder="Your title" id="title" ng-model="post.title">
@@ -20,13 +20,12 @@
             </md-input-container>
             <md-input-container class="md-block">
                 <div text-angular id="ta-body" name="body" ng-model="post.body" required></div>
-                <div ng-messages="newPost.body.$error">
-                    <div ng-message="required">Content is required.</div>
-                </div>
             </md-input-container>
             <md-button type="submit" class="md-raised md-warn" id="publish">Publish</md-button>
         </form>
     </md-content>
+
+    <!--Post preview-->
     <div ng-show="showPreview">
         <h2 class="center page-heading">Preview</h2>
         <md-card>
