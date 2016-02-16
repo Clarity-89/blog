@@ -18,8 +18,8 @@
 </head>
 <body ng-controller="UserDetailsController">
 
-<header>
-    <md-toolbar md-scroll-shrink class="md-primary md-hue-2">
+<header layout="column">
+    <md-toolbar class="md-primary md-hue-2">
         <div layout="row" layout-padding layout-align="space-between center">
             <div hide-xs hide-sm class="nav-buttons">
                 <md-button ng-href='/' class="md-raised">Home</md-button>
@@ -27,8 +27,8 @@
                 <md-button ng-href='/about'>About</md-button>
             </div>
 
-            <div class="nav-buttons" hide-gt-sm show-xs show-sm>
-                <md-menu>
+            <di>
+                <md-menu class="nav-buttons" hide-gt-sm show-xs show-sm>
                     <md-icon ng-click="$mdOpenMenu(ev)" md-menu-origin md-font-set="material-icons">menu</md-icon>
                     <md-menu-content width="4">
                         <md-menu-item>
@@ -43,9 +43,9 @@
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
-            </div>
+            </di>
             <div class="nav-buttons">
-                <md-menu md-offset="2 80" ng-show="currentUser()">
+                <md-menu ng-show="currentUser()">
                     <img ng-click="$mdOpenMenu(ev)" id="current-user" md-menu-origin
                          ng-src={% raw %} "{{  getUserDetails().ava  }}"{% endraw %}/>
                     <md-menu-content width="4">
