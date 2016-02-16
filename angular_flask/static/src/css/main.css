@@ -95,8 +95,8 @@ a {
 
 .para-sm {
     height: 45px;
-    -webkit-column-width: 150px;
-    column-width: 200px;
+    /*-webkit-column-width: 150px;
+    column-width: 200px;*/
     font-size: .8em;
 }
 

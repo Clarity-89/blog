@@ -49,20 +49,6 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
             $locationProvider.html5Mode(true);
         }
     ])
-    .config(function ($provide) {
-
-        $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function (taRegisterTool, taOptions) {
-            taRegisterTool('uploadImage', {
-                buttontext: 'Upload Image',
-                iconclass: "fa fa-image",
-                action: function () {
-                    document.getElementById('uploadImage').click();
-                }
-            });
-            taOptions.toolbar[1].push('uploadImage');
-            return taOptions;
-        }]);
-    })
     .run(function ($rootScope, $location, $cookies, $routeParams) {
         $rootScope.$on("$routeChangeStart", function (event, next) {
             if (next.templateUrl == 'static/partials/new_post.html' || next.templateUrl == 'static/partials/profile.html'

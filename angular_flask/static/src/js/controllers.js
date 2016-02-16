@@ -42,14 +42,17 @@ angular.module('AngularFlask')
             return posts;
         }
     }])
-    .controller('NewPostController', ['$scope', 'fileUpload', '$location', function ($scope, fileUpload, $location) {
+    .controller('NewPostController', ['$scope', 'fileUpload', '$location', 'imgPreview',
+        function ($scope, fileUpload, $location, imgPreview) {
 
         $scope.createPost = function () {
             var file = $scope.myFile;
             fileUpload.newPost(file, $scope.post, $scope.htmlVariable);
             $location.path('/');
         };
-
+        $scope.activateUpload = function () {
+            return imgPreview.activateUpload('uploadImage');
+        }
     }])
     .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', function ($scope, allPosts, $routeParams) {
         $scope.post = {};
