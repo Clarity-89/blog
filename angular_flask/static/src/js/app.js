@@ -36,9 +36,9 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .when('/users/:user', {
                     templateUrl: 'static/partials/profile.html',
                 })
-            /* .otherwise({
-             redirectTo: '/'
-             });*/
+                .otherwise({
+                    redirectTo: '/'
+                });
 
             //Customize themes for Angular Material
             $mdThemingProvider.theme('default')
