@@ -20,4 +20,12 @@ angular.module('AngularFlask')
             templateUrl: 'static/partials/post.html',
             replace: true
         };
+    })
+    .directive('postDetail', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'static/partials/full-size-post.html',
+            replace: true
+        };
     });
+;

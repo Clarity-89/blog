@@ -2,23 +2,6 @@
      layout-align="center center"
      layout-xs="column" flex ng-controller="PostDetailController">
     <div flex="80" flex-xs="100" flex-gt-xs="50" flex-gt-lg="60" layout="column">
-        <md-card>
-            <md-card-header>
-                <md-card-avatar>
-                    <img class="md-user-avatar"
-                         ng-src="{{ post.avatar }}">
-                </md-card-avatar>
-                <md-card-header-text>
-                    <span class="md-title">{{ post.author }}</span>
-                    <span class="md-subhead">{{ post.date | date: 'dd/MM/yy HH:mm' }}</span>
-                </md-card-header-text>
-            </md-card-header>
-            <div class="md-card-image" ng-style="{'background-image':'url(' + post.cover_photo + ')'}">
-                <span class="md-headline">{{ post.title }}</span>
-            </div>
-            <md-card-content>
-                <div ta-bind ng-model="post.body" id="card-body"></div>
-            </md-card-content>
-        </md-card>
+        <post-detail></post-detail>
     </div>
 </div>

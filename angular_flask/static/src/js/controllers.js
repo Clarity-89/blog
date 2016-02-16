@@ -52,7 +52,7 @@ angular.module('AngularFlask')
                     postUpload.newPost(file, $scope.post)
                         .then(function success(response) {
                             console.log('Posted');
-                            $location.path('/');
+                            $location.path('/posts');
                         }, function error(response) {
                             console.log('Could not post', response);
                         });
