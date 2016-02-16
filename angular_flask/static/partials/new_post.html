@@ -2,7 +2,7 @@
      ng-controller="NewPostController">
     <h2 class="center page-heading">Create post</h2>
     <md-content layout="row" layout-padding>
-        <form enctype='multipart/form-data' ng-submit="createPost()" name="newPost" novalidate>
+        <form enctype='multipart/form-data' name="newPost" ng-submit="createPost(newPost)"  novalidate>
             <md-input-container class="md-block">
                 <label for="title">Title</label>
                 <input required name="title" placeholder="Your title" id="title" ng-model="post.title">

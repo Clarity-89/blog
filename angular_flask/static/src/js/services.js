@@ -12,13 +12,11 @@ angular.module('AngularFlask')
             });
         }
     }])
-    .service('fileUpload', ['$http', function ($http) {
-        this.newPost = function (file, data1, data2) {
-            console.log(data1, data2);
+    .service('postUpload', ['$http', function ($http) {
+        this.newPost = function (file, data) {
             var fd = new FormData();
             fd.append('file', file);
-            fd.append("content", JSON.stringify(data1));
-            fd.append("content2", JSON.stringify(data2));
+            fd.append("content", JSON.stringify(data));
             $http.post("http://0.0.0.0:5000/blog/api/posts/new", fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
