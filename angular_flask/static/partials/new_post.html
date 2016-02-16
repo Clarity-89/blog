@@ -1,5 +1,5 @@
-<div layout="column" layout-align="center center" ng-cloak flex-xs="100" flex-sm="100" flex-md="80" flex-gt-lg="60" ng-controller="NewPostController">
-    <md-content layout-padding>
+<div ng-cloak layout="column" ng-controller="NewPostController">
+    <md-content layout-padding flex="80" flex-xs="100" flex-sm="100" flex-md="80" flex-gt-lg="60">
         <form enctype='multipart/form-data' ng-submit="createPost()" name="newPost" novalidate>
             <md-input-container class="md-block">
                 <label for="title">Title</label>
@@ -9,11 +9,12 @@
                 </div>
             </md-input-container>
             <md-input-container class="md-block">
-                <input id="uploadImage" aria-label="Upload-image" type="file" name="coverPic" class="ng-hide" file-model="myFile">
-                 <md-button class="md-raised md-warn" ng-click="activateUpload()">Add cover image</md-button>
+                <input id="uploadImage" aria-label="Upload-image" type="file" name="coverPic" class="ng-hide"
+                       file-model="myFile">
+                <md-button class="md-raised md-warn" ng-click="activateUpload()">Add cover image</md-button>
             </md-input-container>
             <md-input-container class="md-block">
-               <div text-angular id="ta-body" name="body" ng-model="htmlVariable" required></div>
+                <div text-angular id="ta-body" name="body" ng-model="htmlVariable" required></div>
                 <div ng-messages="newPost.body.$error">
                     <div ng-message="required">Content is required.</div>
                 </div>
@@ -21,4 +22,5 @@
             <md-button type="submit" class="md-raised md-warn" id="publish">Publish</md-button>
         </form>
     </md-content>
+    <post></post>
 </div>

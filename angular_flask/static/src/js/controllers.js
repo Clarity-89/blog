@@ -50,6 +50,11 @@ angular.module('AngularFlask')
             fileUpload.newPost(file, $scope.post, $scope.htmlVariable);
             $location.path('/');
         };
+
+            $scope.post = {
+               title: 'Placeholder title',
+
+            };
         $scope.activateUpload = function () {
             return imgPreview.activateUpload('uploadImage');
         }

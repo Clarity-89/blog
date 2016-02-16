@@ -1,4 +1,4 @@
-<div flex="80" flex-xs="100" flex-gt-xs="70" flex-gt-lg="60" layout="column">
+<div flex="80" flex-xs="100" flex-gt-xs="70" flex-gt-lg="60">
     <md-card>
         <md-card-header>
             <md-card-avatar>
@@ -12,7 +12,7 @@
         </md-card-header>
         <a href="/posts/{{ post.id }}">
             <div class="md-card-image" ng-style="{'background-image':'url(' + post.cover_photo + ')'}">
-                <span class="md-headline">{{ post.title }}</span>
+                <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
             </div>
         </a>
         <md-card-content>
