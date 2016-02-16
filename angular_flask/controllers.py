@@ -84,8 +84,10 @@ def allowed_file(filename):
 def add_post():
     """if not request.json or not 'title' in request.json:
         abort(400)"""
-    title = json.loads(request.form['content'])
-    body = json.loads(request.form['content2'])
+    print 'received post ', json.loads(request.form['post'])
+    p = json.loads(request.form['post'])
+    title = p.get('title')
+    body = p.get('body')
     if request.files:
         # Generate unique file name
         image = request.files['file']
@@ -94,10 +96,10 @@ def add_post():
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
         img.thumbnail(maxsize, Image.ANTIALIAS)
         img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
-        post = Post(title=title["title"], body=body, cover_photo='../img/covers/' + filename,
+        post = Post(title=title, body=body, cover_photo='../img/covers/' + filename,
                     author=current_user)
     else:
-        post = Post(title=title["title"], body=body, author=current_user)
+        post = Post(title=title, body=body, author=current_user)
     session.add(post)
     session.commit()
     return redirect('/')

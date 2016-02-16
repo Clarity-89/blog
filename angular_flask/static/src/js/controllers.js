@@ -49,8 +49,14 @@ angular.module('AngularFlask')
 
                 if (form.$valid) {
                     var file = $scope.myFile;
-                    postUpload.newPost(file, $scope.post);
-                    $location.path('/');
+                    postUpload.newPost(file, $scope.post)
+                        .then(function success(response) {
+                            console.log('Posted');
+                            $location.path('/');
+                        }, function error(response) {
+                            console.log('Could not post', response);
+                        });
+
                 }
             };
 

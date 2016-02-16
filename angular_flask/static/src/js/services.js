@@ -14,13 +14,15 @@ angular.module('AngularFlask')
     }])
     .service('postUpload', ['$http', function ($http) {
         this.newPost = function (file, data) {
+            console.log('received post', data)
             var fd = new FormData();
             fd.append('file', file);
-            fd.append("content", JSON.stringify(data));
-            $http.post("http://0.0.0.0:5000/blog/api/posts/new", fd, {
+            fd.append('post', JSON.stringify(data));
+            return $http.post("http://0.0.0.0:5000/blog/api/posts/new", fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
+
         }
     }])
     .service('createUser', ['$http', function ($http) {
