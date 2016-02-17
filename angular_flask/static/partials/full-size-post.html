@@ -20,12 +20,32 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">favorite</md-icon>
         </md-button>
-        <md-button class="md-icon-button" aria-label="Share" disabled="{{ post.disabled }}">
-            <md-tooltip md-direction="bottom">
-                Share
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">share</md-icon>
-        </md-button>
+        <!--Share menu-->
+        <md-menu md-position-mode="target-right target">
+            <md-button class="md-icon-button" aria-label="Share" disabled="{{ post.disabled }}">
+                <md-tooltip md-direction="bottom">
+                    Share
+                </md-tooltip>
+                <md-icon aria-label="Open share menu" md-menu-origin md-font-set="material-icons" class="md-icon-button"
+                         ng-click="$mdOpenMenu(ev)">share
+                </md-icon>
+            </md-button>
+            <md-menu-content width="2">
+                <md-menu-item>
+                    <md-button>
+                        <i class="fa fa-facebook"></i>
+                        Share on Facebook
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button>
+                        <i class="fa fa-twitter"></i>
+                        Share on Twitter
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+
     </md-card-actions>
     <md-card-content>
         <div id="card-body" ta-bind ng-model="post.body">{{ post.body }}</div>
