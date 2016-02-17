@@ -115,7 +115,6 @@ angular.module('AngularFlask')
                 password: ""
             };
 
-
             $scope.register = function (form) {
                 var self = this;
 
@@ -158,6 +157,7 @@ angular.module('AngularFlask')
                     createUser.loginUser(user)
                         .then(function success(response) {
                             var u = response.data;
+                            console.log(u)
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
                         }, function error(response) {

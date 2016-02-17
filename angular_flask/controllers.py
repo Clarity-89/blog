@@ -61,7 +61,6 @@ def uploaded_file(type, filename):
 @app.route('/blog/api/posts', methods=['GET'])
 def get_posts():
     posts = Post.query.join(User)
-    print 'getting posts', [post.favorited_by for post in posts]
     return jsonify(posts=[post.serialize for post in posts])
 
 
@@ -213,7 +212,7 @@ def login():
     if not verify_password(username, password):
         return abort(400, 'Incorrect Username or Password')
     user = User.query.filter_by(username=username).first()
-    return jsonify({'username': user.username, 'ava': user.avatar, 'id': user.id, 'email': user.email})
+    return jsonify(user=user.serialize, favs=[fav.serialize for fav in user.favorited])
 
 
 @auth.verify_password
