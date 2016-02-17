@@ -36,7 +36,7 @@ def custom400(error):
     return response
 
 
-# routing for basic pages (pass routing onto the Angular app)
+# Routing for basic pages (pass routing onto the Angular app)
 @app.route('/')
 @app.route('/about')
 @app.route('/blog')
@@ -64,7 +64,7 @@ def get_posts():
     return jsonify(posts=[post.serialize for post in posts])
 
 
-# get specific post
+# Get specific post
 @app.route('/blog/api/posts/<int:id>', methods=['GET'])
 def get_post(id):
     try:
@@ -105,9 +105,9 @@ def add_post():
     return redirect('/')
 
 
-@login_manager.user_loader
+"""@login_manager.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return User.query.get(int(id))"""
 
 
 # Register new user
@@ -140,6 +140,7 @@ def new_user():
     return jsonify({'username': u.username}), 201
 
 
+# Get individual user by id
 @app.route('/blog/api/users/<int:id>')
 def get_user(id):
     user = User.query.get(id)
@@ -183,13 +184,14 @@ def edit_user():
     return jsonify({'username': u.username, 'ava': u.avatar, 'id': u.id, 'email': u.email})
 
 
-# Get all post by a user
+# Get all posts by a user
 @app.route('/blog/api/users/<int:id>/posts', methods=['GET'])
 def get_user_posts(id):
     user = User.query.get(id)
     return jsonify(posts=[post.serialize for post in user.posts])
 
 
+# Login user
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -227,7 +229,7 @@ def logout():
     return redirect('/posts')
 
 
-# special file handlers and error handlers
+# Special file handlers and error handlers
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
