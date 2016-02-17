@@ -64,7 +64,7 @@ angular.module('AngularFlask')
             $scope.post = {
                 title: '',
                 author: currentUser.username,
-                avatar: currentUser.ava,
+                avatar: currentUser.avatar,
                 date: new Date(),
                 cover_photo: '../img/covers/default.jpg',
                 disabled: true

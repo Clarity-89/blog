@@ -10,7 +10,7 @@
                     <p>{{ user.username }}</p>
                     <md-subheader class="custom-subhead">Profile picture</md-subheader>
                     <div layout="row" layout-xs="column" layout-align-gt-xs="center center">
-                        <div flex><img class="ava-preview" ng-src="{{ imageSrc || user.ava }}"/></div>
+                        <div flex><img class="ava-preview" ng-src="{{ imageSrc || user.avatar }}"/></div>
                         <div flex>
                             <input type="file" class="ng-hide" id="uploadAva" name="ava" aria-label="upload avatar"
                                    onchange="angular.element(this).scope().setFile(this)" file-model="myAva">
