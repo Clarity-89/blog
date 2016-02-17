@@ -25,7 +25,11 @@ angular.module('AngularFlask')
         return {
             restrict: 'E',
             templateUrl: 'static/partials/full-size-post.html',
-            replace: true
+            replace: true,
+            scope: {
+                favorite: '&',
+                post: '='
+            }
         };
     });
 ;

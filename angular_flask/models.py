@@ -23,7 +23,7 @@ class Post(db.Model):
     date = db.Column(db.Integer, default=int(round(time.time() * 1000)))
     user_id = db.Column(db.String(32), db.ForeignKey('user.id'))
     favorited = db.Column(db.Integer, default=0)
-    favorited_by = db.relationship('User', secondary=favorites, backref=db.backref('favs', lazy='dynamic'))
+    favorited_by = db.relationship('User', secondary=favorites, backref=db.backref('favorited', lazy='dynamic'))
 
     @property
     def serialize(self):

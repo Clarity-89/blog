@@ -74,6 +74,12 @@ angular.module('AngularFlask')
             });
         };
     }])
+    .service('favoritePost', ['$http', function ($http) {
+        this.favorite = function (id) {
+            return $http.post("/blog/api/posts/" + id, {});
+        }
+
+    }])
 ;
 
 

@@ -65,7 +65,7 @@ def get_posts():
     return jsonify(posts=[post.serialize for post in posts])
 
 
-# Get specific post
+# Get specific post or add post to favorites
 @app.route('/blog/api/posts/<int:id>', methods=['GET', 'POST'])
 def get_post(id):
     if request.method == 'GET':
@@ -76,11 +76,12 @@ def get_post(id):
             return render_template('404.html'), 404
     elif request.method == 'POST':
         post = Post.query.filter_by(id=id).one()
-        user = current_user
-        if user.id in post.favorited_by:
-            post.favorited_by.remove(user.id)
+        user = current_user.id
+        print 'user is', user
+        if user in post.favorited_by:
+            post.favorited_by.remove(user)
         else:
-            post.favorited_by.append(user.id)
+            post.favorited_by.append(user)
         post.favorited = len(post.favorited_by)
         return jsonify(post=post.serialize, favs=post.favorited_by)
 

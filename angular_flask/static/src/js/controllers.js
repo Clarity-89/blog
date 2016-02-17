@@ -79,18 +79,30 @@ angular.module('AngularFlask')
                 return imgPreview.activateUpload('uploadImage');
             }
         }])
-    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', function ($scope, allPosts, $routeParams) {
-        $scope.post = {};
-        allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
-            .$promise.then(function (response) {
-                //console.log('response is: ', response)
-                $scope.post = response.post;
-                $scope.showPost = true;
-            },
-            function (response) {
-                $scope.message = "Error: " + response.status + " " + response.statusText;
-            });
-    }])
+    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', 'favoritePost',
+        function ($scope, allPosts, $routeParams, favoritePost) {
+            $scope.post = {};
+            allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
+                .$promise.then(function (response) {
+                    //console.log('response is: ', response)
+                    $scope.post = response.post;
+                    $scope.showPost = true;
+                },
+                function (response) {
+                    $scope.message = "Error: " + response.status + " " + response.statusText;
+                });
+
+            $scope.favorite = function (id) {
+                favoritePost.favorite(id)
+                    .then(function success(response) {
+                            console.log('response is', response);
+                        },
+                        function error(response) {
+                            console.log('Couldn\'t post', response);
+                        }
+                    )
+            }
+        }])
     .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview',
         function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview) {
             $scope.hasAccount = true;
