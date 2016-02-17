@@ -8,7 +8,7 @@
             <span class="md-subhead">{{ post.date | date: 'dd/MM/yy HH:mm'}}</span>
         </md-card-header-text>
     </md-card-header>
-    <div class="md-card-image"
+    <div class="md-card-image" ng-class="posts.list && post.img"
          ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
         <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
     </div>

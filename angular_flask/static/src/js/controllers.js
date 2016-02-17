@@ -1,14 +1,14 @@
 'use strict';
 angular.module('AngularFlask')
-    .controller('PostListController', ['$scope', 'allPosts', function ($scope, allPosts) {
+    .controller('PostListController', ['$scope', 'allPosts', 'favoritePost', function ($scope, allPosts, favoritePost) {
         $scope.posts = [];
         $scope.showPost = false;
         $scope.message = "Loading ...";
+
         allPosts.getPosts().get()
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
-                //console.log('Got posts:', response);
-                $scope.showPost = true;
+                $scope.posts.list = true;
                 buildGridModel($scope.posts);
             },
             function (response) {
@@ -40,6 +40,21 @@ angular.module('AngularFlask')
                 results.push(it);
             }
             return posts;
+        };
+
+        $scope.favorite = function (id) {
+            favoritePost.favorite(id)
+                .then(function success(response) {
+                        for (var i = 0; i < $scope.posts.length; i++) {
+                            if ($scope.posts[i].id === id) {
+                                $scope.posts[i] = response.data.post;
+                            }
+                        }
+                    },
+                    function error(response) {
+                        console.log('Couldn\'t favorite a post', response);
+                    }
+                )
         }
     }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
@@ -68,7 +83,6 @@ angular.module('AngularFlask')
                 date: new Date(),
                 cover_photo: '../img/covers/default.jpg',
                 disabled: true
-
             };
 
             $scope.setFile = function (element) {
