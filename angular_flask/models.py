@@ -6,6 +6,11 @@ from passlib.apps import custom_app_context as pwd_context
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
 from flask.ext.login import UserMixin
 
+favorites = db.Table('favorites',
+                     db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
+                     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+                     )
+
 
 class Post(db.Model):
     __tablename__ = 'post'
@@ -18,6 +23,7 @@ class Post(db.Model):
     date = db.Column(db.Integer, default=int(round(time.time() * 1000)))
     user_id = db.Column(db.String(32), db.ForeignKey('user.id'))
     favorited = db.Column(db.Integer, default=0)
+    favorited_by = db.relationship('User', secondary=favorites, backref=db.backref('favs', lazy='dynamic'))
 
     @property
     def serialize(self):

@@ -61,17 +61,28 @@ def uploaded_file(type, filename):
 @app.route('/blog/api/posts', methods=['GET'])
 def get_posts():
     posts = Post.query.join(User)
+    print 'getting posts', [post.favorited_by for post in posts]
     return jsonify(posts=[post.serialize for post in posts])
 
 
 # Get specific post
-@app.route('/blog/api/posts/<int:id>', methods=['GET'])
+@app.route('/blog/api/posts/<int:id>', methods=['GET', 'POST'])
 def get_post(id):
-    try:
+    if request.method == 'GET':
+        try:
+            post = Post.query.filter_by(id=id).one()
+            return jsonify(post=post.serialize)
+        except NoResultFound:
+            return render_template('404.html'), 404
+    elif request.method == 'POST':
         post = Post.query.filter_by(id=id).one()
-        return jsonify(post=post.serialize)
-    except NoResultFound:
-        return render_template('404.html'), 404
+        user = current_user
+        if user.id in post.favorited_by:
+            post.favorited_by.remove(user.id)
+        else:
+            post.favorited_by.append(user.id)
+        post.favorited = len(post.favorited_by)
+        return jsonify(post=post.serialize, favs=post.favorited_by)
 
 
 def allowed_file(filename):
@@ -105,9 +116,9 @@ def add_post():
     return redirect('/')
 
 
-"""@login_manager.user_loader
+@login_manager.user_loader
 def load_user(id):
-    return User.query.get(int(id))"""
+    return User.query.get(int(id))
 
 
 # Register new user
