@@ -40,7 +40,7 @@ angular.module('AngularFlask')
                 results.push(it);
             }
             return posts;
-        };
+        }
 
         $scope.favorite = function (id) {
             favoritePost.favorite(id)
