@@ -156,7 +156,8 @@ angular.module('AngularFlask')
                     var user = $scope.user;
                     createUser.loginUser(user)
                         .then(function success(response) {
-                            var u = response.data;
+                            var u = response.data.user;
+                            u.favs = response.data.favs;
                             console.log(u)
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
@@ -228,7 +229,8 @@ angular.module('AngularFlask')
                         user = $scope.user;
                     updateUser.update(file, user)
                         .then(function success(response) {
-                            var u = response.data;
+                            var u = response.data.user;
+                            u.favs = response.data.favs;
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
                         }, function error(response) {
