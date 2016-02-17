@@ -95,10 +95,10 @@ angular.module('AngularFlask')
             $scope.favorite = function (id) {
                 favoritePost.favorite(id)
                     .then(function success(response) {
-                            console.log('response is', response);
+                            $scope.post = response.data.post;
                         },
                         function error(response) {
-                            console.log('Couldn\'t post', response);
+                            console.log('Couldn\'t favorite a post', response);
                         }
                     )
             }

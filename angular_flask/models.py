@@ -83,3 +83,12 @@ class User(db.Model, UserMixin):
             return None  # invalid token
         user = User.query.get(data['id'])
         return user
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'avatar': self.avatar,
+        }

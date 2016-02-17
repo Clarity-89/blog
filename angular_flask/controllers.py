@@ -76,14 +76,14 @@ def get_post(id):
             return render_template('404.html'), 404
     elif request.method == 'POST':
         post = Post.query.filter_by(id=id).one()
-        user = current_user.id
-        print 'user is', user
+        user = current_user
         if user in post.favorited_by:
             post.favorited_by.remove(user)
         else:
             post.favorited_by.append(user)
         post.favorited = len(post.favorited_by)
-        return jsonify(post=post.serialize, favs=post.favorited_by)
+        session.commit()
+        return jsonify(post=post.serialize, favs=[fav.serialize for fav in post.favorited_by])
 
 
 def allowed_file(filename):
