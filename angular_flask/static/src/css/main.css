@@ -78,10 +78,7 @@ footer {
     text-shadow: 0px 0px 3px #000;
 }
 
-#body-text {
-    max-height: 200px;
-    overflow: hidden;
-}
+
 
 a {
     text-decoration: none;
@@ -118,7 +115,11 @@ a {
     float: left;
 }
 
-#card-body {
+.body-text-sm {
+    max-height: 200px;
+    overflow: hidden;
+}
+.body-text-lg {
     min-height: 360px;
     padding: 20px 50px;
 }
@@ -182,6 +183,7 @@ img {
     padding: 10px 0;
 }
 
+/* Text area */
 .ta-scroll-window > .ta-bind {
     max-height: 25em; /*400px on PC screen*/
 }
