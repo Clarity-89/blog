@@ -95,7 +95,6 @@ def allowed_file(filename):
 def add_post():
     """if not request.json or not 'title' in request.json:
         abort(400)"""
-    print 'received post ', json.loads(request.form['post'])
     p = json.loads(request.form['post'])
     title = p.get('title')
     body = p.get('body')
@@ -114,6 +113,33 @@ def add_post():
     session.add(post)
     session.commit()
     return redirect('/')
+
+
+# Edit post
+@app.route('/blog/api/posts/<int:id>/edit')
+def edit_post(id):
+    print 'received post ', json.loads(request.form['post'])
+    post = json.loads(request.form['post'])
+    title = post.get('title')
+    body = post.get('body')
+    p = Post.query.filter_by(id=id).first()
+    if p is None:
+        abort(400, 'Post does not exist')
+    p.title = title
+    p.body = body
+    if request.files:
+        image = request.files['file']
+        filename = p.cover_photo.rsplit('/', 1)[-1]
+        # Do not overwrite default image but generate unique file name instead
+        if filename == 'default.jpg':
+            filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
+            p.cover_photo = '../img/covers/' + filename
+        img = Image.open(image)
+        maxsize = (1024, 1024)
+        img.thumbnail(maxsize, Image.ANTIALIAS)
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+    db.session.commit()
+    return jsonify(p.serialize)
 
 
 @login_manager.user_loader
@@ -170,14 +196,13 @@ def edit_user():
     new_password = user.get('newPassword')
     password = user.get('password')
     u = User.query.filter_by(username=username).first()
-    if username is None:
+    if u is None:
         abort(400, 'User does not exist')
-    print 'email is', u.email
     u.email = email
     if request.files:
         ava = request.files['file']
         filename = u.avatar.rsplit('/', 1)[-1]
-        # Do not overwrite default ava but Generate unique file name instead
+        # Do not overwrite default ava but generate unique file name instead
         if filename == 'default.png':
             filename = str(uuid.uuid4()) + '.' + ava.filename.rsplit('.', 1)[1]
             u.avatar = '../img/avatars/' + filename

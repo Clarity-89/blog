@@ -39,14 +39,14 @@ footer {
     text-align: center;
 }
 
-#createPost {
+/*#createPost {
     width: 80%;
     margin-top: 100px;
 }
 
 #content {
     height: auto;
-}
+}*/
 
 #publish {
     position: absolute;
