@@ -9,7 +9,7 @@
         </md-card-header-text>
     </md-card-header>
     <a ng-href="{{ post.disabled ? '#' : '/posts/' + post.id}}">
-        <div class="md-card-image"
+        <div class="md-card-image image-{{ text }}"
              ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
             <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
         </div>

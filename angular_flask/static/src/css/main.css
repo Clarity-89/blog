@@ -197,6 +197,10 @@ img {
     color: rgba(0, 0, 0, 0.54);
 }
 
+.image-lg {
+    height: 25em;
+}
+
 /*Media queries*/
 /*Mobile*/
 @media screen and (max-device-width: 480px) {
