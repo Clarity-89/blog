@@ -192,7 +192,7 @@ def edit_user():
             u.hash_password(new_password)
     db.session.add(u)
     db.session.commit()
-    return jsonify(user=user.serialize, favs=[fav.serialize for fav in user.favorited])
+    return jsonify(user=u.serialize, favs=[fav.serialize for fav in u.favorited])
 
 
 # Get all posts by a user
