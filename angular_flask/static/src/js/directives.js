@@ -29,7 +29,8 @@ angular.module('AngularFlask')
             scope: {
                 text: '@',
                 post: '=',
-                favorite: '&'
+                favorite: '&',
+                imageSrc: '='
             }
         };
     });
