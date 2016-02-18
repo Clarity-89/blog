@@ -9,6 +9,8 @@
     <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap=""
          layout-align="center center"
          layout-xs="column">
-        <post></post>
+        <div flex="80" flex-xs="100" flex-gt-xs="50" flex-gt-lg="60" layout="column">
+            <post text="sm" post="post" favorite="favorite(id)"></post>
+        </div>
     </div>
 </div>
