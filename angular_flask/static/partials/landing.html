@@ -1,5 +1,4 @@
 <div flex ng-controller="PostListController">
-
     <h2 class="center">Latest posts</h2>
 
     <div ng-repeat="post in posts | orderBy: '-date' | limitTo: 5 " class="md-padding" layout="row" layout-wrap=""

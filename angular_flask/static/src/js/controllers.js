@@ -4,7 +4,6 @@ angular.module('AngularFlask')
         $scope.posts = [];
         $scope.showPost = false;
         $scope.message = "Loading ...";
-
         allPosts.getPosts().get()
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
@@ -198,7 +197,7 @@ angular.module('AngularFlask')
     .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
         'updateUser',
         function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser) {
-
+            $scope.isOpen = false;
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
             };

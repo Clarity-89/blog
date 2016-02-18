@@ -6,14 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AngularFlask</title>
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='dist/vendor.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/vendor.css') }}">
 
     <!--Custom CSS-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='src/css/main.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/css/main.css') }}">
     <base href="/">
 </head>
 <body ng-controller="UserDetailsController">
@@ -93,8 +92,8 @@
         <h4>&copy; 2016 AngularFlask</h4>
     </div>
 </footer>
-<script src="{{ url_for('static', filename='dist/vendor.js')}}"></script>
-<script src="{{ url_for('static', filename='dist/main.js')}}"></script>
-
+<script src="{{ url_for('static', filename='dist/vendor.js') }}"></script>
+<script src="{{ url_for('static', filename='dist/main.js') }}"></script>
+<script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
 </body>
 </html>

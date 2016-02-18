@@ -11,21 +11,7 @@
     <a ng-href="{{ post.disabled ? '#' : '/posts/' + post.id}}">
         <div class="md-card-image image-{{ text }}"
              ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
-            <md-fab-speed-dial md-direction="left" ng-class="md-scale">
-                <md-fab-trigger>
-                    <md-button aria-label="menu" class="md-fab md-warn">
-                        <md-icon md-font-set="material-icons">menu</md-icon>
-                    </md-button>
-                </md-fab-trigger>
-                <md-fab-actions>
-                    <md-button aria-label="Edit post" class="md-fab md-raised md-mini">
-                        <md-icon md-font-set="material-icons" aria-label="Edit">mode_edit</md-icon>
-                    </md-button>
-                    <md-button aria-label="Delete post" class="md-fab md-raised md-mini">
-                        <md-icon md-font-set="material-icons" aria-label="Delete">delete</md-icon>
-                    </md-button>
-                </md-fab-actions>
-            </md-fab-speed-dial>
+
             <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
         </div>
     </a>
