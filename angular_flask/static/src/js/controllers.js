@@ -43,6 +43,7 @@ angular.module('AngularFlask')
         }
 
         $scope.favorite = function (id) {
+            console.log("Favoriting a post");
             favoritePost.favorite(id)
                 .then(function success(response) {
                         for (var i = 0; i < $scope.posts.length; i++) {
