@@ -211,6 +211,10 @@ img {
     .body-text-lg {
         padding: 0;
     }
+
+    .image-lg {
+        height: 15em;
+    }
 }
 
 /*Laptop*/
