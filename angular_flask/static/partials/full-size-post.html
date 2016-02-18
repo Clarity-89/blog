@@ -8,13 +8,16 @@
             <span class="md-subhead">{{ post.date | date: 'dd/MM/yy HH:mm'}}</span>
         </md-card-header-text>
     </md-card-header>
-    <div class="md-card-image" ng-class="posts.list && post.img"
-         ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
-        <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
-    </div>
+    <a href="/posts/{{ post.id }}">
+        <div class="md-card-image"
+             ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
+            <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
+        </div>
+    </a>
     <md-card-actions layout="row" layout-align="end center">
         <span class="num-favorites">{{ post.favorited }}</span>
-        <md-button class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}" ng-click="favorite(post.id)">
+        <md-button class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}"
+                   ng-click="favorite(post.id)">
             <md-tooltip md-direction="bottom">
                 Favorite
             </md-tooltip>
@@ -48,6 +51,6 @@
 
     </md-card-actions>
     <md-card-content>
-        <div class="body-text-lg" ta-bind ng-model="post.body">{{ post.body }}</div>
+        <div class="body-text-{{ text }}" ta-bind ng-model="post.body">{{ post.body }}</div>
     </md-card-content>
 </md-card>
