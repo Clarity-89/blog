@@ -26,8 +26,7 @@
                 <md-button ng-href='/posts'>Posts</md-button>
                 <md-button ng-href='/about'>About</md-button>
             </div>
-
-            <di>
+            <div>
                 <md-menu class="nav-buttons" hide-gt-sm show-xs show-sm>
                     <md-icon ng-click="$mdOpenMenu(ev)" md-menu-origin md-font-set="material-icons">menu</md-icon>
                     <md-menu-content width="4">
@@ -43,7 +42,7 @@
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
-            </di>
+            </div>
             <div class="nav-buttons">
                 <md-menu ng-show="currentUser()">
                     <img ng-click="$mdOpenMenu(ev)" id="current-user" md-menu-origin

@@ -201,6 +201,10 @@ img {
     height: 25em;
 }
 
+md-fab-speed-dial {
+    float: right;
+}
+
 /*Media queries*/
 /*Mobile*/
 @media screen and (max-device-width: 480px) {
