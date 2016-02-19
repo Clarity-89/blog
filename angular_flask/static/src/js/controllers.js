@@ -115,7 +115,12 @@ angular.module('AngularFlask')
                             console.log('Couldn\'t favorite a post', response);
                         }
                     )
+            };
+
+            $scope.editPost = function ($event) {
+                $event.preventDefault();
             }
+
         }])
     .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview',
         function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview) {

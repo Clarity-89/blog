@@ -24,7 +24,8 @@ angular.module('AngularFlask')
                 text: '@',
                 post: '=',
                 favorite: '&',
-                imageSrc: '='
+                imageSrc: '=',
+                edit: '&'
             }
         };
     });
