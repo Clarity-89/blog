@@ -202,7 +202,9 @@ img {
 }
 
 md-fab-speed-dial {
-    float: right;
+    position: absolute;
+    top: -28px;
+    right: 10px;
 }
 
 /*Media queries*/

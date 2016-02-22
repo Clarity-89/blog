@@ -12,8 +12,7 @@
         <div class="md-card-image image-{{ text }}"
              ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
             <md-fab-speed-dial md-open="isOpen" ng-mouseenter="isOpen=true" ng-mouseleave="isOpen=false"
-                               class="md-scale"
-                               md-direction="left">
+                               class="md-scale" md-direction="left">
                 <md-fab-trigger>
                     <md-button aria-label="menu" class="md-fab md-warn">
                         <md-tooltip md-direction="bottom">
@@ -24,14 +23,13 @@
                 </md-fab-trigger>
                 <md-fab-actions>
                     <md-button aria-label="Share on Facebook" class="md-fab md-raised md-mini">
-                         <md-tooltip md-direction="bottom">
+                        <md-tooltip md-direction="bottom">
                             Share on Facebook
                         </md-tooltip>
                         <i class="fa fa-facebook"></i>
-
                     </md-button>
                     <md-button aria-label="Share on Twitter" class="md-fab md-raised md-mini">
-                         <md-tooltip md-direction="bottom">
+                        <md-tooltip md-direction="bottom">
                             Share on Twitter
                         </md-tooltip>
                         <i class="fa fa-twitter"></i>
