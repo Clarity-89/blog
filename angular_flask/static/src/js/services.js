@@ -28,11 +28,11 @@ angular.module('AngularFlask')
         }
     }])
     .service('editPost', ['$http', function ($http) {
-        this.editPost = function (id, file, data) {
+        this.editPost = function (file, data) {
             var fd = new FormData();
             fd.append('file', file);
             fd.append('post', JSON.stringify(data));
-            return $http.post("http://0.0.0.0:5000/blog/api/posts/" + id + "/edit", fd, {
+            return $http.post("http://0.0.0.0:5000/blog/api/posts/" + data.id + "/edit", fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })

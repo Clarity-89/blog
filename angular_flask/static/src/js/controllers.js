@@ -63,9 +63,18 @@ angular.module('AngularFlask')
                 $location.path('/edit');
             }
         }])
-    .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies', 'sharedPost',
-        function ($scope, postUpload, $location, imgPreview, $cookies, sharedPost) {
+    .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
+        function ($scope, postUpload, $location, imgPreview, $cookies) {
+            var currentUser = $cookies.getObject('current_user');
 
+            $scope.post = {
+                title: '',
+                author: currentUser.username,
+                avatar: currentUser.avatar,
+                date: new Date(),
+                cover_photo: '../img/covers/default.jpg',
+                disabled: true
+            };
             $scope.createPost = function (form) {
 
                 if (form.$valid) {
@@ -80,16 +89,35 @@ angular.module('AngularFlask')
                 }
             };
 
-            var currentUser = $cookies.getObject('current_user');
 
-            $scope.post = sharedPost.post || {
-                    title: '',
-                    author: currentUser.username,
-                    avatar: currentUser.avatar,
-                    date: new Date(),
-                    cover_photo: '../img/covers/default.jpg',
-                    disabled: true
-                };
+            $scope.setFile = function (element) {
+                return imgPreview.preview(element, $scope);
+            };
+
+            $scope.activateUpload = function () {
+                return imgPreview.activateUpload('uploadImage');
+            }
+        }])
+    .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', '$cookies', 'sharedPost',
+        function ($scope, editPost, $location, imgPreview, $cookies, sharedPost) {
+            $scope.post = sharedPost.post;
+
+            $scope.createPost = function (form) {
+
+                if (form.$valid) {
+                    var file = $scope.myFile;
+                    editPost.editPost(file, $scope.post)
+                        .then(function success(response) {
+                            console.log('Edited');
+                            $location.path('/posts');
+                        }, function error(response) {
+                            console.log('Could not edit', response);
+                        });
+                }
+            };
+
+            //var currentUser = $cookies.getObject('current_user');
+
 
             $scope.setFile = function (element) {
                 return imgPreview.preview(element, $scope);

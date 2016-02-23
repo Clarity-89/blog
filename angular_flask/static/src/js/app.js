@@ -15,9 +15,11 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 })
                 .when('/new', {
                     templateUrl: 'static/partials/new_post.html',
+                    controller: 'NewPostController'
                 })
                 .when('/edit', {
                     templateUrl: 'static/partials/new_post.html',
+                    controller: 'EditPostController'
                 })
                 .when('/posts/:id', {
                     templateUrl: '/static/partials/post-detail.html',

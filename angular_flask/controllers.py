@@ -116,7 +116,7 @@ def add_post():
 
 
 # Edit post
-@app.route('/blog/api/posts/<int:id>/edit')
+@app.route('/blog/api/posts/<int:id>/edit', methods=['POST'])
 def edit_post(id):
     print 'received post ', json.loads(request.form['post'])
     post = json.loads(request.form['post'])
