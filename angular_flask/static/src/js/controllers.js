@@ -98,10 +98,10 @@ angular.module('AngularFlask')
                 return imgPreview.activateUpload('uploadImage');
             }
         }])
-    .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', '$cookies', 'sharedPost',
-        function ($scope, editPost, $location, imgPreview, $cookies, sharedPost) {
+    .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost',
+        function ($scope, editPost, $location, imgPreview, sharedPost) {
             $scope.post = sharedPost.post;
-
+            $scope.post.disabled = true;
             $scope.createPost = function (form) {
 
                 if (form.$valid) {
@@ -116,9 +116,6 @@ angular.module('AngularFlask')
                 }
             };
 
-            //var currentUser = $cookies.getObject('current_user');
-
-
             $scope.setFile = function (element) {
                 return imgPreview.preview(element, $scope);
             };
@@ -127,8 +124,8 @@ angular.module('AngularFlask')
                 return imgPreview.activateUpload('uploadImage');
             }
         }])
-    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', 'favoritePost',
-        function ($scope, allPosts, $routeParams, favoritePost) {
+    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', 'favoritePost', 'sharedPost', '$location',
+        function ($scope, allPosts, $routeParams, favoritePost, sharedPost, $location) {
             $scope.post = {};
             allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
                 .$promise.then(function (response) {
@@ -302,15 +299,15 @@ angular.module('AngularFlask')
         }])
     .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', 'sharedPost', '$location',
         function ($scope, userPosts, $cookies, sharedPost, $location) {
-        userPosts.getPosts($cookies.getObject('current_user').id)
-            .then(function (response) {
-                    $scope.posts = response.data.posts;
-                },
-                function (response) {
-                    $scope.message = "Error: " + response.status + " " + response.statusText;
-                });
-        $scope.editPost = function (post) {
-            sharedPost.post = post;
-            $location.path('/edit');
-        }
-    }])
+            userPosts.getPosts($cookies.getObject('current_user').id)
+                .then(function (response) {
+                        $scope.posts = response.data.posts;
+                    },
+                    function (response) {
+                        $scope.message = "Error: " + response.status + " " + response.statusText;
+                    });
+            $scope.editPost = function (post) {
+                sharedPost.post = post;
+                $location.path('/edit');
+            }
+        }])
