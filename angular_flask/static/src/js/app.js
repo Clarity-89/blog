@@ -10,10 +10,8 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 .when('/about', {
                     templateUrl: 'static/partials/about.html',
                 })
-
                 .when('/posts', {
                     templateUrl: 'static/partials/post-list.html',
-
                 })
                 .when('/new', {
                     templateUrl: 'static/partials/new_post.html',

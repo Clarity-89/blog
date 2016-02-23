@@ -10,12 +10,12 @@ from PIL import Image
 
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-
 # routing for API endpoints, generated from the models designated as API_MODELS
 from angular_flask.core import api_manager
 from angular_flask.models import *
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 """for model_name in app.config['API_MODELS']:
     model_class = app.config['API_MODELS'][model_name]

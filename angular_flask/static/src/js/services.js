@@ -2,6 +2,10 @@
 
 angular.module('AngularFlask')
     .constant("baseURL", "http://0.0.0.0:5000")
+    // A service to share 'post' object between controllers
+    .service('sharedPost', function () {
+        var post = this;
+    })
     .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
         this.getPosts = function () {
             return $resource(baseURL + '/blog/api/posts/:id', {}, {
@@ -14,7 +18,6 @@ angular.module('AngularFlask')
     }])
     .service('postUpload', ['$http', function ($http) {
         this.newPost = function (file, data) {
-            console.log('received post', data)
             var fd = new FormData();
             fd.append('file', file);
             fd.append('post', JSON.stringify(data));
@@ -22,7 +25,17 @@ angular.module('AngularFlask')
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
-
+        }
+    }])
+    .service('editPost', ['$http', function ($http) {
+        this.editPost = function (id, file, data) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('post', JSON.stringify(data));
+            return $http.post("http://0.0.0.0:5000/blog/api/posts/" + id + "/edit", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
         }
     }])
     .service('createUser', ['$http', function ($http) {
