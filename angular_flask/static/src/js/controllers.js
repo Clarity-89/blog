@@ -59,9 +59,8 @@ angular.module('AngularFlask')
             };
 
             $scope.editPost = function (post) {
-                console.log('post', post)
                 sharedPost.post = post;
-                $location.path('/new');
+                $location.path('/edit');
             }
         }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies', 'sharedPost',
