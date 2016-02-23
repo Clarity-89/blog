@@ -26,7 +26,7 @@ angular.module('AngularFlask')
                 favorite: '&',
                 imageSrc: '=',
                 edit: '&',
-                author: '@'
+                user: '@'
             }
         };
     });

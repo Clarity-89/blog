@@ -150,10 +150,10 @@ angular.module('AngularFlask')
                     )
             };
 
-            $scope.editPost = function ($event) {
-                $event.preventDefault();
+            $scope.editPost = function (post) {
+                sharedPost.post = post;
+                $location.path('/edit');
             }
-
         }])
     .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview',
         function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview) {
