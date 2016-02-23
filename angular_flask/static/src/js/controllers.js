@@ -175,9 +175,9 @@ angular.module('AngularFlask')
                     var user = $scope.user;
                     createUser.loginUser(user)
                         .then(function success(response) {
-                            var u = response.data.user;
-                            u.favs = response.data.favs;
-                            console.log(u)
+                            var u = response.data.user,
+                            favs = response.data.favs;
+                            //console.log(u)
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
                         }, function error(response) {
