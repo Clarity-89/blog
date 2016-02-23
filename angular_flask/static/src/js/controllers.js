@@ -300,12 +300,17 @@ angular.module('AngularFlask')
                 $location.path('/new');
             }
         }])
-    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', function ($scope, userPosts, $cookies) {
-        userPosts.getPosts(JSON.parse($cookies.get('current_user')).id)
+    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', 'sharedPost', '$location',
+        function ($scope, userPosts, $cookies, sharedPost, $location) {
+        userPosts.getPosts($cookies.getObject('current_user').id)
             .then(function (response) {
                     $scope.posts = response.data.posts;
                 },
                 function (response) {
                     $scope.message = "Error: " + response.status + " " + response.statusText;
                 });
+        $scope.editPost = function (post) {
+            sharedPost.post = post;
+            $location.path('/edit');
+        }
     }])
