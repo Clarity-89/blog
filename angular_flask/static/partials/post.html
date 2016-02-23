@@ -50,8 +50,8 @@
             <md-icon md-font-set="material-icons">favorite</md-icon>
         </md-button>
         <!--Share menu-->
-        <md-menu md-position-mode="target-right target">
-            <md-button class="md-icon-button" aria-label="Share" disabled="{{ post.disabled }}">
+        <md-menu md-position-mode="target-right target" ng-show="{{ author ===  post.author}} ">
+            <md-button class="md-icon-button" aria-label="Post Menu" disabled="{{ post.disabled }}">
                 <md-icon aria-label="Open share menu" md-menu-origin md-font-set="material-icons" class="md-icon-button"
                          ng-click="$mdOpenMenu(ev)">more_vert
                 </md-icon>
