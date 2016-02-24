@@ -22,7 +22,9 @@
                     </md-button>
                 </md-fab-trigger>
                 <md-fab-actions>
-                    <md-button aria-label="Share on Facebook" class="md-fab md-raised md-mini">
+                    <md-button
+                            href="https://www.facebook.com/dialog/share?app_id=819933928129983&href={{ 'http://0.0.0.0:5000/posts/' + post.id }}&redirect_uri=http://0.0.0.0:5000/posts"
+                            aria-label="Share on Facebook" class="md-fab md-raised md-mini">
                         <md-tooltip md-direction="bottom">
                             Share on Facebook
                         </md-tooltip>
