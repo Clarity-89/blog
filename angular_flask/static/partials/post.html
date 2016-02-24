@@ -28,7 +28,10 @@
                         </md-tooltip>
                         <i class="fa fa-facebook"></i>
                     </md-button>
-                    <md-button aria-label="Share on Twitter" class="md-fab md-raised md-mini">
+                    <md-button
+                            href="https://twitter.com/intent/tweet?text='{{ post.title }}'%20by%20{{ post.author }}&
+                            &url={{ 'http://0.0.0.0:5000/posts/' + post.id }}"
+                            aria-label="Share on Twitter" class="md-fab md-raised md-mini">
                         <md-tooltip md-direction="bottom">
                             Share on Twitter
                         </md-tooltip>
