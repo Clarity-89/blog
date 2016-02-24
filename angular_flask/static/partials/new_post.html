@@ -1,4 +1,5 @@
 <div ng-cloak layout="column" flex="80" flex-xs="100" flex-sm="100" flex-md="80" flex-gt-lg="60">
+    <h3 class="page-heading">{{ heading }} Post</h3>
     <md-content layout="row" layout-padding>
         <form enctype='multipart/form-data' name="newPost" ng-submit="createPost(newPost)" novalidate>
             <md-input-container class="md-block">
@@ -19,7 +20,7 @@
             <md-input-container class="md-block">
                 <div text-angular id="ta-body" name="body" ng-model="post.body" required></div>
             </md-input-container>
-            <md-button type="submit" class="md-raised md-warn" id="publish">Publish</md-button>
+            <md-button type="submit" class="md-raised md-warn" id="publish">{{ button }}</md-button>
         </form>
     </md-content>
 
@@ -28,5 +29,4 @@
         <h2 class="center page-heading">Preview</h2>
         <post text="lg" post="post" image-src="imageSrc"></post>
     </div>
-
 </div>

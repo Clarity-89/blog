@@ -73,7 +73,8 @@ angular.module('AngularFlask')
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
         function ($scope, postUpload, $location, imgPreview, $cookies) {
             var currentUser = $cookies.getObject('current_user');
-
+            $scope.heading = 'Create';
+            $scope.button = 'Publish';
             $scope.post = {
                 title: '',
                 author: currentUser.username,
@@ -107,6 +108,8 @@ angular.module('AngularFlask')
         }])
     .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost',
         function ($scope, editPost, $location, imgPreview, sharedPost) {
+            $scope.heading = 'Edit';
+            $scope.button = 'Save changes';
             $scope.post = sharedPost.post;
             $scope.post.disabled = true;
             $scope.createPost = function (form) {
