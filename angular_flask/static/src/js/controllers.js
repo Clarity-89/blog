@@ -43,7 +43,6 @@ angular.module('AngularFlask')
             }
 
             $scope.favorite = function (post) {
-                console.log("Favoriting a post");
                 favoritePost.favorite(post.id)
                     .then(function success(response) {
                             angular.extend(post, response.data.post);
@@ -69,7 +68,6 @@ angular.module('AngularFlask')
                             }
                         }
                     })
-
             };
         }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
