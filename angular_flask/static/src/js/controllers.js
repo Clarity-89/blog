@@ -66,9 +66,14 @@ angular.module('AngularFlask')
             // Show modal to ask for confirmation of post deletion
             $scope.showConfirm = function (ev, postId) {
                 deletePost.delete(ev, postId);
+                for (var i = 0; i < $scope.posts.length; i++) {
+                    if ($scope.posts[i].id === postId) {
+                        $scope.posts[i] = '';
+                    }
+                }
             };
 
-            $scope.$watch('post', function (o, n, s) {
+            /*$scope.$watch('posts', function (o, n, s) {
                 allPosts.getPosts().get()
                     .$promise.then(function (response) {
                         $scope.posts = response.posts;
@@ -76,7 +81,7 @@ angular.module('AngularFlask')
                     function (response) {
                         $scope.message = "Error: " + response.status + " " + response.statusText;
                     });
-            })
+            })*/
         }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
         function ($scope, postUpload, $location, imgPreview, $cookies) {
