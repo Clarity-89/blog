@@ -68,7 +68,7 @@ angular.module('AngularFlask')
                 deletePost.delete(ev, postId);
                 for (var i = 0; i < $scope.posts.length; i++) {
                     if ($scope.posts[i].id === postId) {
-                        $scope.posts[i] = '';
+                        $scope.posts.splice(i, 1);
                     }
                 }
             };
