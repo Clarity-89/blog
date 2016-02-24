@@ -142,6 +142,19 @@ def edit_post(id):
     return jsonify(p.serialize)
 
 
+# Delete post
+@app.route('/blog/api/posts/<int:id>/delete', methods=['POST'])
+def delete_post(id):
+    post = Post.query.filter_by(id=id).first()
+    if post is None:
+        abort(404, 'Post not found')
+    if post.author != current_user:
+        abort(400)
+    db.session.delete(post)
+    db.session.commit()
+    return jsonify({'message': 'delete successful'})
+
+
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))

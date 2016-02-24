@@ -42,21 +42,21 @@ angular.module('AngularFlask')
     .service('deletePost', ['$http', '$mdDialog', function ($http, $mdDialog) {
         this.delete = function (ev, postId) {
             var confirm = $mdDialog.confirm()
-                    .title('Are you sure you want to delete this post?')
-                    .textContent('This action cannot be undone.')
-                    .ariaLabel('Confirm post deletion')
-                    .targetEvent(ev)
-                    .ok('Delete')
-                    .cancel('Cancel');
-                $mdDialog.show(confirm).then(function () {
-                    $http.post("http://0.0.0.0:5000/blog/api/posts/" + postId + "/delete", {})
-                        .then(function () {
-                                console.log('Deleted post with id', postId);
-                            },
-                            function (response) {
-                                console.log('Could not delete', response);
-                            })
-                });
+                .title('Are you sure you want to delete this post?')
+                .textContent('This action cannot be undone.')
+                .ariaLabel('Confirm post deletion')
+                .targetEvent(ev)
+                .ok('Delete')
+                .cancel('Cancel');
+            $mdDialog.show(confirm).then(function () {
+                $http.post("http://0.0.0.0:5000/blog/api/posts/" + postId + "/delete", {})
+                    .then(function success() {
+                            console.log('Deleted post with id', postId);
+                        },
+                        function error(response) {
+                            console.log('Could not delete', response);
+                        })
+            });
         }
     }])
     .service('createUser', ['$http', function ($http) {

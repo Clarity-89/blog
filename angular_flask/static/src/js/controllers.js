@@ -67,6 +67,16 @@ angular.module('AngularFlask')
             $scope.showConfirm = function (ev, postId) {
                 deletePost.delete(ev, postId);
             };
+
+            $scope.$watch('post', function (o, n, s) {
+                allPosts.getPosts().get()
+                    .$promise.then(function (response) {
+                        $scope.posts = response.posts;
+                    },
+                    function (response) {
+                        $scope.message = "Error: " + response.status + " " + response.statusText;
+                    });
+            })
         }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
         function ($scope, postUpload, $location, imgPreview, $cookies) {
