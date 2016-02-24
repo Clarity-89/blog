@@ -42,15 +42,11 @@ angular.module('AngularFlask')
                 return posts;
             }
 
-            $scope.favorite = function (id) {
+            $scope.favorite = function (post) {
                 console.log("Favoriting a post");
-                favoritePost.favorite(id)
+                favoritePost.favorite(post.id)
                     .then(function success(response) {
-                            for (var i = 0; i < $scope.posts.length; i++) {
-                                if ($scope.posts[i].id === id) {
-                                    $scope.posts[i] = response.data.post;
-                                }
-                            }
+                            angular.extend(post, response.data.post);
                         },
                         function error(response) {
                             console.log('Couldn\'t favorite a post', response);
@@ -65,23 +61,16 @@ angular.module('AngularFlask')
 
             // Show modal to ask for confirmation of post deletion
             $scope.showConfirm = function (ev, postId) {
-                deletePost.delete(ev, postId);
-                for (var i = 0; i < $scope.posts.length; i++) {
-                    if ($scope.posts[i].id === postId) {
-                        $scope.posts.splice(i, 1);
-                    }
-                }
-            };
+                deletePost.delete(ev, postId)
+                    .then(function () {
+                        for (var i = 0; i < $scope.posts.length; i++) {
+                            if ($scope.posts[i].id === postId) {
+                                $scope.posts.splice(i, 1);
+                            }
+                        }
+                    })
 
-            /*$scope.$watch('posts', function (o, n, s) {
-                allPosts.getPosts().get()
-                    .$promise.then(function (response) {
-                        $scope.posts = response.posts;
-                    },
-                    function (response) {
-                        $scope.message = "Error: " + response.status + " " + response.statusText;
-                    });
-            })*/
+            };
         }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
         function ($scope, postUpload, $location, imgPreview, $cookies) {

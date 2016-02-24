@@ -43,7 +43,7 @@
     <md-card-actions layout="row" layout-align="end center">
         <span class="num-favorites">{{ post.favorited || 0 }}</span>
         <md-button class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}"
-                   ng-click="favorite({id:post.id})">
+                   ng-click="favorite({id:post})">
             <md-tooltip md-direction="bottom">
                 Favorite
             </md-tooltip>

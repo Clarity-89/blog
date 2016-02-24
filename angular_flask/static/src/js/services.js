@@ -48,8 +48,8 @@ angular.module('AngularFlask')
                 .targetEvent(ev)
                 .ok('Delete')
                 .cancel('Cancel');
-            $mdDialog.show(confirm).then(function () {
-                $http.post("http://0.0.0.0:5000/blog/api/posts/" + postId + "/delete", {})
+            return $mdDialog.show(confirm).then(function () {
+                return $http.post("http://0.0.0.0:5000/blog/api/posts/" + postId + "/delete", {})
                     .then(function success() {
                             console.log('Deleted post with id', postId);
                         },
