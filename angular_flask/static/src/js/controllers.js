@@ -1,7 +1,7 @@
 'use strict';
 angular.module('AngularFlask')
-    .controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'sharedPost', '$location',
-        function ($scope, allPosts, favoritePost, sharedPost, $location) {
+    .controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'sharedPost', '$location', 'deletePost',
+        function ($scope, allPosts, favoritePost, sharedPost, $location, deletePost) {
             $scope.posts = [];
             $scope.showPost = false;
             $scope.message = "Loading ...";
@@ -61,7 +61,12 @@ angular.module('AngularFlask')
             $scope.editPost = function (post) {
                 sharedPost.post = post;
                 $location.path('/edit');
-            }
+            };
+
+            // Show modal to ask for confirmation of post deletion
+            $scope.showConfirm = function (ev, postId) {
+                deletePost.delete(ev, postId);
+            };
         }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
         function ($scope, postUpload, $location, imgPreview, $cookies) {
@@ -124,8 +129,8 @@ angular.module('AngularFlask')
                 return imgPreview.activateUpload('uploadImage');
             }
         }])
-    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', 'favoritePost', 'sharedPost', '$location',
-        function ($scope, allPosts, $routeParams, favoritePost, sharedPost, $location) {
+    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', 'favoritePost', 'sharedPost', '$location', 'deletePost',
+        function ($scope, allPosts, $routeParams, favoritePost, sharedPost, $location, deletePost) {
             $scope.post = {};
             allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
                 .$promise.then(function (response) {
@@ -150,7 +155,12 @@ angular.module('AngularFlask')
             $scope.editPost = function (post) {
                 sharedPost.post = post;
                 $location.path('/edit');
-            }
+            };
+
+            // Show modal to ask for confirmation of post deletion
+            $scope.showConfirm = function (ev, postId) {
+                deletePost.delete(ev, postId);
+            };
         }])
     .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview',
         function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview) {
@@ -297,8 +307,8 @@ angular.module('AngularFlask')
                 $location.path('/new');
             }
         }])
-    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', 'sharedPost', '$location',
-        function ($scope, userPosts, $cookies, sharedPost, $location) {
+    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', 'sharedPost', '$location', 'deletePost',
+        function ($scope, userPosts, $cookies, sharedPost, $location, deletePost) {
             userPosts.getPosts($cookies.getObject('current_user').id)
                 .then(function (response) {
                         $scope.posts = response.data.posts;
@@ -306,8 +316,14 @@ angular.module('AngularFlask')
                     function (response) {
                         $scope.message = "Error: " + response.status + " " + response.statusText;
                     });
+
             $scope.editPost = function (post) {
                 sharedPost.post = post;
                 $location.path('/edit');
-            }
+            };
+
+            // Show modal to ask for confirmation of post deletion
+            $scope.showConfirm = function (ev, postId) {
+                deletePost.delete(ev, postId);
+            };
         }])

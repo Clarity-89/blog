@@ -2,6 +2,6 @@
      layout-align-gt-xs="center center"
      layout-xs="column" flex ng-controller="PostDetailController">
     <div flex="80" flex-xs="100" flex-gt-xs="50" flex-gt-lg="60" layout="column">
-        <post text="lg" post="post" favorite="favorite(id)" user="{{getUserDetails().username}}" edit="editPost(post)"></post>
+        <post text="lg" post="post" favorite="favorite(id)" user="{{getUserDetails().username}}" edit="editPost(post)" open-modal="showConfirm(ev, id)"></post>
     </div>
 </div>
