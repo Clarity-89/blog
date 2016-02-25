@@ -147,7 +147,7 @@ img {
     outline: 0;
 }
 
-.page-heading, h3 {
+.page-heading, .page-heading h3 {
     margin: 1.875em auto 2.5em; /* 30/40px*/
     color: white;
     font-weight: 900;
@@ -205,6 +205,15 @@ md-fab-speed-dial {
     right: 10px;
 }
 
+.comment-section {
+    background: #eee;
+    padding: 20px;
+}
+
+label {
+    font-weight: 400;
+}
+
 /*Media queries*/
 /*Mobile*/
 @media screen and (max-device-width: 480px) {
@@ -231,3 +240,4 @@ md-fab-speed-dial {
         height: 80px;
     }
 }
+

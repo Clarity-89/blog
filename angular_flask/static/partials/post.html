@@ -57,7 +57,7 @@
         <!--Share menu-->
         <md-menu md-position-mode="target-right target" ng-show="user ===  post.author">
             <md-button class="md-icon-button" aria-label="Post Menu" disabled="{{ post.disabled }}">
-                <md-icon aria-label="Open share menu" md-menu-origin md-font-set="material-icons" class="md-icon-button"
+                <md-icon aria-label="Open share menu" md-menu-origin md-font-set="material-icons"
                          ng-click="$mdOpenMenu(ev)">more_vert
                 </md-icon>
             </md-button>
@@ -80,5 +80,21 @@
     </md-card-actions>
     <md-card-content>
         <div class="body-text-{{ text }}" ta-bind ng-model="post.body">{{ post.body }}</div>
+    </md-card-content>
+    <md-card-content class="comment-section">
+        <h3 class="center">Comments</h3>
+        <form>
+            <div layout="row">
+                <md-input-container class="md-block" flex>
+                    <label class="custom-label" for="add-comment">
+                        {{ comments.length ? "Join the" : "Start a "  }} discussion</label>
+                    <input type="text" id="add-comment" ng-model="comment">
+                </md-input-container>
+
+                <md-button class="md-icon-button md-primary" aria-label="Post comment" ng-disabled="!comment">
+                    <md-icon md-font-set="material-icons">done</md-icon>
+                </md-button>
+            </div>
+        </form>
     </md-card-content>
 </md-card>
