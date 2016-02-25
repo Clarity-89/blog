@@ -146,8 +146,8 @@ angular.module('AngularFlask')
                     $scope.message = "Error: " + response.status + " " + response.statusText;
                 });
 
-            $scope.favorite = function (id) {
-                favoritePost.favorite(id)
+            $scope.favorite = function (post) {
+                favoritePost.favorite(post)
                     .then(function success(response) {
                             $scope.post = response.data.post;
                         },

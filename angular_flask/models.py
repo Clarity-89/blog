@@ -24,6 +24,7 @@ class Post(db.Model):
     user_id = db.Column(db.String(32), db.ForeignKey('user.id'))
     favorited = db.Column(db.Integer, default=0)
     favorited_by = db.relationship('User', secondary=favorites, backref=db.backref('favorited', lazy='dynamic'))
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     @property
     def serialize(self):
@@ -58,6 +59,7 @@ class User(db.Model, UserMixin):
     avatar = db.Column(db.String(), default='../img/avatars/default.png')
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
     def hash_password(self, password):
         self.password_hash = pwd_context.encrypt(password)
@@ -92,3 +94,13 @@ class User(db.Model, UserMixin):
             'email': self.email,
             'avatar': self.avatar,
         }
+
+
+class Comment(db.Model):
+    __tablename__ = 'comment'
+
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String())
+    date = db.Column(db.Integer, default=int(round(time.time() * 1000)))
+    user_id = db.Column(db.String(32), db.ForeignKey('user.id'))
+    post_id = db.Column(db.String(32), db.ForeignKey('post.id'))
