@@ -164,7 +164,10 @@ angular.module('AngularFlask')
 
             // Show modal to ask for confirmation of post deletion
             $scope.showConfirm = function (ev, postId) {
-                deletePost.delete(ev, postId);
+                deletePost.delete(ev, postId)
+                    .then(function () {
+                        $location.path('/posts');
+                    });
             };
         }])
     .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview',
