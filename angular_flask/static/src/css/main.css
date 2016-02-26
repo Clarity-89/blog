@@ -205,6 +205,11 @@ md-fab-speed-dial {
     right: 10px;
 }
 
+.comment-section-title {
+    text-align: center;
+    color: #424242;
+}
+
 .comment-section {
     background: #eee;
     padding: 20px;
@@ -212,6 +217,26 @@ md-fab-speed-dial {
 
 label {
     font-weight: 400;
+}
+
+.comment {
+    color: #424242;
+    font-size: 0.875em;
+}
+
+/* Overriding default background color for subheader */
+
+.comment-header > .md-subheader {
+    background-color: inherit;
+    color: inherit;
+}
+
+.comment-author {
+    margin: 5px auto auto 15px;
+}
+
+.comment-text {
+    margin: 12px auto 20px auto;
 }
 
 /*Media queries*/

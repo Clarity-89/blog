@@ -82,7 +82,7 @@
         <div class="body-text-{{ size }}" ta-bind ng-model="post.body">{{ post.body }}</div>
     </md-card-content>
     <md-card-content class="comment-section" ng-show="post.comments">
-        <h3 class="center">Comments</h3>
+        <h3 class="comment-section-title">Comments</h3>
         <form name="commentForm" ng-submit="addComment(post.id)">
             <div layout="row">
                 <md-input-container class="md-block" flex>
@@ -91,10 +91,23 @@
                     <input type="text" id="add-comment" ng-model="comment">
                 </md-input-container>
 
-                <md-button type="submit" class="md-icon-button md-primary" aria-label="Post comment" ng-disabled="!comment" ng-click="">
+                <md-button type="submit" class="md-icon-button md-primary" aria-label="Post comment"
+                           ng-disabled="!comment" ng-click="">
                     <md-icon md-font-set="material-icons">done</md-icon>
                 </md-button>
             </div>
         </form>
+        <div class="comment" ng-repeat="comment in post.comments">
+            <div class="comment-header" layout="row">
+                <img ng-src="{{ comment.author_ava }}" class="md-user-avatar">
+                <div class="md-subheader comment-author">
+                    <p>{{ comment.author }} <br/>
+                    {{ comment.date | date: 'dd/MM/yy HH:mm'}}</p>
+                </div>
+            </div>
+            <div class="comment-text">
+                <p>{{ comment.body }}</p>
+            </div>
+        </div>
     </md-card-content>
 </md-card>
