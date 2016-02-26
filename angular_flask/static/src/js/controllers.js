@@ -271,8 +271,8 @@ angular.module('AngularFlask')
                 });
 
     }])
-    .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost',
-        function ($scope, favoritePost, deletePost, $location, sharedPost) {
+    .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment',
+        function ($scope, favoritePost, deletePost, $location, sharedPost, addComment) {
 
             $scope.favorite = function (post) {
                 favoritePost.favorite(post)
@@ -307,4 +307,8 @@ angular.module('AngularFlask')
                         }
                     })
             };
+
+            $scope.addComment = function (comment, postId) {
+                addComment.add(comment, postId);
+            }
         }])
