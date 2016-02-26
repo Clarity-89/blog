@@ -20,15 +20,6 @@ angular.module('AngularFlask')
             restrict: 'E',
             controller: 'PostController',
             templateUrl: 'static/partials/post.html',
-            replace: true,
-            /*scope: {
-                text: '@',
-                post: '=',
-                favorite: '&',
-                imageSrc: '=',
-                edit: '&',
-                user: '@',
-                openModal: '&'
-            }*/
+            replace: true
         };
     });
