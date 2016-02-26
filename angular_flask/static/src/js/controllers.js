@@ -47,6 +47,7 @@ angular.module('AngularFlask')
             .$promise.then(function (response) {
                 $scope.post = response.post;
                 $scope.post.comments = response.comments;
+                console.log($scope.post)
             },
             function (response) {
                 console.log('Error:', response.status, response.statusText);
