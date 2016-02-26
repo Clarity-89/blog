@@ -207,12 +207,12 @@ md-fab-speed-dial {
 
 .comment-section-title {
     text-align: center;
-    color: #424242;
+    color: #616161;
 }
 
 .comment-section {
     background: #eee;
-    padding: 20px;
+    padding: 30px;
 }
 
 label {
@@ -230,6 +230,10 @@ label {
     background-color: inherit;
     color: inherit;
     font-size: .95em;
+}
+
+.comment-header > .md-user-avatar {
+    border-radius: 50%;
 }
 
 .comment-author {
