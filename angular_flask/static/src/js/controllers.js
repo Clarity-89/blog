@@ -47,7 +47,6 @@ angular.module('AngularFlask')
             .$promise.then(function (response) {
                 $scope.post = response.post;
                 $scope.post.comments = response.comments;
-                console.log($scope.post)
             },
             function (response) {
                 console.log('Error:', response.status, response.statusText);
@@ -311,8 +310,12 @@ angular.module('AngularFlask')
                     })
             };
 
-            $scope.addComment = function (postId) {
-                console.log($scope.comment)
-                addComment.add($scope.comment, postId);
+            $scope.addComment = function (post) {
+
+                addComment.add($scope.comment, post.id)
+                    .then(function success(response) {
+                        $scope.comment = '';
+                        angular.extend(post.comments, response.data.comments);
+                    });
             }
-        }])
+        }]);

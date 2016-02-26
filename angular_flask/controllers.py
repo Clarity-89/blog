@@ -167,7 +167,7 @@ def add_comment(id):
     c = Comment(body=body, author=current_user, post=post)
     db.session.add(c)
     db.session.commit()
-    return jsonify({'message': 'Comment added successfully'})
+    return jsonify(comments=[c.serialize for c in post.comments])
 
 
 @login_manager.user_loader

@@ -229,6 +229,7 @@ label {
 .comment-header > .md-subheader {
     background-color: inherit;
     color: inherit;
+    font-size: .95em;
 }
 
 .comment-author {

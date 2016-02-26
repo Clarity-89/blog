@@ -116,11 +116,6 @@ angular.module('AngularFlask')
     .service('addComment', ['$http', function ($http) {
         this.add = function (comment, postId) {
             return $http.post("http://0.0.0.0:5000/blog/api/posts/" + postId + "/comments/new", JSON.stringify(comment))
-                .then(function (response) {
-                    console.log(response.data.message);
-                }, function (response) {
-                    console.log('Did not save comment', response);
-                })
         }
     }])
 ;
