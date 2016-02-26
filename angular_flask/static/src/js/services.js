@@ -112,7 +112,6 @@ angular.module('AngularFlask')
         this.favorite = function (post) {
             return $http.post("/blog/api/posts/" + post.id, {});
         }
-
     }])
 ;
 

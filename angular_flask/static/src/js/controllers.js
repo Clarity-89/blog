@@ -3,8 +3,7 @@ angular.module('AngularFlask')
     .controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'sharedPost', '$location', 'deletePost',
         function ($scope, allPosts, favoritePost, sharedPost, $location, deletePost) {
             $scope.posts = [];
-            $scope.showPost = false;
-            $scope.message = "Loading ...";
+            $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
             allPosts.getPosts().get()
                 .$promise.then(function (response) {
                     $scope.posts = response.posts;
@@ -12,9 +11,10 @@ angular.module('AngularFlask')
                     buildGridModel($scope.posts);
                 },
                 function (response) {
-                    $scope.message = "Error: " + response.status + " " + response.statusText;
+                    console.log('Error:', response.status, response.statusText);
                 });
 
+            // Build a grid of posts of various sizes
             function buildGridModel(posts) {
                 var it, results = [];
                 for (var j = 0; j < posts.length; j++) {
@@ -41,34 +41,6 @@ angular.module('AngularFlask')
                 }
                 return posts;
             }
-
-            $scope.favorite = function (post) {
-                favoritePost.favorite(post.id)
-                    .then(function success(response) {
-                            angular.extend(post, response.data.post);
-                        },
-                        function error(response) {
-                            console.log('Couldn\'t favorite a post', response);
-                        }
-                    )
-            };
-
-            $scope.editPost = function (post) {
-                sharedPost.post = post;
-                $location.path('/edit');
-            };
-
-            // Show modal to ask for confirmation of post deletion
-            $scope.showConfirm = function (ev, postId) {
-                deletePost.delete(ev, postId)
-                    .then(function () {
-                        for (var i = 0; i < $scope.posts.length; i++) {
-                            if ($scope.posts[i].id === postId) {
-                                $scope.posts.splice(i, 1);
-                            }
-                        }
-                    })
-            };
         }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
         function ($scope, postUpload, $location, imgPreview, $cookies) {
@@ -96,7 +68,6 @@ angular.module('AngularFlask')
                         });
                 }
             };
-
 
             $scope.setFile = function (element) {
                 return imgPreview.preview(element, $scope);
@@ -134,42 +105,17 @@ angular.module('AngularFlask')
                 return imgPreview.activateUpload('uploadImage');
             }
         }])
-    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', 'favoritePost', 'sharedPost', '$location', 'deletePost',
-        function ($scope, allPosts, $routeParams, favoritePost, sharedPost, $location, deletePost) {
-            $scope.post = {};
-            allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
-                .$promise.then(function (response) {
-                    $scope.post = response.post;
-                    $scope.showPost = true;
-                },
-                function (response) {
-                    $scope.message = "Error: " + response.status + " " + response.statusText;
-                });
-
-            $scope.favorite = function (post) {
-                favoritePost.favorite(post)
-                    .then(function success(response) {
-                            $scope.post = response.data.post;
-                        },
-                        function error(response) {
-                            console.log('Couldn\'t favorite a post', response);
-                        }
-                    )
-            };
-
-            $scope.editPost = function (post) {
-                sharedPost.post = post;
-                $location.path('/edit');
-            };
-
-            // Show modal to ask for confirmation of post deletion
-            $scope.showConfirm = function (ev, postId) {
-                deletePost.delete(ev, postId)
-                    .then(function () {
-                        $location.path('/posts');
-                    });
-            };
-        }])
+    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', function ($scope, allPosts, $routeParams) {
+        $scope.post = {};
+        $scope.size = "lg";
+        allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
+            .$promise.then(function (response) {
+                $scope.post = response.post;
+            },
+            function (response) {
+                console.log('Error:', response.status, response.statusText);
+            });
+    }])
     .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview',
         function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview) {
             $scope.hasAccount = true;
@@ -315,15 +261,31 @@ angular.module('AngularFlask')
                 $location.path('/new');
             }
         }])
-    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', 'sharedPost', '$location', 'deletePost',
-        function ($scope, userPosts, $cookies, sharedPost, $location, deletePost) {
-            userPosts.getPosts($cookies.getObject('current_user').id)
-                .then(function (response) {
-                        $scope.posts = response.data.posts;
-                    },
-                    function (response) {
-                        $scope.message = "Error: " + response.status + " " + response.statusText;
-                    });
+    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', function ($scope, userPosts, $cookies) {
+        $scope.size = "sm";
+
+        userPosts.getPosts($cookies.getObject('current_user').id)
+            .then(function (response) {
+                    $scope.posts = response.data.posts;
+                },
+                function (response) {
+                    console.log('Error:', response.status, response.statusText);
+                });
+
+    }])
+    .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost',
+        function ($scope, favoritePost, deletePost, $location, sharedPost) {
+
+            $scope.favorite = function (post) {
+                favoritePost.favorite(post)
+                    .then(function success(response) {
+                            angular.extend(post, response.data.post);
+                        },
+                        function error(response) {
+                            console.log('Couldn\'t favorite a post', response);
+                        }
+                    )
+            };
 
             $scope.editPost = function (post) {
                 sharedPost.post = post;
@@ -332,6 +294,19 @@ angular.module('AngularFlask')
 
             // Show modal to ask for confirmation of post deletion
             $scope.showConfirm = function (ev, postId) {
-                deletePost.delete(ev, postId);
+                deletePost.delete(ev, postId)
+                    .then(function () {
+                        // if there's posts array, we're in the post list controller or user posts controller and have to update the list
+                        if ($scope.posts) {
+                            for (var i = 0; i < $scope.posts.length; i++) {
+                                if ($scope.posts[i].id === postId) {
+                                    $scope.posts.splice(i, 1);
+                                }
+                            }
+                            // Else just redirect to /posts
+                        } else {
+                            $location.path('/posts');
+                        }
+                    })
             };
         }])

@@ -18,9 +18,10 @@ angular.module('AngularFlask')
     .directive('post', function () {
         return {
             restrict: 'E',
+            controller: 'PostController',
             templateUrl: 'static/partials/post.html',
             replace: true,
-            scope: {
+            /*scope: {
                 text: '@',
                 post: '=',
                 favorite: '&',
@@ -28,6 +29,6 @@ angular.module('AngularFlask')
                 edit: '&',
                 user: '@',
                 openModal: '&'
-            }
+            }*/
         };
     });
