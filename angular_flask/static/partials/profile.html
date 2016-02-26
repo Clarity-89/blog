@@ -22,7 +22,7 @@
                 <div flex>
                     <md-subheader>Email</md-subheader>
                     <md-input-container class="md-block">
-                        <input type="email" required name="email" ng-pattern="/^.+@.+\..+$/" ng-model="user.email">
+                        <input type="email" required name="email" aria-label="email" ng-pattern="/^.+@.+\..+$/" ng-model="user.email">
                         <div ng-messages="userDetailsForm.email.$error" ng-if="userDetailsForm.email.$touched">
                             <div ng-message-exp="['pattern', 'required']">Enter a valid email address.</div>
                         </div>
