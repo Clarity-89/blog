@@ -1,47 +1,45 @@
 'use strict';
 angular.module('AngularFlask')
-    .controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'sharedPost', '$location', 'deletePost',
-        function ($scope, allPosts, favoritePost, sharedPost, $location, deletePost) {
-            $scope.posts = [];
-            $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
-            allPosts.getPosts().get()
-                .$promise.then(function (response) {
-                    $scope.posts = response.posts;
-                    $scope.posts.list = true;
-                    buildGridModel($scope.posts);
-                },
-                function (response) {
-                    console.log('Error:', response.status, response.statusText);
-                });
+    .controller('PostListController', ['$scope', 'allPosts', function ($scope, allPosts) {
+        $scope.posts = [];
+        $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
+        allPosts.getPosts().get()
+            .$promise.then(function (response) {
+                $scope.posts = response.posts;
+                buildGridModel($scope.posts);
+            },
+            function (response) {
+                console.log('Error:', response.status, response.statusText);
+            });
 
-            // Build a grid of posts of various sizes
-            function buildGridModel(posts) {
-                var it, results = [];
-                for (var j = 0; j < posts.length; j++) {
-                    it = posts[j];
-                    it.span = {row: 1, col: 1};
-                    it.img = 'img-sm';
-                    it.para = 'para-sm';
-                    switch (j + 1) {
-                        case 1:
-                            it.span.row = it.span.col = 2;
-                            it.img = 'img-lg';
-                            it.para = 'para-lg';
-                            break;
-                        case 4:
-                            it.span.col = 2;
-                            break;
-                        case 5:
-                            it.span.row = it.span.col = 2;
-                            it.img = 'img-lg';
-                            it.para = 'para-lg';
-                            break;
-                    }
-                    results.push(it);
+        // Build a grid of posts of various sizes
+        function buildGridModel(posts) {
+            var it, results = [];
+            for (var j = 0; j < posts.length; j++) {
+                it = posts[j];
+                it.span = {row: 1, col: 1};
+                it.img = 'img-sm';
+                it.para = 'para-sm';
+                switch (j + 1) {
+                    case 1:
+                        it.span.row = it.span.col = 2;
+                        it.img = 'img-lg';
+                        it.para = 'para-lg';
+                        break;
+                    case 4:
+                        it.span.col = 2;
+                        break;
+                    case 5:
+                        it.span.row = it.span.col = 2;
+                        it.img = 'img-lg';
+                        it.para = 'para-lg';
+                        break;
                 }
-                return posts;
+                results.push(it);
             }
-        }])
+            return posts;
+        }
+    }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
         function ($scope, postUpload, $location, imgPreview, $cookies) {
             var currentUser = $cookies.getObject('current_user');
