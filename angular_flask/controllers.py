@@ -155,6 +155,23 @@ def delete_post(id):
     return jsonify({'message': 'delete successful'})
 
 
+# Add a comment to a post
+@app.route('/blog/api/posts/<int:id>/comments/new', methods=['POST'])
+def add_comment():
+    print 'received comment', json.loads(request.form['post'])
+    comment = json.loads(request.form['post'])
+    body = comment.get('body')
+    post = Post.query.filter_by(id=id).first()
+    if body is None:
+        abort(400, "Cannot save empty comment")
+    if post is None:
+        abort(400, "Post with given id is not found")
+    c = Comment(body=body, author=current_user, post=post)
+    db.session.add(c)
+    db.session.commit()
+    return jsonify({'message': 'Comment added successfully'})
+
+
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
