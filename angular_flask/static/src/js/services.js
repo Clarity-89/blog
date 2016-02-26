@@ -113,7 +113,7 @@ angular.module('AngularFlask')
             return $http.post("/blog/api/posts/" + post.id, {});
         }
     }])
-    .service('addComment', [$http, function ($http) {
+    .service('addComment', ['$http', function ($http) {
         this.add = function (comment, postId) {
             return $http.post("http://0.0.0.0:5000/blog/api/posts" + postId + "/edit", JSON.stringify(comment))
                 .then(function (response) {
