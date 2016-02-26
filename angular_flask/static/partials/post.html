@@ -83,7 +83,7 @@
     </md-card-content>
     <md-card-content class="comment-section">
         <h3 class="center">Comments</h3>
-        <form>
+        <form name="commentForm" ng-submit="addComment(post.id)">
             <div layout="row">
                 <md-input-container class="md-block" flex>
                     <label class="custom-label" for="add-comment">
@@ -91,7 +91,7 @@
                     <input type="text" id="add-comment" ng-model="comment">
                 </md-input-container>
 
-                <md-button class="md-icon-button md-primary" aria-label="Post comment" ng-disabled="!comment">
+                <md-button type="submit" class="md-icon-button md-primary" aria-label="Post comment" ng-disabled="!comment" ng-click="">
                     <md-icon md-font-set="material-icons">done</md-icon>
                 </md-button>
             </div>

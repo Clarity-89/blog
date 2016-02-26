@@ -308,7 +308,8 @@ angular.module('AngularFlask')
                     })
             };
 
-            $scope.addComment = function (comment, postId) {
-                addComment.add(comment, postId);
+            $scope.addComment = function (postId) {
+                console.log($scope.comment)
+                addComment.add($scope.comment, postId);
             }
         }])

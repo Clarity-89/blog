@@ -157,10 +157,8 @@ def delete_post(id):
 
 # Add a comment to a post
 @app.route('/blog/api/posts/<int:id>/comments/new', methods=['POST'])
-def add_comment():
-    print 'received comment', json.loads(request.form['post'])
-    comment = json.loads(request.form['post'])
-    body = comment.get('body')
+def add_comment(id):
+    body = request.json
     post = Post.query.filter_by(id=id).first()
     if body is None:
         abort(400, "Cannot save empty comment")
