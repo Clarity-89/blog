@@ -111,5 +111,5 @@ class Comment(db.Model):
             'id': self.id,
             'body': self.body,
             'date': self.date,
-            'author': self.author.username,
+            'author': self.author.username
         }

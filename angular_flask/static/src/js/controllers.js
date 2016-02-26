@@ -40,6 +40,18 @@ angular.module('AngularFlask')
             return posts;
         }
     }])
+    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', function ($scope, allPosts, $routeParams) {
+        $scope.post = {};
+        $scope.size = "lg";
+        allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
+            .$promise.then(function (response) {
+                $scope.post = response.post;
+                $scope.post.comments = response.comments;
+            },
+            function (response) {
+                console.log('Error:', response.status, response.statusText);
+            });
+    }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
         function ($scope, postUpload, $location, imgPreview, $cookies) {
             var currentUser = $cookies.getObject('current_user');
@@ -103,17 +115,7 @@ angular.module('AngularFlask')
                 return imgPreview.activateUpload('uploadImage');
             }
         }])
-    .controller('PostDetailController', ['$scope', 'allPosts', '$routeParams', function ($scope, allPosts, $routeParams) {
-        $scope.post = {};
-        $scope.size = "lg";
-        allPosts.getPosts().get({id: parseInt($routeParams.id, 10)})
-            .$promise.then(function (response) {
-                $scope.post = response.post;
-            },
-            function (response) {
-                console.log('Error:', response.status, response.statusText);
-            });
-    }])
+
     .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview',
         function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview) {
             $scope.hasAccount = true;

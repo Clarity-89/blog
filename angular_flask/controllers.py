@@ -70,7 +70,7 @@ def get_post(id):
     if request.method == 'GET':
         try:
             post = Post.query.filter_by(id=id).one()
-            return jsonify(post=post.serialize)
+            return jsonify(post=post.serialize, comments=[c.serialize for c in post.comments])
         except NoResultFound:
             return render_template('404.html'), 404
     elif request.method == 'POST':
