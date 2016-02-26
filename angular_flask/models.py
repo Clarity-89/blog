@@ -104,3 +104,12 @@ class Comment(db.Model):
     date = db.Column(db.Integer, default=int(round(time.time() * 1000)))
     user_id = db.Column(db.String(32), db.ForeignKey('user.id'))
     post_id = db.Column(db.String(32), db.ForeignKey('post.id'))
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'body': self.body,
+            'date': self.date,
+            'author': self.author.username,
+        }
