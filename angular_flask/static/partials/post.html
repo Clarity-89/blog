@@ -36,7 +36,6 @@
                         Share on Twitter
                     </md-tooltip>
                     <i class="fa fa-twitter"></i>
-
                 </md-button>
             </md-fab-actions>
         </md-fab-speed-dial>
@@ -81,7 +80,13 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">favorite</md-icon>
         </md-button>
-
+        <span class="num-favorites">{{ post.comments.length || 0 }}</span>
+        <md-button class="md-icon-button" aria-label="Comments">
+            <md-tooltip md-direction="bottom">
+                Comments
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">comments</md-icon>
+        </md-button>
     </md-card-actions>
     <md-card-content>
         <div class="body-text-{{ size }}" ta-bind ng-model="post.body">{{ post.body }}</div>
