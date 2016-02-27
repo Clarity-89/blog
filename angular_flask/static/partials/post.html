@@ -7,54 +7,41 @@
             <span class="md-title">{{ post.author }}</span>
             <span class="md-subhead">{{ post.date | date: 'dd/MM/yy HH:mm'}}</span>
         </md-card-header-text>
-    </md-card-header>
-    <a ng-href="{{ post.disabled ? '#' : '/posts/' + post.id}}">
-        <div class="md-card-image image-{{ size }}"
-             ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
-            <md-fab-speed-dial md-open="isOpen" ng-mouseenter="isOpen=true" ng-mouseleave="isOpen=false"
-                               class="md-scale" md-direction="left">
-                <md-fab-trigger>
-                    <md-button aria-label="menu" class="md-fab md-warn">
-                        <md-tooltip md-direction="bottom">
-                            Share
-                        </md-tooltip>
-                        <md-icon md-font-set="material-icons">share</md-icon>
-                    </md-button>
-                </md-fab-trigger>
-                <md-fab-actions>
-                    <md-button
-                            href="https://www.facebook.com/dialog/share?app_id=819933928129983&href={{ 'http://0.0.0.0:5000/posts/' + post.id }}&redirect_uri=http://0.0.0.0:5000/posts"
-                            aria-label="Share on Facebook" class="md-fab md-raised md-mini">
-                        <md-tooltip md-direction="bottom">
-                            Share on Facebook
-                        </md-tooltip>
-                        <i class="fa fa-facebook"></i>
-                    </md-button>
-                    <md-button
-                            href="https://twitter.com/intent/tweet?text='{{ post.title }}'%20by%20{{ post.author }}&
-                            &url={{ 'http://0.0.0.0:5000/posts/' + post.id }}"
-                            aria-label="Share on Twitter" class="md-fab md-raised md-mini">
-                        <md-tooltip md-direction="bottom">
-                            Share on Twitter
-                        </md-tooltip>
-                        <i class="fa fa-twitter"></i>
 
-                    </md-button>
-                </md-fab-actions>
-            </md-fab-speed-dial>
-            <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
-        </div>
-    </a>
-    <md-card-actions layout="row" layout-align="end center">
-        <span class="num-favorites">{{ post.favorited || 0 }}</span>
-        <md-button class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}"
-                   ng-click="favorite(post)">
-            <md-tooltip md-direction="bottom">
-                Favorite
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">favorite</md-icon>
-        </md-button>
-        <!--Share menu-->
+        <!-- Share on social media FAB menu-->
+        <md-fab-speed-dial md-open="isOpen" ng-mouseenter="isOpen=true" ng-mouseleave="isOpen=false"
+                           class="md-scale" md-direction="left">
+            <md-fab-trigger>
+                <md-button class="md-icon-button">
+                    <md-tooltip aria-label="menu" md-direction="bottom">
+                        Share
+                    </md-tooltip>
+                    <md-icon md-font-set="material-icons">share</md-icon>
+                </md-button>
+            </md-fab-trigger>
+            <md-fab-actions>
+                <md-button
+                        href="https://www.facebook.com/dialog/share?app_id=819933928129983&href={{ 'http://0.0.0.0:5000/posts/' + post.id }}&redirect_uri=http://0.0.0.0:5000/posts"
+                        aria-label="Share on Facebook" class="md-fab md-raised md-mini">
+                    <md-tooltip md-direction="bottom">
+                        Share on Facebook
+                    </md-tooltip>
+                    <i class="fa fa-facebook"></i>
+                </md-button>
+                <md-button
+                        href="https://twitter.com/intent/tweet?text='{{ post.title }}'%20by%20{{ post.author }}&
+                            &url={{ 'http://0.0.0.0:5000/posts/' + post.id }}"
+                        aria-label="Share on Twitter" class="md-fab md-raised md-mini">
+                    <md-tooltip md-direction="bottom">
+                        Share on Twitter
+                    </md-tooltip>
+                    <i class="fa fa-twitter"></i>
+
+                </md-button>
+            </md-fab-actions>
+        </md-fab-speed-dial>
+
+        <!--Edit/delete menu-->
         <md-menu md-position-mode="target-right target" ng-show="getUserDetails().username ===  post.author">
             <md-button class="md-icon-button" aria-label="Post Menu" disabled="{{ post.disabled }}">
                 <md-icon aria-label="Open share menu" md-menu-origin md-font-set="material-icons"
@@ -77,6 +64,24 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
+    </md-card-header>
+    <a ng-href="{{ post.disabled ? '#' : '/posts/' + post.id}}">
+        <div class="md-card-image image-{{ size }}"
+             ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
+
+            <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
+        </div>
+    </a>
+    <md-card-actions layout="row" layout-align="end center">
+        <span class="num-favorites">{{ post.favorited || 0 }}</span>
+        <md-button class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}"
+                   ng-click="favorite(post)">
+            <md-tooltip md-direction="bottom">
+                Favorite
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">favorite</md-icon>
+        </md-button>
+
     </md-card-actions>
     <md-card-content>
         <div class="body-text-{{ size }}" ta-bind ng-model="post.body">{{ post.body }}</div>
@@ -102,7 +107,7 @@
                 <img ng-src="{{ comment.author_ava }}" class="md-user-avatar">
                 <div class="md-subheader comment-author">
                     <p>{{ comment.author }} <br/>
-                    {{ comment.date | date: 'dd/MM/yy HH:mm'}}</p>
+                        {{ comment.date | date: 'dd/MM/yy HH:mm'}}</p>
                 </div>
             </div>
             <div class="comment-text">
