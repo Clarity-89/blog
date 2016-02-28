@@ -244,6 +244,11 @@ label {
     margin: 0;
 }
 
+/* Override default tooltip height to allow multiline tooltips */
+md-tooltip .md-content {
+    height: auto;
+}
+
 /*Media queries*/
 /*Mobile*/
 @media screen and (max-device-width: 480px) {

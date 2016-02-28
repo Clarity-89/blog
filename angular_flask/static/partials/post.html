@@ -79,7 +79,15 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">favorite</md-icon>
         </md-button>
-        <span class="num">{{ post.favorited || 0 }}</span>
+        <md-button class="md-icon-button">
+            <md-tooltip md-direction="top">
+                <div ng-repeat="user in post.favorited_by | limitTo: 10">
+                    {{ user.username }}
+                </div>
+                <span ng-show="post.favorited_by.length-10 > 0">and {{ post.favorited_by.length-10 }} more...</span>
+            </md-tooltip>
+            <span class="num">{{ post.favorited || 0 }}</span>
+        </md-button>
         <md-button ng-href="/posts/{{ post.id }}#comments" id="comment-button" class="md-icon-button"
                    aria-label="Comments">
             <md-tooltip md-direction="bottom">
