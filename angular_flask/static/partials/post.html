@@ -91,7 +91,7 @@
     <md-card-content>
         <div class="body-text-{{ size }}" ta-bind ng-model="post.body">{{ post.body }}</div>
     </md-card-content>
-    <md-card-content class="comment-section" ng-show="post.comments">
+    <md-card-content class="comment-section" ng-if="!posts">
         <h3 class="comment-section-title">Comments</h3>
         <form name="commentForm" ng-submit="addComment(post)">
             <div layout="row">
