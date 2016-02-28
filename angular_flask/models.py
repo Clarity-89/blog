@@ -36,7 +36,8 @@ class Post(db.Model):
             'date': self.date,
             'author': self.author.username,
             'avatar': self.author.avatar,
-            'favorited': self.favorited
+            'favorited': self.favorited,
+            'comments': [comment.serialize for comment in db.session.query(Comment).filter_by(post_id=self.id).all()]
         }
 
     def __init__(self, title, body, author, cover_photo='../img/covers/default.jpg', ):
