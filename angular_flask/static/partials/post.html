@@ -80,7 +80,8 @@
             <md-icon md-font-set="material-icons">favorite</md-icon>
         </md-button>
         <span class="num">{{ post.favorited || 0 }}</span>
-        <md-button id="comment-button" class="md-icon-button" aria-label="Comments">
+        <md-button ng-href="/posts/{{ post.id }}#comments" id="comment-button" class="md-icon-button"
+                   aria-label="Comments">
             <md-tooltip md-direction="bottom">
                 Comments
             </md-tooltip>
@@ -91,7 +92,7 @@
     <md-card-content>
         <div class="body-text-{{ size }}" ta-bind ng-model="post.body">{{ post.body }}</div>
     </md-card-content>
-    <md-card-content class="comment-section" ng-if="!posts">
+    <md-card-content id="comments" class="comment-section" ng-if="!posts">
         <h3 class="comment-section-title">Comments</h3>
         <form name="commentForm" ng-submit="addComment(post)">
             <div layout="row">
