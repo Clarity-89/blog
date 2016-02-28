@@ -85,7 +85,7 @@
                 </div>
                 <span ng-show="post.favorited_by.length - 10 > 0">and {{ post.favorited_by.length - 10 }} more...</span>
             </md-tooltip>
-            <span ng-click="showAdvanced($event, post)" class="num">{{ post.favorited || 0 }}</span>
+            <a href="#" ng-click="showAdvanced($event, post)" class="num">{{ post.favorited || 0 }}</a>
         </div>
         <md-button ng-href="/posts/{{ post.id }}#comments" id="comment-button" class="md-icon-button"
                    aria-label="Comments">
@@ -94,14 +94,14 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">comments</md-icon>
         </md-button>
-         <div>
+        <div>
             <md-tooltip md-direction="top">
                 <div ng-repeat="user in post.comments | limitTo: 10">
                     {{ user.author }}
                 </div>
                 <span ng-show="post.comments.length - 10 > 0">and {{ post.comments.length - 10 }} more...</span>
             </md-tooltip>
-            <span class="num">{{ post.comments.length || 0 }}</span>
+            <a ng-href="/posts/{{ post.id }}#comments" class="num">{{ post.comments.length || 0 }}</a>
         </div>
     </md-card-actions>
     <md-card-content>
