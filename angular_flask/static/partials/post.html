@@ -83,7 +83,7 @@
                 <div ng-repeat="user in post.favorited_by | limitTo: 10">
                     {{ user.username }}
                 </div>
-                <span ng-show="post.favorited_by.length-10 > 0">and {{ post.favorited_by.length-10 }} more...</span>
+                <span ng-show="post.favorited_by.length - 10 > 0">and {{ post.favorited_by.length - 10 }} more...</span>
             </md-tooltip>
             <span ng-click="showAdvanced($event, post)" class="num">{{ post.favorited || 0 }}</span>
         </div>
@@ -94,14 +94,22 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">comments</md-icon>
         </md-button>
-        <span class="num">{{ post.comments.length || 0 }}</span>
+         <div>
+            <md-tooltip md-direction="top">
+                <div ng-repeat="user in post.comments | limitTo: 10">
+                    {{ user.author }}
+                </div>
+                <span ng-show="post.comments.length - 10 > 0">and {{ post.comments.length - 10 }} more...</span>
+            </md-tooltip>
+            <span class="num">{{ post.comments.length || 0 }}</span>
+        </div>
     </md-card-actions>
     <md-card-content>
         <div class="body-text-{{ size }}" ta-bind ng-model="post.body">{{ post.body }}</div>
     </md-card-content>
     <md-card-content id="comments" class="comment-section" ng-if="!posts">
         <h3 class="comment-section-title">Comments</h3>
-        <form name="commentForm" ng-submit="addComment(post)">
+        <form name="commentForm" ng-submit="addComment(post, comment)">
             <div layout="row">
                 <md-input-container class="md-block" flex>
                     <label class="custom-label" for="add-comment">

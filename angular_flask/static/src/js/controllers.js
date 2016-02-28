@@ -312,11 +312,14 @@ angular.module('AngularFlask')
             };
 
             $scope.addComment = function (post) {
-
-                addComment.add($scope.comment, post.id)
+                console.log(this, $scope)
+                var self = this;
+                addComment.add(self.comment, post.id)
                     .then(function success(response) {
-                        $scope.comment = '';
+                        self.comment = '';
                         angular.extend(post.comments, response.data.comments);
+                    }, function error(response) {
+                        console.log('Could not add comment', response);
                     });
             };
 
