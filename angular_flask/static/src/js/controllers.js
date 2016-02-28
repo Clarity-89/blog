@@ -6,7 +6,7 @@ angular.module('AngularFlask')
         allPosts.getPosts().get()
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
-                console.log(response);
+                //console.log(response);
                 buildGridModel($scope.posts);
             },
             function (response) {

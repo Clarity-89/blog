@@ -72,21 +72,21 @@
         </div>
     </a>
     <md-card-actions layout="row" layout-align="end center">
-        <span class="num-favorites">{{ post.favorited || 0 }}</span>
-        <md-button class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}"
+        <md-button id="fav-button" class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}"
                    ng-click="favorite(post)">
             <md-tooltip md-direction="bottom">
                 Favorite
             </md-tooltip>
             <md-icon md-font-set="material-icons">favorite</md-icon>
         </md-button>
-        <span class="num-favorites">{{ post.comments.length || 0 }}</span>
-        <md-button class="md-icon-button" aria-label="Comments">
+        <span class="num">{{ post.favorited || 0 }}</span>
+        <md-button id="comment-button" class="md-icon-button" aria-label="Comments">
             <md-tooltip md-direction="bottom">
                 Comments
             </md-tooltip>
             <md-icon md-font-set="material-icons">comments</md-icon>
         </md-button>
+        <span class="num">{{ post.comments.length || 0 }}</span>
     </md-card-actions>
     <md-card-content>
         <div class="body-text-{{ size }}" ta-bind ng-model="post.body">{{ post.body }}</div>

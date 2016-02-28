@@ -189,10 +189,11 @@ img {
     float: right;
 }
 
-.num-favorites {
+.num {
     font-size: 1.2em;
     font-weight: 600;
     color: rgba(0, 0, 0, 0.54);
+    margin-right: 6px;
 }
 
 .image-lg {
@@ -236,6 +237,11 @@ label {
 
 .comment-text {
     margin: 12px auto 20px auto;
+}
+
+/* Put numbers closer to buttons */
+#fav-button, #comment-button {
+    margin: 0;
 }
 
 /*Media queries*/
