@@ -117,7 +117,7 @@
         </form>
         <div class="comment" ng-repeat="comment in post.comments">
             <div class="comment-header" layout="row">
-                <img ng-src="{{ comment.author_ava }}" class="md-user-avatar">
+                <img class="md-user-avatar" ng-src="{{ comment.author_ava }}" alt="{{ comment.author }}">
                 <div class="md-subheader comment-author">
                     <p>{{ comment.author }} <br/>
                         {{ comment.date | date: 'dd/MM/yy HH:mm'}}</p>
