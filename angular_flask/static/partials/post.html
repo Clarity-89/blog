@@ -85,7 +85,7 @@
                 </div>
                 <span ng-show="post.favorited_by.length-10 > 0">and {{ post.favorited_by.length-10 }} more...</span>
             </md-tooltip>
-            <span class="num">{{ post.favorited || 0 }}</span>
+            <span ng-click="showAdvanced($event, post)" class="num">{{ post.favorited || 0 }}</span>
         </div>
         <md-button ng-href="/posts/{{ post.id }}#comments" id="comment-button" class="md-icon-button"
                    aria-label="Comments">

@@ -274,8 +274,8 @@ angular.module('AngularFlask')
                 });
 
     }])
-    .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment',
-        function ($scope, favoritePost, deletePost, $location, sharedPost, addComment) {
+    .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog',
+        function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog) {
 
             $scope.favorite = function (post) {
                 favoritePost.favorite(post)
@@ -318,5 +318,30 @@ angular.module('AngularFlask')
                         $scope.comment = '';
                         angular.extend(post.comments, response.data.comments);
                     });
+            };
+
+            $scope.showAdvanced = function (ev, post) {
+
+                $mdDialog.show({
+                    templateUrl: 'static/partials/user-list.html',
+                    locals: {
+                        post: post
+                    },
+                    controller: 'DialogController',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: false
+                });
             }
-        }]);
+        }])
+    .controller('DialogController', ['$scope', '$mdDialog', 'post', function ($scope, $mdDialog, post) {
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.post = post;
+
+    }])
+;

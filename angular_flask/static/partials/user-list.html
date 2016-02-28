@@ -1,0 +1,22 @@
+<!-- A template to display avatar and user name of those who favorited a post -->
+<md-dialog aria-label="Users list" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Favorited By</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-font-set="material-icons">cancel</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-list>
+                <md-list-item ng-repeat="user in post.favorited_by">
+                    <img class="md-avatar" ng-src="{{ user.avatar }}" alt="user.username">
+                    <p>{{ user.username }}</p>
+                </md-list-item>
+            </md-list>
+        </md-dialog-content>
+    </form>
+</md-dialog>
