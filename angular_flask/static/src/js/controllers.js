@@ -312,7 +312,6 @@ angular.module('AngularFlask')
             };
 
             $scope.addComment = function (post) {
-                console.log(this, $scope)
                 var self = this;
                 addComment.add(self.comment, post.id)
                     .then(function success(response) {
