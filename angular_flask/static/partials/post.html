@@ -59,7 +59,6 @@
                         <md-icon md-font-set="material-icons" aria-label="Delete">delete</md-icon>
                         Delete Post
                     </md-button>
-
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
@@ -79,7 +78,7 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">favorite</md-icon>
         </md-button>
-        <md-button class="md-icon-button">
+        <div>
             <md-tooltip md-direction="top">
                 <div ng-repeat="user in post.favorited_by | limitTo: 10">
                     {{ user.username }}
@@ -87,7 +86,7 @@
                 <span ng-show="post.favorited_by.length-10 > 0">and {{ post.favorited_by.length-10 }} more...</span>
             </md-tooltip>
             <span class="num">{{ post.favorited || 0 }}</span>
-        </md-button>
+        </div>
         <md-button ng-href="/posts/{{ post.id }}#comments" id="comment-button" class="md-icon-button"
                    aria-label="Comments">
             <md-tooltip md-direction="bottom">

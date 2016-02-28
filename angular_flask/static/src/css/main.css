@@ -196,6 +196,10 @@ img {
     margin-right: 6px;
 }
 
+.num:hover {
+    cursor: pointer;
+}
+
 .image-lg {
     height: 25em;
 }
@@ -240,7 +244,7 @@ label {
 }
 
 /* Put numbers closer to buttons */
-#fav-button, #comment-button {
+#fav-button, #comment-button, #fav-button-num {
     margin: 0;
 }
 
