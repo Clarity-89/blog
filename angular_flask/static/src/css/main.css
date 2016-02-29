@@ -139,7 +139,7 @@ img {
 }
 
 .page-heading, .page-heading h3 {
-    margin: 1.875em auto 2.5em; /* 30/40px*/
+    margin: 1em auto 1.5em; /* 30/40px*/
     color: white;
     font-weight: 900;
     text-shadow: 0px 0px 3px #000;
