@@ -114,13 +114,21 @@ a {
 }
 
 .body-text-sm {
-    max-height: 200px;
+    max-height: 6.25em;
     overflow: hidden;
 }
 
 .body-text-lg {
-    min-height: 360px;
+    min-height: 22.5em;
     padding: 20px 50px;
+}
+
+.image-lg {
+    height: 25em;
+}
+
+.image-sm {
+    height: 12.5em;
 }
 
 .md-user-avatar {
@@ -198,10 +206,6 @@ img {
 
 .num:hover {
     cursor: pointer;
-}
-
-.image-lg {
-    height: 25em;
 }
 
 .comment-section-title {
