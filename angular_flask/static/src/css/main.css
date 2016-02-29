@@ -116,6 +116,7 @@ a {
 .body-text-sm {
     max-height: 6.25em;
     overflow: hidden;
+    line-height: 1.5em;
 }
 
 .body-text-lg {
@@ -233,6 +234,10 @@ label {
     background-color: inherit;
     color: inherit;
     font-size: .95em;
+}
+
+.md-subheader {
+    font-size: .9em;
 }
 
 .comment-header > .md-user-avatar {
