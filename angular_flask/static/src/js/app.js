@@ -46,13 +46,14 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
             //Customize themes for Angular Material
             $mdThemingProvider.theme('default')
                 .primaryPalette('blue-grey')
-                .accentPalette('orange')
+                .accentPalette('red')
+                .warnPalette('deep-orange')
                 .backgroundPalette('grey');
 
             $locationProvider.html5Mode(true);
         }
     ])
-    .run(function ($rootScope, $location, $cookies, $routeParams) {
+    .run(function ($rootScope, $location, $cookies) {
         $rootScope.$on("$routeChangeStart", function (event, next) {
             if (next.templateUrl == 'static/partials/new_post.html' || next.templateUrl == 'static/partials/profile.html'
                 || next.templateUrl == 'static/partials/my_posts.html') {
