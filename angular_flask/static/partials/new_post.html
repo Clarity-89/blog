@@ -1,32 +1,34 @@
-<div ng-cloak layout="column" flex="80" flex-xs="100" flex-sm="100" flex-md="80" flex-gt-lg="60">
-    <h3 class="page-heading">{{ heading }} Post</h3>
-    <md-content layout="row" layout-padding>
-        <form enctype='multipart/form-data' name="newPost" ng-submit="createPost(newPost)" novalidate>
-            <md-input-container class="md-block">
-                <label for="title">Title</label>
-                <input required name="title" placeholder="Your title" id="title" ng-model="post.title">
-                <div ng-messages="newPost.title.$error">
-                    <div ng-message="required">Title is required.</div>
-                </div>
-            </md-input-container>
-            <md-input-container class="md-block">
-                <input id="uploadImage" aria-label="Upload-image" type="file" name="coverPic" class="ng-hide"
-                       onchange="angular.element(this).scope().setFile(this)" file-model="myFile">
-                <md-button class="md-raised md-warn" ng-click="activateUpload()">Add cover image</md-button>
-                <md-switch id="enable-preview" ng-model="showPreview" aria-label="Enable preview">
-                    Enable preview
-                </md-switch>
-            </md-input-container>
-            <md-input-container class="md-block">
-                <div text-angular id="ta-body" name="body" ng-model="post.body" required></div>
-            </md-input-container>
-            <md-button type="submit" class="md-raised md-warn" id="publish">{{ button }}</md-button>
-        </form>
-    </md-content>
+<div ng-cloak layout="row" layout-align="center center">
+    <div flex="100" flex-gt-sm="80" flex-gt-lg="60">
+        <h3 class="page-heading">{{ heading }} Post</h3>
+        <md-content layout="row" layout-padding>
+            <form enctype='multipart/form-data' name="newPost" ng-submit="createPost(newPost)" novalidate>
+                <md-input-container class="md-block">
+                    <label for="title">Title</label>
+                    <input required name="title" placeholder="Your title" id="title" ng-model="post.title">
+                    <div ng-messages="newPost.title.$error">
+                        <div ng-message="required">Title is required.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <input id="uploadImage" aria-label="Upload-image" type="file" name="coverPic" class="ng-hide"
+                           onchange="angular.element(this).scope().setFile(this)" file-model="myFile">
+                    <md-button class="md-raised md-warn" ng-click="activateUpload()">Add cover image</md-button>
+                    <md-switch id="enable-preview" ng-model="showPreview" aria-label="Enable preview">
+                        Enable preview
+                    </md-switch>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <div text-angular id="ta-body" name="body" ng-model="post.body" required></div>
+                </md-input-container>
+                <md-button type="submit" class="md-raised md-warn" id="publish">{{ button }}</md-button>
+            </form>
+        </md-content>
 
-    <!--Post preview-->
-    <div ng-show="showPreview">
-        <h2 class="center page-heading">Preview</h2>
-        <post text="lg" post="post" image-src="imageSrc"></post>
+        <!--Post preview-->
+        <div ng-show="showPreview">
+            <h2 class="center page-heading">Preview</h2>
+            <post text="lg" post="post" image-src="imageSrc"></post>
+        </div>
     </div>
 </div>
