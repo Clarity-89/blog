@@ -1,12 +1,8 @@
-<div flex ng-controller="PostListController">
+<div flex class="layout-content" ng-controller="PostListController">
     <h2 class="page-heading">Latest posts</h2>
 
-    <div ng-repeat="post in posts | orderBy: '-date' | limitTo: 5 " class="md-padding" layout="row" layout-wrap=""
-         layout-align-gt-xs="center center"
-         layout-xs="column">
-        <!--<post></post>-->
-        <div flex="80" flex-xs="100" flex-sm="80" flex-gt-sm="50" layout="column">
-            <post></post>
-        </div>
+    <div ng-repeat="post in posts | orderBy: '-date' | limitTo: 5 "
+         layout="row" layout-align="center center">
+        <post flex="100" flex-gt-xs="50" flex-gt-lg="50" layout="column"></post>
     </div>
 </div>

@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='src/css/main.css') }}">
     <base href="/">
 </head>
-<body ng-controller="UserDetailsController">
+<body layout="column" ng-controller="UserDetailsController">
 
-<header layout="column">
-    <md-toolbar class="md-primary md-hue-2">
+<div layout="column" flex>
+    <md-toolbar class="md-primary md-hue-2 md-whiteframe-2dp">
         <div layout="row" layout-padding layout-align="space-between center">
             <div hide-xs hide-sm class="nav-buttons">
                 <md-button ng-href='/' class="md-raised">Home</md-button>
@@ -81,17 +81,20 @@
             </div>
         </div>
     </md-toolbar>
-</header>
 
-<main layout="row" flex layout-align="center" layout-xs="column" ng-view autoscroll>
+    <md-content md-scroll-y layout="column" flex>
+        <div layout-padding flex="noshrink" ng-view autoscroll>
 
-</main>
+        </div>
+        <div flex="noshrink" layout="row" >
+            <div id="footer-inner">
+                <h4>&copy; 2016 AngularFlask</h4>
+            </div>
+        </div>
+    </md-content>
 
-<footer>
-    <div layout="row" layout-align="center center">
-        <h4>&copy; 2016 AngularFlask</h4>
-    </div>
-</footer>
+</div>
+
 <script src="{{ url_for('static', filename='dist/vendor.js') }}"></script>
 <script src="{{ url_for('static', filename='dist/main.js') }}"></script>
 
