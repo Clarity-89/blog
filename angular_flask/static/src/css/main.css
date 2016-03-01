@@ -76,28 +76,26 @@ a {
 
 .para-sm {
     height: 2.813em; /*45px*/
-    font-size: .8em;
     overflow: hidden;
-    line-height: 1.25em;
+    line-height: 1.2em;
     -webkit-column-width: 150px;
     column-width: 150px;
 }
 
-.para-sm > * {
-    font-size: .8em;
+.para-sm, .para-sm > * {
+    font-size: .95em;
 }
 
 .para-md {
     height: 2.813em; /*45px*/
-    font-size: .8em;
     overflow: hidden;
-    line-height: 1.25em;
+    line-height: 1.2em;
     -webkit-column-width: 300px;
     column-width: 300px;
 }
 
-.para-md > * {
-    font-size: .8em;
+.para-md, .para-md > * {
+    font-size: .95em;
 }
 
 .img-lg {
