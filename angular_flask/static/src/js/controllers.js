@@ -278,8 +278,8 @@ angular.module('AngularFlask')
 
             /* Check if the logged in user has favorited the post and add red color to fav icon if yes*/
             function checkFav(post) {
-                if (post.favorited_by) {
-                    var user = $cookies.getObject('current_user');
+                var user = $cookies.getObject('current_user');
+                if (post.favorited_by && user) {
                     post.favorited_by.forEach(function (el) {
                         if (el.username === user.username) {
                             post.favClass = 'red';
