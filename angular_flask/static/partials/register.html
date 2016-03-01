@@ -1,7 +1,7 @@
-<div ng-cloak flex-xs="100" flex-sm="60" flex-md="50" flex-lg="40" flex-gt-lg="30"
-     ng-controller="UserController as userctrl">
+<div ng-cloak layout="row" layout-align="center start" ng-controller="UserController">
+
     <!--Register form-->
-    <md-content layout-padding ng-if="!hasAccount">
+    <md-content layout-padding ng-if="!hasAccount" flex-xs="100" flex-sm="60" flex-md="50" flex-lg="40" flex-gt-lg="30">
         <h1>Create an Account</h1>
         <form enctype='multipart/form-data' name="userForm" novalidate ng-submit="register(userForm)">
             <md-input-container class="md-block">
@@ -50,7 +50,7 @@
     </md-content>
 
     <!--Sign In form-->
-    <md-content layout-padding ng-if="hasAccount">
+    <md-content layout-padding ng-if="hasAccount" flex-xs="100" flex-sm="60" flex-md="50" flex-lg="40" flex-gt-lg="30">
         <h1>Sign in</h1>
         <form name="loginForm" novalidate ng-submit="login(loginForm)">
             <md-input-container class="md-block">
@@ -63,7 +63,8 @@
             </md-input-container>
             <md-input-container class="md-block">
                 <label for="password">Password</label>
-                <input required type="password" name="password" id="password" ng-model="user.password" ng-change="changePassword()">
+                <input required type="password" name="password" id="password" ng-model="user.password"
+                       ng-change="changePassword()">
                 <div ng-messages="loginForm.password.$error">
                     <div ng-message="required">Password is required.</div>
                     <div ng-message="passwordIncorrect">Incorrect password.</div>
