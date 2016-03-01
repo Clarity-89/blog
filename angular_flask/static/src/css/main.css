@@ -263,6 +263,10 @@ md-tooltip .md-content {
     height: auto;
 }
 
+.red {
+    color: #D50000;
+}
+
 /*Media queries*/
 /*Mobile*/
 @media screen and (max-device-width: 480px) {

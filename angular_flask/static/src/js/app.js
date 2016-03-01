@@ -23,6 +23,12 @@ angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimat
                 })
                 .when('/posts/:id', {
                     templateUrl: '/static/partials/post-detail.html',
+                    controller: 'PostDetailController',
+                    resolve: {
+                        response: function ($route, allPosts) {
+                            return allPosts.getPosts().get({id: parseInt($route.current.params.id, 10)});
+                        }
+                    }
                 })
                 .when('/blog', {
                     templateUrl: 'static/partials/post-list.html',

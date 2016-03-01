@@ -80,7 +80,7 @@
             <md-tooltip md-direction="bottom">
                 Favorite
             </md-tooltip>
-            <md-icon md-font-set="material-icons">favorite</md-icon>
+            <md-icon ng-class="post.favClass" md-font-set="material-icons">favorite</md-icon>
         </md-button>
         <div>
             <md-tooltip md-direction="top">
@@ -105,7 +105,7 @@
                 </div>
                 <span ng-show="post.comments.length - 10 > 0">and {{ post.comments.length - 10 }} more...</span>
             </md-tooltip>
-            <a class="num">{{ post.comments.length || 0 }}</a>
+            <a ng-click="gotoComments(post)" class="num">{{ post.comments.length || 0 }}</a>
         </div>
     </md-card-actions>
 
