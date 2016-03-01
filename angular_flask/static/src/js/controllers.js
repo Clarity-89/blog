@@ -29,7 +29,7 @@ angular.module('AngularFlask')
                         it.img = 'img-lg';
                         it.para = 'para-lg';
                         break;
-                    case 4:
+                    case 2:
                         it.span.col = 2;
                         it.para = 'para-md';
                         break;

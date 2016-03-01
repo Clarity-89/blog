@@ -7,21 +7,6 @@ body {
     font-size: 16px;
 }
 
-/*body:before {
-  content: "";
-  display: block;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -10;
-  background: url("../../img/teal.jpg") no-repeat center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}*/
 #main-view {
     background: url("../../img/background.jpg") center center fixed;
     -webkit-background-size: cover;
@@ -300,19 +285,36 @@ md-tooltip .md-content {
         padding: 0;
     }
 
-    .image-lg {
-        height: 15em;
+    .img-lg {
+        height: 120px;
+    }
+
+    .img-sm {
+        height: 120px;
+    }
+
+    .para-sm, .para-md {
+        height: 200px;
+        font-size: 1em; /*14px*/
+        overflow: hidden;
+        line-height: 1.5em;
+        -webkit-column-width: 150px;
+        column-width: 150px;
+    }
+
+    .para-sm > *, .para-md > * {
+        font-size: 1em;
     }
 
     /* Do not make background fixed on mobile cause it's not well supported*/
     #main-view {
-        background: url("../../img/teal.jpg") center center;
+        background: url("../../img/background.jpg") center center;
     }
 
 }
 
 /*Laptop*/
-@media screen and (max-device-width: 1440px) {
+@media screen and (min-device-width: 481px) and (max-device-width: 1440px) {
     .img-lg {
         height: 200px;
     }
@@ -320,5 +322,5 @@ md-tooltip .md-content {
     .img-sm {
         height: 80px;
     }
-}
 
+}
