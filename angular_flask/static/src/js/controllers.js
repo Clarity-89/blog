@@ -18,30 +18,29 @@ angular.module('AngularFlask')
         // Build a grid of posts of various sizes
         function buildGridModel(posts) {
             var it, results = [];
+
             for (var j = 0; j < posts.length; j++) {
+
                 it = posts[j];
-                it.span = {row: 1, col: 1};
-                it.img = 'img-sm';
-                it.para = 'para-sm';
-                switch (j + 1) {
-                    case 1:
-                        it.span.row = it.span.col = 2;
-                        it.img = 'img-lg';
-                        it.para = 'para-lg';
-                        break;
-                    case 2:
-                        it.span.col = 2;
-                        it.para = 'para-md';
-                        break;
-                    case 5:
-                        it.span.row = it.span.col = 2;
-                        it.img = 'img-lg';
-                        it.para = 'para-lg';
-                        break;
-                }
+                it.span = {
+                    row: randomSpan(),
+                    col: randomSpan()
+                };
+                it.img = it.span.row === 2 ? 'img-lg' : 'img-sm';
+                it.para = it.span.col === 2 && it.span.row === 1 ? 'para-md' : it.span.col === 1 && it.span.row === 1 ? 'para-sm' : 'para-lg';
                 results.push(it);
             }
             return posts;
+        }
+
+        // Get a random number for spans
+        function randomSpan() {
+            var r = Math.random();
+            if (r < 0.7) {
+                return 1;
+            } else {
+                return 2;
+            }
         }
     }])
     .controller('PostDetailController', ['$scope', 'response', 'favoritePost', function ($scope, response, favoritePost) {
