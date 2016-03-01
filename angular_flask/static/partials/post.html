@@ -41,8 +41,8 @@
         </md-fab-speed-dial>
 
         <!--Edit/delete menu-->
-        <md-menu md-position-mode="target-right target" ng-show="getUserDetails().username ===  post.author">
-            <md-button class="md-icon-button" aria-label="Post Menu" disabled="{{ post.disabled }}">
+        <md-menu md-position-mode="target-right target" ng-show="getUserDetails().username ===  post.author" ng-if="!post.disabled">
+            <md-button class="md-icon-button" aria-label="Post Menu">
                 <md-icon aria-label="Open share menu" md-menu-origin md-font-set="material-icons"
                          ng-click="$mdOpenMenu(ev)">more_vert
                 </md-icon>

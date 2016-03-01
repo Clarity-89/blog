@@ -14,7 +14,7 @@
                     <input id="uploadImage" aria-label="Upload-image" type="file" name="coverPic" class="ng-hide"
                            onchange="angular.element(this).scope().setFile(this)" file-model="myFile">
                     <md-button class="md-raised md-primary" ng-click="activateUpload()">Add cover image</md-button>
-                    <md-switch id="enable-preview" ng-model="showPreview" aria-label="Enable preview">
+                    <md-switch class="md-primary" id="enable-preview" ng-model="showPreview" aria-label="Enable preview">
                         Enable preview
                     </md-switch>
                 </md-input-container>
