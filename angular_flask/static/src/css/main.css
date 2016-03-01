@@ -79,6 +79,7 @@ a {
     overflow: hidden;
     line-height: 1.2em;
     -webkit-column-width: 150px;
+    -moz-column-width: 150px;
     column-width: 150px;
 }
 
@@ -91,6 +92,7 @@ a {
     overflow: hidden;
     line-height: 1.2em;
     -webkit-column-width: 300px;
+    -moz-column-width: 300px;
     column-width: 300px;
 }
 
@@ -106,6 +108,7 @@ a {
     height: 10em;
     overflow: hidden;
     -webkit-column-width: 300px;
+    -moz-column-width: 300px;
     column-width: 300px;
 }
 
@@ -124,6 +127,7 @@ a {
     overflow: hidden;
     line-height: 1.5em;
     -webkit-column-width: 1000px;
+    -moz-column-width: 100px;
     column-width: 1000px;
 }
 
@@ -303,6 +307,7 @@ md-tooltip .md-content {
         overflow: hidden;
         line-height: 1.5em;
         -webkit-column-width: 150px;
+        -moz-column-width: 150px;
         column-width: 150px;
     }
 
