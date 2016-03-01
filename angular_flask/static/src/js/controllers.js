@@ -265,12 +265,15 @@ angular.module('AngularFlask')
                 $location.path('/new');
             }
         }])
-    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', function ($scope, userPosts, $cookies) {
+    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', 'favoritePost', function ($scope, userPosts, $cookies, favoritePost) {
         $scope.size = "sm";
 
         userPosts.getPosts($cookies.getObject('current_user').id)
             .then(function (response) {
                     $scope.posts = response.data.posts;
+                    $scope.posts.forEach(function (el) {
+                        favoritePost.checkFav(el);
+                    });
                 },
                 function (response) {
                     console.log('Error:', response.status, response.statusText);
