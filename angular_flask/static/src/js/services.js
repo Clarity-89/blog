@@ -117,13 +117,14 @@ angular.module('AngularFlask')
         this.checkFav = function (post) {
             var user = $cookies.getObject('current_user');
             if (user) {
-                post.favorited_by.forEach(function (el) {
-                    if (user.id === el.id) {
-                        post.favClass = 'red';
-                    } else {
-                        post.favClass = '';
-                    }
-                })
+                var filtered = post.favorited_by.filter(function (el) {
+                    return el.username == user.username;
+                });
+                if (filtered.length) {
+                    post.favClass = 'red';
+                } else {
+                    post.favClass = '';
+                }
             }
         }
     }])

@@ -55,7 +55,8 @@
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
-                    <md-button aria-label="Delete post" ng-click="showConfirm($event, post.id)" ng-disabled="post.disabled">
+                    <md-button aria-label="Delete post" ng-click="showConfirm($event, post.id)"
+                               ng-disabled="post.disabled">
                         <md-icon md-font-set="material-icons" aria-label="Delete">delete</md-icon>
                         Delete Post
                     </md-button>
@@ -89,7 +90,8 @@
                 </div>
                 <span ng-show="post.favorited_by.length - 10 > 0">and {{ post.favorited_by.length - 10 }} more...</span>
             </md-tooltip>
-            <a href="#" ng-click="!post.disabled && showAdvanced($event, post)" class="num">{{ post.favorited || 0 }}</a>
+            <a href="#" ng-click="!post.disabled && showAdvanced($event, post)" class="num">
+                {{ post.favorited || 0 }}</a>
         </div>
         <md-button ng-click="gotoComments(post)" id="comment-button" class="md-icon-button"
                    aria-label="Comments" ng-disabled="post.disabled">
