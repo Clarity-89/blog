@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('AngularFlask', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize', 'ngMessages', 'ngPassword', 'ngCookies'])
-    .config(['$routeProvider', '$locationProvider', '$mdThemingProvider', '$httpProvider',
-        function ($routeProvider, $locationProvider, $mdThemingProvider, $httpProvider) {
+    .config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
+        function ($routeProvider, $locationProvider, $mdThemingProvider) {
             $routeProvider
                 .when('/', {
                     templateUrl: 'static/partials/landing.html',
