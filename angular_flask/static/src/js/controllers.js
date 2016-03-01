@@ -6,7 +6,7 @@ angular.module('AngularFlask')
         allPosts.getPosts().get()
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
-                console.log(response);
+                //console.log(response);
                 buildGridModel($scope.posts);
             },
             function (response) {
@@ -274,8 +274,8 @@ angular.module('AngularFlask')
                 });
 
     }])
-    .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog',
-        function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog) {
+    .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', '$anchorScroll',
+        function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog, $anchorScroll) {
 
             $scope.favorite = function (post) {
                 favoritePost.favorite(post)
@@ -320,6 +320,18 @@ angular.module('AngularFlask')
                     }, function error(response) {
                         console.log('Could not add comment', response);
                     });
+            };
+
+            $scope.gotoComments = function (post) {
+                var comments = document.getElementById('comments');
+                // If we are on post detail page, scroll to comments
+                if (comments) {
+                    $location.hash('comments');
+                    $anchorScroll();
+                    // Else go to post detail page and jump to comments
+                } else {
+                    $location.path('/posts/' + post.id).hash('comments');
+                }
             };
 
             $scope.showAdvanced = function (ev, post) {

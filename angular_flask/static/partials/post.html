@@ -91,7 +91,7 @@
             </md-tooltip>
             <a href="#" ng-click="showAdvanced($event, post)" class="num">{{ post.favorited || 0 }}</a>
         </div>
-        <md-button ng-href="/posts/{{ post.id }}#comments" id="comment-button" class="md-icon-button"
+        <md-button ng-click="gotoComments(post)" id="comment-button" class="md-icon-button"
                    aria-label="Comments">
             <md-tooltip md-direction="bottom">
                 Comments
@@ -105,7 +105,7 @@
                 </div>
                 <span ng-show="post.comments.length - 10 > 0">and {{ post.comments.length - 10 }} more...</span>
             </md-tooltip>
-            <a ng-href="/posts/{{ post.id }}#comments" class="num">{{ post.comments.length || 0 }}</a>
+            <a class="num">{{ post.comments.length || 0 }}</a>
         </div>
     </md-card-actions>
 
