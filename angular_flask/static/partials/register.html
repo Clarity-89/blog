@@ -24,7 +24,7 @@
             <md-input-container class="md-block">
                 <input type="file" class="ng-hide" id="uploadAva" name="ava" aria-label="upload avatar"
                        onchange="angular.element(this).scope().setFile(this)" file-model="myAva">
-                <md-button class="md-warn" ng-click="activateUpload()">Upload image</md-button>
+                <md-button class="md-raised md-primary" ng-click="activateUpload()">Upload image</md-button>
                 <img id="imgPreview" ng-src="{{ imageSrc }}" alt="Profile picture"/>
             </md-input-container>
             <md-input-container class="md-block">
@@ -44,7 +44,7 @@
                     <div ng-message="passwordMatch">Your passwords did not match</div>
                 </div>
             </md-input-container>
-            <md-button type="submit" class="md-primary">Register</md-button>
+            <md-button type="submit" class="md-raised md-primary">Register</md-button>
         </form>
         <p>If you already have an account <a href="#" ng-click="changeForm()">Sign in</a></p>
     </md-content>
@@ -70,7 +70,7 @@
                     <div ng-message="passwordIncorrect">Incorrect password.</div>
                 </div>
             </md-input-container>
-            <md-button type="submit" class="md-primary">Log In</md-button>
+            <md-button type="submit" class="md-raised md-primary">Log In</md-button>
         </form>
         <p>Don't have an account? <a href="#" ng-click="changeForm()">Register</a></p>
     </md-content>
