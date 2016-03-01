@@ -102,7 +102,7 @@ def add_post():
         # Generate unique file name
         image = request.files['file']
         img = Image.open(image)
-        maxsize = (1028, 1028)
+        maxsize = (2046, 2046)
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
         img.thumbnail(maxsize, Image.ANTIALIAS)
         img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))

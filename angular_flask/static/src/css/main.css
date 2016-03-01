@@ -90,18 +90,40 @@ a {
 }
 
 .para-sm {
-    height: 45px;
-    /*-webkit-column-width: 150px;
-    column-width: 200px;*/
+    height: 2.813em; /*45px*/
+    font-size: .8em;
+    overflow: hidden;
+    line-height: 1.25em;
+    -webkit-column-width: 150px;
+    column-width: 150px;
+}
+
+.para-sm > * {
+    font-size: .8em;
+}
+
+.para-md {
+    height: 2.813em; /*45px*/
+    font-size: .8em;
+    overflow: hidden;
+    line-height: 1.25em;
+    -webkit-column-width: 300px;
+    column-width: 300px;
+}
+
+.para-md > * {
     font-size: .8em;
 }
 
 .img-lg {
-    height: 300px;
+    height: 18.75em;
 }
 
 .para-lg {
-    height: 160px;
+    height: 10em;
+    overflow: hidden;
+    -webkit-column-width: 300px;
+    column-width: 300px;
 }
 
 #register {

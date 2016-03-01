@@ -31,6 +31,7 @@ angular.module('AngularFlask')
                         break;
                     case 4:
                         it.span.col = 2;
+                        it.para = 'para-md';
                         break;
                     case 5:
                         it.span.row = it.span.col = 2;
