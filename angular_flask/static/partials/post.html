@@ -22,7 +22,7 @@
             <md-fab-actions>
                 <md-button
                         href="https://www.facebook.com/dialog/share?app_id=819933928129983&href={{ 'http://0.0.0.0:5000/posts/' + post.id }}&redirect_uri=http://0.0.0.0:5000/posts"
-                        aria-label="Share on Facebook" class="md-fab md-raised md-mini">
+                        aria-label="Share on Facebook" class="md-fab md-raised md-mini" ng-disabled="post.disabled">
                     <md-tooltip md-direction="bottom">
                         Share on Facebook
                     </md-tooltip>
@@ -31,7 +31,7 @@
                 <md-button
                         href="https://twitter.com/intent/tweet?text='{{ post.title }}'%20by%20{{ post.author }}&
                             &url={{ 'http://0.0.0.0:5000/posts/' + post.id }}"
-                        aria-label="Share on Twitter" class="md-fab md-raised md-mini">
+                        aria-label="Share on Twitter" class="md-fab md-raised md-mini" ng-disabled="post.disabled">
                     <md-tooltip md-direction="bottom">
                         Share on Twitter
                     </md-tooltip>
@@ -41,7 +41,7 @@
         </md-fab-speed-dial>
 
         <!--Edit/delete menu-->
-        <md-menu md-position-mode="target-right target" ng-show="getUserDetails().username ===  post.author" ng-if="!post.disabled">
+        <md-menu md-position-mode="target-right target" ng-show="getUserDetails().username ===  post.author">
             <md-button class="md-icon-button" aria-label="Post Menu">
                 <md-icon aria-label="Open share menu" md-menu-origin md-font-set="material-icons"
                          ng-click="$mdOpenMenu(ev)">more_vert
@@ -49,13 +49,13 @@
             </md-button>
             <md-menu-content width="2">
                 <md-menu-item>
-                    <md-button aria-label="Edit post" ng-click="editPost(post)">
+                    <md-button aria-label="Edit post" ng-click="editPost(post)" ng-disabled="post.disabled">
                         <md-icon md-font-set="material-icons" aria-label="Edit">mode_edit</md-icon>
                         Edit Post
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
-                    <md-button aria-label="Delete post" ng-click="showConfirm($event, post.id)">
+                    <md-button aria-label="Delete post" ng-click="showConfirm($event, post.id)" ng-disabled="post.disabled">
                         <md-icon md-font-set="material-icons" aria-label="Delete">delete</md-icon>
                         Delete Post
                     </md-button>
@@ -89,10 +89,10 @@
                 </div>
                 <span ng-show="post.favorited_by.length - 10 > 0">and {{ post.favorited_by.length - 10 }} more...</span>
             </md-tooltip>
-            <a href="#" ng-click="showAdvanced($event, post)" class="num">{{ post.favorited || 0 }}</a>
+            <a href="#" ng-click="!post.disabled && showAdvanced($event, post)" class="num">{{ post.favorited || 0 }}</a>
         </div>
         <md-button ng-click="gotoComments(post)" id="comment-button" class="md-icon-button"
-                   aria-label="Comments">
+                   aria-label="Comments" ng-disabled="post.disabled">
             <md-tooltip md-direction="bottom">
                 Comments
             </md-tooltip>
@@ -105,7 +105,7 @@
                 </div>
                 <span ng-show="post.comments.length - 10 > 0">and {{ post.comments.length - 10 }} more...</span>
             </md-tooltip>
-            <a ng-click="gotoComments(post)" class="num">{{ post.comments.length || 0 }}</a>
+            <a ng-click="!post.disabled && gotoComments(post)" class="num">{{ post.comments.length || 0 }}</a>
         </div>
     </md-card-actions>
 
