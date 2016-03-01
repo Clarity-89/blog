@@ -108,9 +108,23 @@ angular.module('AngularFlask')
             });
         };
     }])
-    .service('favoritePost', ['$http', function ($http) {
+    .service('favoritePost', ['$http', '$cookies', function ($http, $cookies) {
         this.favorite = function (post) {
             return $http.post("/blog/api/posts/" + post.id, {});
+        };
+
+        /* Check if the logged in user has favorited the post and add red color to fav icon if yes */
+        this.checkFav = function (post) {
+            var user = $cookies.getObject('current_user');
+            if (user) {
+                post.favorited_by.forEach(function (el) {
+                    if (el.username === user.username) {
+                        post.favClass = 'red';
+                    } else {
+                        post.favClass = '';
+                    }
+                })
+            }
         }
     }])
     .service('addComment', ['$http', function ($http) {

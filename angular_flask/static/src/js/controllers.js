@@ -1,12 +1,14 @@
 'use strict';
 angular.module('AngularFlask')
-    .controller('PostListController', ['$scope', 'allPosts', function ($scope, allPosts) {
+    .controller('PostListController', ['$scope', 'allPosts', 'favoritePost', function ($scope, allPosts, favoritePost) {
         $scope.posts = [];
         $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
         allPosts.getPosts().get()
             .$promise.then(function (response) {
                 $scope.posts = response.posts;
-                //console.log(response);
+                $scope.posts.forEach(function (el) {
+                    favoritePost.checkFav(el);
+                });
                 buildGridModel($scope.posts);
             },
             function (response) {
@@ -41,12 +43,14 @@ angular.module('AngularFlask')
             return posts;
         }
     }])
-    .controller('PostDetailController', ['$scope', 'response', function ($scope, response) {
+    .controller('PostDetailController', ['$scope', 'response', 'favoritePost', function ($scope, response, favoritePost) {
         $scope.post = {};
         $scope.size = "lg";
+
         response.$promise.then(function (response) {
                 $scope.post = response.post;
                 $scope.post.comments = response.comments;
+                favoritePost.checkFav($scope.post)
             },
             function (response) {
                 console.log('Error:', response.status, response.statusText);
@@ -276,28 +280,11 @@ angular.module('AngularFlask')
     .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', '$anchorScroll', '$cookies',
         function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog, $anchorScroll, $cookies) {
 
-            /* Check if the logged in user has favorited the post and add red color to fav icon if yes*/
-            function checkFav(post) {
-                var user = $cookies.getObject('current_user');
-                if (post.favorited_by && user) {
-                    post.favorited_by.forEach(function (el) {
-                        if (el.username === user.username) {
-                            post.favClass = 'red';
-                        } else {
-                            post.favClass = '';
-                        }
-                    })
-                }
-            }
-
-            // Run function when the posts are instantiated for each post
-            checkFav($scope.post);
-
             $scope.favorite = function (post) {
                 favoritePost.favorite(post)
                     .then(function success(response) {
                             angular.extend(post, response.data.post);
-                            checkFav(post);
+                            favoritePost.checkFav(post);
                         },
                         function error(response) {
                             console.log('Couldn\'t favorite a post', response);
