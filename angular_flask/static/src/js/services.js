@@ -118,7 +118,7 @@ angular.module('AngularFlask')
             var user = $cookies.getObject('current_user');
             if (user) {
                 post.favorited_by.forEach(function (el) {
-                    if (el.username === user.username) {
+                    if (user.id === el.id) {
                         post.favClass = 'red';
                     } else {
                         post.favClass = '';
