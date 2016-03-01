@@ -122,11 +122,11 @@
                 <md-input-container class="md-block" flex>
                     <label class="custom-label" for="add-comment">
                         {{ post.comments.length ? "Join the" : "Start a "  }} discussion</label>
-                    <input type="text" id="add-comment" ng-model="comment">
+                    <input type="text" id="add-comment" ng-model="comment" ng-disabled="post.disabled">
                 </md-input-container>
 
                 <md-button type="submit" class="md-icon-button md-primary" aria-label="Post comment"
-                           ng-disabled="!comment" ng-click="">
+                           ng-disabled="!comment">
                     <md-icon md-font-set="material-icons">done</md-icon>
                 </md-button>
             </div>
