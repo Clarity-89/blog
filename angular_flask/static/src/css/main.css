@@ -123,6 +123,8 @@ a {
     max-height: 6.25em;
     overflow: hidden;
     line-height: 1.5em;
+    -webkit-column-width: 1000px;
+    column-width: 1000px;
 }
 
 .body-text-lg {
