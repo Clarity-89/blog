@@ -63,6 +63,8 @@
             </md-menu-content>
         </md-menu>
     </md-card-header>
+
+    <!-- Card cover image and title -->
     <a ng-href="{{ post.disabled ? '#' : '/posts/' + post.id}}">
         <div class="md-card-image image-{{ size }}"
              ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
@@ -70,6 +72,8 @@
             <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
         </div>
     </a>
+
+    <!-- Favorite post and comment icons -->
     <md-card-actions layout="row" layout-align="end center">
         <md-button id="fav-button" class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}"
                    ng-click="favorite(post)">
@@ -104,9 +108,13 @@
             <a ng-href="/posts/{{ post.id }}#comments" class="num">{{ post.comments.length || 0 }}</a>
         </div>
     </md-card-actions>
+
+    <!-- Text of the post -->
     <md-card-content>
         <div class="body-text-{{ size }}" ta-bind ng-model="post.body">{{ post.body }}</div>
     </md-card-content>
+
+    <!-- Comments -->
     <md-card-content id="comments" class="comment-section" ng-if="!posts">
         <h3 class="comment-section-title">Comments</h3>
         <form name="commentForm" ng-submit="addComment(post, comment)">
