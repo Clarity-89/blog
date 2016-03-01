@@ -71,7 +71,7 @@ a {
 
 /* Custom card classes */
 .img-sm {
-    height: 150px;
+    height: 130px;
 }
 
 .para-sm {
@@ -134,6 +134,10 @@ a {
 
 .image-lg {
     height: 25em;
+}
+
+md-card md-card-content {
+    padding: 0 16px;
 }
 
 .image-sm {
