@@ -282,6 +282,16 @@ md-tooltip .md-content {
     color: #D50000;
 }
 
+/* About page */
+.logos {
+    border: 1px solid #000000;
+}
+
+.logos > img {
+    width: 200px;
+    height: 150px;
+}
+
 /*Media queries*/
 /*Mobile*/
 @media screen and (max-device-width: 480px) {
