@@ -13,15 +13,15 @@
                 <md-input-container class="md-block">
                     <input id="uploadImage" aria-label="Upload-image" type="file" name="coverPic" class="ng-hide"
                            onchange="angular.element(this).scope().setFile(this)" file-model="myFile">
-                    <md-button class="md-raised md-primary" ng-click="activateUpload()">Add cover image</md-button>
-                    <md-switch class="md-primary" id="enable-preview" ng-model="showPreview" aria-label="Enable preview">
+                    <md-button class="md-raised md-accent" ng-click="activateUpload()">Add cover image</md-button>
+                    <md-switch class="md-accent" id="enable-preview" ng-model="showPreview" aria-label="Enable preview">
                         Enable preview
                     </md-switch>
                 </md-input-container>
                 <md-input-container class="md-block">
                     <div text-angular id="ta-body" name="body" ng-model="post.body" required></div>
                 </md-input-container>
-                <md-button type="submit" class="md-raised md-primary" id="publish">{{ button }}</md-button>
+                <md-button type="submit" class="md-raised md-accent" id="publish">{{ button }}</md-button>
             </form>
         </md-content>
 
