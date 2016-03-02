@@ -1,4 +1,4 @@
-angular.module('AngularFlask')
+angular.module('app')
     .directive('fileModel', ['$parse', function ($parse) {
         return {
             restrict: 'A',

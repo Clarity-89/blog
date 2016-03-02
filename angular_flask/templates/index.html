@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" ng-app="AngularFlask" ng-cloak>
+<html lang="en" ng-app="app" ng-cloak>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AngularFlask</title>
+    <title>The Blog - share your ideas</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
@@ -88,7 +88,7 @@
         </div>
         <div id="footer-outer">
             <div id="footer-inner">
-                <h4>&copy; 2016 AngularFlask</h4>
+                <h4>&copy; 2016 The Blog</h4>
             </div>
         </div>
     </md-content>
@@ -98,5 +98,16 @@
 <script src="{{ url_for('static', filename='dist/vendor.js') }}"></script>
 <script src="{{ url_for('static', filename='dist/main.js') }}"></script>
 
+<!-- Script tags for social buttons -->
+<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+<script>!function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+    if (!d.getElementById(id)) {
+        js = d.createElement(s);
+        js.id = id;
+        js.src = p + '://platform.twitter.com/widgets.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }
+}(document, 'script', 'twitter-wjs');</script>
 </body>
 </html>

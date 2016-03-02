@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AngularFlask')
+angular.module('app')
     .constant("baseURL", "http://0.0.0.0:5000")
     // A service to share 'post' object between controllers
     .service('sharedPost', function () {

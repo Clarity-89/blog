@@ -1,5 +1,5 @@
 'use strict';
-angular.module('AngularFlask')
+angular.module('app')
     .controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'goTo',
         function ($scope, allPosts, favoritePost, goTo) {
             $scope.posts = [];

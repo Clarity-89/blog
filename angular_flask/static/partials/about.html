@@ -1,4 +1,4 @@
-<div layout="row" layout-align="center" id="about-page">
+<div layout="row" layout-align="center" id="about-page" ng-controller="UserDetailsController">
     <md-content class="md-whiteframe-3dp" layout="column" flex="100" flex-gt-md="60">
         <img src="http://precisionmedicine.ucsf.edu/sites/precisionmedicine.ucsf.edu/files/fields/image/pillar/Knowledge-Network-head.jpg">
 
@@ -55,14 +55,26 @@
             </md-tab>
             <md-tab label="Social">
                 <md-content class="md-padding">
-                    <h1 class="about-text">Social</h1>
-                    <p class="about-text">Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus.
-                        Curabitur posuere
-                        molestie
-                        dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere
-                        mi.
-                        Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam,
-                        congue eu enim scelerisque, finibus commodo lectus.</p>
+                    <h3 class="about-text">If you like this project share it on social media and star or fork on
+                        Github.</h3>
+                    <!-- Github buttons -->
+                    <a class="github-button" href="https://github.com/Clarity-89/blog" data-icon="octicon-star"
+                       data-style="mega" data-count-href="/Clarity-89/blog/stargazers"
+                       data-count-api="/repos/Clarity-89/blog#stargazers_count"
+                       data-count-aria-label="# stargazers on GitHub"
+                       aria-label="Star Clarity-89/blog on GitHub">Star</a>
+
+                    <a class="github-button" href="https://github.com/Clarity-89/blog/fork"
+                       data-icon="octicon-repo-forked" data-style="mega" data-count-href="/Clarity-89/blog/network"
+                       data-count-api="/repos/Clarity-89/blog#forks_count" data-count-aria-label="# forks on GitHub"
+                       aria-label="Fork Clarity-89/blog on GitHub">Fork</a>
+
+                    <!-- Twitter button -->
+                    <a href="https://twitter.com/share" class="twitter-share-button"
+                       data-via="{{ getUserDetails().username }}"
+                       data-size="large">Tweet</a>
+
+
                 </md-content>
             </md-tab>
         </md-tabs>
