@@ -287,6 +287,7 @@ md-tooltip .md-content {
     border: 1px solid #979797;
     text-align: center;
     padding: 20px;
+    margin: 30px auto;
 }
 
 .logos > img {
