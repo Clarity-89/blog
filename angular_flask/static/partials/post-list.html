@@ -1,5 +1,5 @@
 <div ng-controller="PostListController" flex ng-cloak="" layout-padding id="list-background">
-    <md-grid-list md-cols="1" md-cols-sm="2" md-cols-md="3"  md-cols-lg="4" md-cols-gt-lg="6" md-row-height-gt-md="1:1"
+    <md-grid-list md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-lg="4" md-cols-gt-lg="6" md-row-height-gt-md="1:1"
                   md-row-height="4:3"
                   md-gutter="8px" md-gutter-gt-sm="18px">
 
@@ -17,7 +17,7 @@
                     </md-card-header-text>
                 </md-card-header>
 
-                 <!-- Card cover image and title -->
+                <!-- Card cover image and title -->
                 <a href="/posts/{{ post.id }}">
                     <div class="md-card-image" ng-class=" post.img "
                          ng-style="{'background-image':'url(' + post.cover_photo + ')'}">
@@ -25,41 +25,37 @@
                     </div>
                 </a>
                 <!-- Favorite post and comment icons -->
-                 <md-card-actions layout="row" layout-align="end center">
-        <md-button id="fav-button" class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}"
-                   ng-click="favorite(post)">
-            <md-tooltip md-direction="bottom">
-                Favorite
-            </md-tooltip>
-            <md-icon ng-class="post.favClass" md-font-set="material-icons">favorite</md-icon>
-        </md-button>
-        <div>
-            <md-tooltip md-direction="top">
-                <div ng-repeat="user in post.favorited_by | limitTo: 10">
-                    {{ user.username }}
-                </div>
-                <span ng-show="post.favorited_by.length - 10 > 0">and {{ post.favorited_by.length - 10 }} more...</span>
-            </md-tooltip>
-            <a href="#" ng-click="!post.disabled && showAdvanced($event, post)" class="num">
-                {{ post.favorited || 0 }}</a>
-        </div>
-        <md-button ng-click="gotoComments(post)" id="comment-button" class="md-icon-button"
-                   aria-label="Comments" ng-disabled="post.disabled">
-            <md-tooltip md-direction="bottom">
-                Comments
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">comments</md-icon>
-        </md-button>
-        <div>
-            <md-tooltip md-direction="top">
-                <div ng-repeat="user in post.comments | limitTo: 10">
-                    {{ user.author }}
-                </div>
-                <span ng-show="post.comments.length - 10 > 0">and {{ post.comments.length - 10 }} more...</span>
-            </md-tooltip>
-            <a ng-click="!post.disabled && gotoComments(post)" class="num">{{ post.comments.length || 0 }}</a>
-        </div>
-    </md-card-actions>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button id="fav-button" class="md-icon-button" aria-label="Favorite"
+                               disabled="{{ post.disabled }}"
+                               ng-click="favorite(post)">
+                        <md-icon ng-class="post.favClass" md-font-set="material-icons">favorite</md-icon>
+                    </md-button>
+                    <div>
+                        <md-tooltip md-direction="top">
+                            <div ng-repeat="user in post.favorited_by | limitTo: 10">
+                                {{ user.username }}
+                            </div>
+                            <span ng-show="post.favorited_by.length - 10 > 0">and {{ post.favorited_by.length - 10 }} more...</span>
+                        </md-tooltip>
+                        <a href="#" ng-click="!post.disabled && showAdvanced($event, post)" class="num">
+                            {{ post.favorited || 0 }}</a>
+                    </div>
+                    <md-button ng-click="gotoComments(post)" id="comment-button" class="md-icon-button"
+                               aria-label="Comments" ng-disabled="post.disabled">
+                        <md-icon md-font-set="material-icons">comments</md-icon>
+                    </md-button>
+                    <div>
+                        <md-tooltip md-direction="top">
+                            <div ng-repeat="user in post.comments | limitTo: 10">
+                                {{ user.author }}
+                            </div>
+                            <span ng-show="post.comments.length - 10 > 0">and {{ post.comments.length - 10 }} more...</span>
+                        </md-tooltip>
+                        <a ng-click="!post.disabled && gotoComments(post)" class="num">
+                            {{ post.comments.length || 0 }}</a>
+                    </div>
+                </md-card-actions>
 
                 <!-- Text of the post -->
                 <md-card-content>
