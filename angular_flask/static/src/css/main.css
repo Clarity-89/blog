@@ -17,7 +17,7 @@ body {
 
 /* Fix Chrome 48 flexbog bug */
 #footer-outer {
-    position: absolute;
+    position: relative;
     width: 100%;
 }
 
@@ -283,8 +283,13 @@ md-tooltip .md-content {
 }
 
 /* About page */
+
+#about-page {
+    margin-bottom: 30px;
+}
+
 .logos {
-    border: 1px solid #979797;
+    /* border: 1px solid #979797;*/
     text-align: center;
     padding: 20px;
     margin: 30px auto;
