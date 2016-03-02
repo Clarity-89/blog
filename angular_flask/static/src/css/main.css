@@ -297,12 +297,20 @@ md-tooltip .md-content {
     text-align: center;
     padding: 20px;
     margin: 30px auto;
-
 }
 
 .logos > img {
     width: 200px;
     height: 150px;
+}
+
+.social {
+    min-height: 200px;
+}
+
+.social > .about-text {
+    padding-bottom: 30px;
+    text-align: center;
 }
 
 /*Media queries*/
