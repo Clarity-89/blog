@@ -5,7 +5,7 @@
         <md-tabs md-dynamic-height md-border-bottom>
             <md-tab label="About">
                 <md-content class="md-padding">
-                    <h1 class="md-display-2">About The Blog</h1>
+                    <h3>About The Blog</h3>
                     <p class="about-text">The Blog is the place where can share your thoughts and ideas with others as
                         well as give and
                         receive valuable feedback. It is easy to get started. Create an account, log in and from the
@@ -28,18 +28,25 @@
                 </md-content>
             </md-tab>
             <md-tab label="Technologies used">
-                <md-content class="md-padding" >
-                    <h1 class="md-display-2">This site is built using three core technologies</h1>
+                <md-content class="md-padding">
+                    <h3 class="center">This site is built using three core technologies</h3>
                     <div layout="row" layout-xs="column" layout-align="space-around center">
-                        <div class="logos">
+                        <div class="logos" flex="30" flex-xs="100">
                             <img src="https://cms-assets.tutsplus.com/uploads/users/34/syllabuses/717/preview_image/angular-js-firebase.png">
+                            <h3><a href="https://angularjs.org/">Angular.js 1.x</a></h3>
+                            <p>Angular is one of the most popular JavaScript frameworks. It powers The Blog's front-end
+                                allowing it to display pages without making unnecessary server requests.</p>
                         </div>
-                        <div class="logos">
+                        <div class="logos" flex="30" flex-xs="100">
                             <img src="http://www.userlogos.org/files/logos/2690_fernandosantucci/angular.io-logo.png?1428949275">
+                            <h3><a href="https://material.angularjs.org/">Angular Material</a></h3>
                         </div>
 
-                        <div class="logos">
+                        <div class="logos" flex="30" flex-xs="100">
                             <img src="http://flask.pocoo.org/docs/0.10/_static/flask.png">
+                            <h3><a href="http://flask.pocoo.org/">Flask</a></h3>
+                            <p>Flask is a lightweight microframework written in Python. It is perfect for constructing
+                                APIs which is what it is mainly used here.</p>
                         </div>
                     </div>
                 </md-content>

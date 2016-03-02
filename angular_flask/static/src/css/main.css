@@ -127,7 +127,7 @@ md-card > a {
     overflow: hidden;
     line-height: 1.5em;
     -webkit-column-width: 1000px;
-    -moz-column-width: 100px;
+    -moz-column-width: 1000px;
     column-width: 1000px;
 }
 
@@ -284,7 +284,9 @@ md-tooltip .md-content {
 
 /* About page */
 .logos {
-    border: 1px solid #000000;
+    border: 1px solid #979797;
+    text-align: center;
+    padding: 20px;
 }
 
 .logos > img {
