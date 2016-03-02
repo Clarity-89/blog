@@ -133,6 +133,19 @@ angular.module('AngularFlask')
             return $http.post("http://0.0.0.0:5000/blog/api/posts/" + postId + "/comments/new", JSON.stringify(comment))
         }
     }])
+    .service('goTo', ['$anchorScroll', '$location', function ($anchorScroll, $location) {
+        this.goTo = function (post, el) {
+            var selector = document.getElementById(el);
+            // If we are on post detail page, scroll to comments
+            if (selector) {
+                $location.hash(el);
+                $anchorScroll();
+                // Else go to post detail page and jump to comments
+            } else {
+                $location.path('/posts/' + post.id).hash(el);
+            }
+        }
+    }])
 ;
 
 

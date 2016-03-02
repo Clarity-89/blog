@@ -33,10 +33,10 @@
                     </md-button>
                     <div>
                         <md-tooltip md-direction="top">
-                            <div ng-repeat="user in post.favorited_by | limitTo: 10">
+                            <div ng-repeat="user in post.favorited_by | limitTo: 5">
                                 {{ user.username }}
                             </div>
-                            <span ng-show="post.favorited_by.length - 10 > 0">and {{ post.favorited_by.length - 10 }} more...</span>
+                            <span ng-show="post.favorited_by.length - 5 > 0">and {{ post.favorited_by.length - 5 }} more...</span>
                         </md-tooltip>
                         <a href="#" ng-click="!post.disabled && showAdvanced($event, post)" class="num">
                             {{ post.favorited || 0 }}</a>
@@ -47,10 +47,10 @@
                     </md-button>
                     <div>
                         <md-tooltip md-direction="top">
-                            <div ng-repeat="user in post.comments | limitTo: 10">
+                            <div ng-repeat="user in post.comments | limitTo: 5">
                                 {{ user.author }}
                             </div>
-                            <span ng-show="post.comments.length - 10 > 0">and {{ post.comments.length - 10 }} more...</span>
+                            <span ng-show="post.comments.length - 5 > 0">and {{ post.comments.length - 5 }} more...</span>
                         </md-tooltip>
                         <a ng-click="!post.disabled && gotoComments(post)" class="num">
                             {{ post.comments.length || 0 }}</a>

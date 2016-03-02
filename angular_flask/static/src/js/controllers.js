@@ -1,48 +1,65 @@
 'use strict';
 angular.module('AngularFlask')
-    .controller('PostListController', ['$scope', 'allPosts', 'favoritePost', function ($scope, allPosts, favoritePost) {
-        $scope.posts = [];
-        $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
-        allPosts.getPosts().get()
-            .$promise.then(function (response) {
-                $scope.posts = response.posts;
-                $scope.posts.forEach(function (el) {
-                    favoritePost.checkFav(el);
+    .controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'goTo',
+        function ($scope, allPosts, favoritePost, goTo) {
+            $scope.posts = [];
+            $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
+            allPosts.getPosts().get()
+                .$promise.then(function (response) {
+                    $scope.posts = response.posts;
+                    $scope.posts.forEach(function (el) {
+                        favoritePost.checkFav(el);
+                    });
+                    buildGridModel($scope.posts);
+                },
+                function (response) {
+                    console.log('Error:', response.status, response.statusText);
                 });
-                buildGridModel($scope.posts);
-            },
-            function (response) {
-                console.log('Error:', response.status, response.statusText);
-            });
 
-        // Build a grid of posts of various sizes
-        function buildGridModel(posts) {
-            var it, results = [];
+            // Build a grid of posts of various sizes
+            function buildGridModel(posts) {
+                var it, results = [];
 
-            for (var j = 0; j < posts.length; j++) {
+                for (var j = 0; j < posts.length; j++) {
 
-                it = posts[j];
-                it.span = {
-                    row: randomSpan(),
-                    col: randomSpan()
-                };
-                it.img = it.span.row === 2 ? 'img-lg' : 'img-sm';
-                it.para = it.span.col === 2 && it.span.row === 1 ? 'para-md' : it.span.col === 1 && it.span.row === 1 ? 'para-sm' : 'para-lg';
-                results.push(it);
+                    it = posts[j];
+                    it.span = {
+                        row: randomSpan(),
+                        col: randomSpan()
+                    };
+                    it.img = it.span.row === 2 ? 'img-lg' : 'img-sm';
+                    it.para = it.span.col === 2 && it.span.row === 1 ? 'para-md' : it.span.col === 1 && it.span.row === 1 ? 'para-sm' : 'para-lg';
+                    results.push(it);
+                }
+                return posts;
             }
-            return posts;
-        }
 
-        // Get a random number for spans
-        function randomSpan() {
-            var r = Math.random();
-            if (r < 0.7) {
-                return 1;
-            } else {
-                return 2;
+            // Get a random number for spans
+            function randomSpan() {
+                var r = Math.random();
+                if (r < 0.7) {
+                    return 1;
+                } else {
+                    return 2;
+                }
             }
-        }
-    }])
+
+            $scope.favorite = function (post) {
+                favoritePost.favorite(post)
+                    .then(function success(response) {
+                            angular.extend(post, response.data.post);
+                            favoritePost.checkFav(post);
+                        },
+                        function error(response) {
+                            console.log('Couldn\'t favorite a post', response);
+                        }
+                    )
+            };
+
+            $scope.gotoComments = function (post) {
+                goTo.goTo(post, 'comments');
+            };
+        }])
     .controller('PostDetailController', ['$scope', 'response', 'favoritePost', function ($scope, response, favoritePost) {
         $scope.post = {};
         $scope.size = "lg";
@@ -280,8 +297,8 @@ angular.module('AngularFlask')
                 });
 
     }])
-    .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', '$anchorScroll', '$cookies',
-        function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog, $anchorScroll, $cookies) {
+    .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo',
+        function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog, goTo) {
 
             $scope.favorite = function (post) {
                 favoritePost.favorite(post)
@@ -330,15 +347,7 @@ angular.module('AngularFlask')
             };
 
             $scope.gotoComments = function (post) {
-                var comments = document.getElementById('comments');
-                // If we are on post detail page, scroll to comments
-                if (comments) {
-                    $location.hash('comments');
-                    $anchorScroll();
-                    // Else go to post detail page and jump to comments
-                } else {
-                    $location.path('/posts/' + post.id).hash('comments');
-                }
+                goTo.goTo(post, 'comments');
             };
 
             $scope.showAdvanced = function (ev, post) {
