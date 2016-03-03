@@ -20,8 +20,8 @@ class Post(db.Model):
     body = db.Column(db.String())
     cover_photo = db.Column(db.String(), default='../img/covers/default.jpg')
     # Store time as integer in milliseconds
-    date = db.Column(db.Integer, default=int(round(time.time() * 1000)))
-    user_id = db.Column(db.String(32), db.ForeignKey('user.id'))
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     favorited = db.Column(db.Integer, default=0)
     favorited_by = db.relationship('User', secondary=favorites, backref=db.backref('favorited', lazy='dynamic'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
@@ -104,8 +104,8 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String())
     date = db.Column(db.Integer, default=int(round(time.time() * 1000)))
-    user_id = db.Column(db.String(32), db.ForeignKey('user.id'))
-    post_id = db.Column(db.String(32), db.ForeignKey('post.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
 
     @property
     def serialize(self):
