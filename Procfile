@@ -1,1 +1,1 @@
-web: gunicorn project:app
+web: gunicorn angular_flask:app
