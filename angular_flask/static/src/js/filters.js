@@ -2,8 +2,10 @@
 
 /* Filters */
 
-angular.module('angularFlaskFilters', []).filter('uppercase', function () {
-    return function (input) {
-        return input.toUpperCase();
-    }
-});
+angular.module('appFilters', [])
+    .filter('localDate', function () {
+        return function (input) {
+            console.log('inside filter', input)
+            return moment(new Date(input)).format('MMM Do YYYY HH:mm');
+        }
+    });
