@@ -8,5 +8,4 @@ ignore
 /data/posts.db
 todo.txt
 /angular_flask/static/dist
-/angular_flask/__init__.py
 migrations
