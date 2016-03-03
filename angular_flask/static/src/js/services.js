@@ -8,7 +8,7 @@ angular.module('app')
     })
     .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
         this.getPosts = function () {
-            return $resource(baseURL + '/blog/api/posts/:id', {}, {
+            return $resource('/blog/api/posts/:id', {}, {
                 query: {
                     method: 'GET',
                     isArray: true
