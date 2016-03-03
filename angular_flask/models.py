@@ -24,7 +24,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     favorited = db.Column(db.Integer, default=0)
     favorited_by = db.relationship('User', secondary=favorites, backref=db.backref('favorited', lazy='dynamic'))
-    comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    comments = db.relationship('Comment', cascade="all, delete-orphan", backref='post', lazy='dynamic')
 
     @property
     def serialize(self):
