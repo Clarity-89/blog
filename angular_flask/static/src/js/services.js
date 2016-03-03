@@ -21,7 +21,7 @@ angular.module('app')
             var fd = new FormData();
             fd.append('file', file);
             fd.append('post', JSON.stringify(data));
-            return $http.post("http://0.0.0.0:5000/blog/api/posts/new", fd, {
+            return $http.post("/blog/api/posts/new", fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
@@ -32,7 +32,7 @@ angular.module('app')
             var fd = new FormData();
             fd.append('file', file);
             fd.append('post', JSON.stringify(data));
-            return $http.post("http://0.0.0.0:5000/blog/api/posts/" + data.id + "/edit", fd, {
+            return $http.post("/blog/api/posts/" + data.id + "/edit", fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
@@ -49,7 +49,7 @@ angular.module('app')
                 .ok('Delete')
                 .cancel('Cancel');
             return $mdDialog.show(confirm).then(function () {
-                return $http.post("http://0.0.0.0:5000/blog/api/posts/" + postId + "/delete", {})
+                return $http.post("/blog/api/posts/" + postId + "/delete", {})
                     .then(function success() {
                             console.log('Deleted post with id', postId);
                         },
@@ -64,23 +64,23 @@ angular.module('app')
             var fd = new FormData();
             fd.append('file', file);
             fd.append('user', JSON.stringify(user));
-            return $http.post("http://0.0.0.0:5000/blog/api/users", fd, {
+            return $http.post("/blog/api/users", fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             });
         };
         this.loginUser = function (user) {
-            return $http.post("http://0.0.0.0:5000/login", user);
+            return $http.post("/login", user);
         }
     }])
     .service('logoutUser', ['$http', function ($http) {
         this.logout = function () {
-            return $http.post("http://0.0.0.0:5000/logout", {});
+            return $http.post("/logout", {});
         }
     }])
     .service('userPosts', ['$http', function ($http) {
         this.getPosts = function (user_id) {
-            return $http.get("http://0.0.0.0:5000/blog/api/users/" + user_id + "/posts")
+            return $http.get("/blog/api/users/" + user_id + "/posts")
         }
     }])
     .service('imgPreview', function () {
@@ -102,7 +102,7 @@ angular.module('app')
             var fd = new FormData();
             fd.append('file', file);
             fd.append('user', JSON.stringify(user));
-            return $http.post("http://0.0.0.0:5000/blog/api/users/edit", fd, {
+            return $http.post("/blog/api/users/edit", fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             });
@@ -130,7 +130,7 @@ angular.module('app')
     }])
     .service('addComment', ['$http', function ($http) {
         this.add = function (comment, postId) {
-            return $http.post("http://0.0.0.0:5000/blog/api/posts/" + postId + "/comments/new", JSON.stringify(comment))
+            return $http.post("/blog/api/posts/" + postId + "/comments/new", JSON.stringify(comment))
         }
     }])
     .service('goTo', ['$anchorScroll', '$location', function ($anchorScroll, $location) {
