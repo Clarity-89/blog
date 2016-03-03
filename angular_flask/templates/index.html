@@ -47,8 +47,11 @@
             </div>
             <div class="nav-buttons">
                 <md-menu ng-show="currentUser()">
-                    <img ng-click="$mdOpenMenu(ev)" id="current-user" md-menu-origin
-                         ng-src={% raw %} "{{  getUserDetails().avatar  }}"{% endraw %}/>
+                    <div id="user-menu" ng-click="$mdOpenMenu(ev)" md-menu-origin>
+                        <span>{% raw %} {{  getUserDetails().username  }} {% endraw %}</span>
+                        <img id="current-user"
+                             ng-src={% raw %} "{{  getUserDetails().avatar  }}"{% endraw %}/>
+                    </div>
                     <md-menu-content width="4">
                         <md-menu-item>
                             <md-button ng-href='#' ng-click="createPost()">

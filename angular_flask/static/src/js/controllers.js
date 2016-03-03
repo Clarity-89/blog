@@ -78,14 +78,16 @@ angular.module('app')
             var currentUser = $cookies.getObject('current_user');
             $scope.heading = 'Create';
             $scope.button = 'Publish';
-            $scope.post = {
-                title: '',
-                author: currentUser.username,
-                avatar: currentUser.avatar,
-                date: new Date(),
-                cover_photo: '../img/covers/default.jpg',
-                disabled: true
-            };
+            if (currentUser) {
+                $scope.post = {
+                    title: '',
+                    author: currentUser.username,
+                    avatar: currentUser.avatar,
+                    date: new Date(),
+                    cover_photo: '../img/covers/default.jpg',
+                    disabled: true
+                };
+            }
             $scope.createPost = function (form) {
 
                 if (form.$valid) {
