@@ -21,7 +21,7 @@
                 <md-input-container class="md-block">
                     <div text-angular id="ta-body" name="body" ng-model="post.body" required></div>
                 </md-input-container>
-                <md-button type="submit" class="md-raised md-accent" id="publish">{{ button }}</md-button>
+                <md-button type="submit" class="md-raised md-accent" id="publish" ng-disabled="!post.body">{{ button }}</md-button>
             </form>
         </md-content>
 
