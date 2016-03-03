@@ -7,5 +7,4 @@ ignore
 /node_modules
 /data/posts.db
 todo.txt
-/angular_flask/static/dist
 migrations
