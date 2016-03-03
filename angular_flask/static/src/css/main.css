@@ -313,6 +313,12 @@ md-tooltip .md-content {
     text-align: center;
 }
 
+#about-cover {
+    background: url('../../img/covers/knowledge.jpg');
+    background-size: cover;
+    height: 400px;
+}
+
 /*Media queries*/
 /*Mobile*/
 @media screen and (max-device-width: 480px) {
