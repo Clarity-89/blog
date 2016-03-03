@@ -294,10 +294,10 @@ def logout():
 
 
 # Special file handlers and error handlers
-@app.route('/favicon.ico')
+"""@app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'img/favicon.ico')
+                               'img/favicon.ico')"""
 
 
 @app.errorhandler(404)
