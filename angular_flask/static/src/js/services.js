@@ -146,6 +146,13 @@ angular.module('app')
             }
         }
     }])
+    .service('checkRedirect', function () {
+        this.forceSSL = function () {
+            if ($location.protocol() !== 'https') {
+                $window.location.href = $location.absUrl().replace('http', 'https');
+            }
+        };
+    })
 ;
 
 

@@ -289,9 +289,9 @@ angular.module('app')
                 return imgPreview.activateUpload('uploadAva');
             }
         }])
-    .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
+    .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview', 'checkRedirect',
         'updateUser', 'sharedPost',
-        function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost) {
+        function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost, checkRedirect) {
             $scope.isOpen = false;
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
@@ -314,6 +314,7 @@ angular.module('app')
                             $cookies.remove('current_user');
                             console.log('logged out');
                             $location.path('/');
+                            checkRedirect.forceSSL();
                         }, function error(response) {
                             console.log('Could not log out', response);
                         });
@@ -634,6 +635,13 @@ angular.module('app')
             }
         }
     }])
+    .service('checkRedirect', function () {
+        this.forceSSL = function () {
+            if ($location.protocol() !== 'https') {
+                $window.location.href = $location.absUrl().replace('http', 'https');
+            }
+        };
+    })
 ;
 
 
