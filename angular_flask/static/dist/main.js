@@ -638,13 +638,13 @@ angular.module('app')
             }
         }
     }])
-    .service('checkRedirect', function () {
+    .service('checkRedirect', ['$location', '$window', function ($location, $window) {
         this.forceSSL = function () {
             if ($location.protocol() !== 'https') {
                 $window.location.href = $location.absUrl().replace('http', 'https');
             }
         };
-    })
+    }])
 ;
 
 
