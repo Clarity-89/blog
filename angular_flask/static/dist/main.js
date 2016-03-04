@@ -489,14 +489,14 @@ angular.module('appFilters', [])
 'use strict';
 
 angular.module('app')
-    .constant("baseURL", "http://0.0.0.0:5000")
+    .constant("baseURL", "https://thee-blog.herokuapp.com")
     // A service to share 'post' object between controllers
     .service('sharedPost', function () {
         var post = this;
     })
     .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
         this.getPosts = function () {
-            return $resource('/blog/api/posts/:id', {}, {
+            return $resource(baseURL + '/blog/api/posts/:id', {}, {
                 query: {
                     method: 'GET',
                     isArray: true
@@ -509,7 +509,7 @@ angular.module('app')
             var fd = new FormData();
             fd.append('file', file);
             fd.append('post', JSON.stringify(data));
-            return $http.post("/blog/api/posts/new", fd, {
+            return $http.post("https://thee-blog.herokuapp.com/blog/api/posts/new", fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
@@ -537,7 +537,7 @@ angular.module('app')
                 .ok('Delete')
                 .cancel('Cancel');
             return $mdDialog.show(confirm).then(function () {
-                return $http.post("/blog/api/posts/" + postId + "/delete", {})
+                return $http.post("https://thee-blog.herokuapp.com/blog/api/posts/" + postId + "/delete", {})
                     .then(function success() {
                             console.log('Deleted post with id', postId);
                         },
@@ -563,7 +563,7 @@ angular.module('app')
     }])
     .service('logoutUser', ['$http', function ($http) {
         this.logout = function () {
-            return $http.post("/logout", {});
+            return $http.post("https://thee-blog.herokuapp.com/logout", {});
         }
     }])
     .service('userPosts', ['$http', function ($http) {
