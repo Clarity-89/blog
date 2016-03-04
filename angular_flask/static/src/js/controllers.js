@@ -216,8 +216,8 @@ angular.module('app')
                 return imgPreview.activateUpload('uploadAva');
             }
         }])
-    .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview', 'checkRedirect',
-        'updateUser', 'sharedPost',
+    .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
+        'updateUser', 'sharedPost', 'checkRedirect',
         function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost, checkRedirect) {
             checkRedirect.forceSSL();
             $scope.isOpen = false;
