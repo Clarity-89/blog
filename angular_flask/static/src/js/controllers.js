@@ -216,9 +216,8 @@ angular.module('app')
             }
         }])
     .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
-        'updateUser', 'sharedPost', 'checkRedirect',
-        function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost, checkRedirect) {
-            // checkRedirect.forceSSL();
+        'updateUser', 'sharedPost',
+        function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost) {
             $scope.isOpen = false;
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
@@ -241,7 +240,6 @@ angular.module('app')
                             $cookies.remove('current_user');
                             console.log('logged out');
                             $location.path('/');
-                            //checkRedirect.forceSSL();
                         }, function error(response) {
                             console.log('Could not log out', response);
                         });
@@ -270,7 +268,6 @@ angular.module('app')
                             u.favs = response.data.favs;
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
-                            //checkRedirect.forceSSL();
                         }, function error(response) {
                             $scope.message = response.data.message;
                             if ($scope.message === 'password') {
@@ -283,7 +280,6 @@ angular.module('app')
             /* Redirect to '/new' route and clear the sharedPost since we are not editing but creating a new post */
             $scope.createPost = function () {
                 sharedPost.post = {};
-                //checkRedirect.forceSSL();
                 $location.path('/new');
             }
         }])
