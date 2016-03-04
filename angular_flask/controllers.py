@@ -1,14 +1,14 @@
 import os, json, uuid
 
-from flask import Flask, request, Response, jsonify, g
-from flask import render_template, url_for, redirect, send_from_directory
-from flask import send_file, make_response, abort
+from flask import Flask, request, jsonify, g
+from flask import render_template, send_from_directory
+from flask import make_response, abort
 from sqlalchemy.orm.exc import NoResultFound
 from flask.ext.httpauth import HTTPBasicAuth
-from angular_flask import app
+
 from PIL import Image
 
-from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
+from flask.ext.login import LoginManager, login_user, logout_user, current_user
 
 # routing for API endpoints, generated from the models designated as API_MODELS
 from angular_flask.core import api_manager
@@ -112,7 +112,7 @@ def add_post():
         post = Post(title=title, body=body, author=current_user)
     session.add(post)
     session.commit()
-    return redirect('/')
+    return jsonify({'message': 'post created successfully'})
 
 
 # Edit post
@@ -290,7 +290,7 @@ def verify_password(username_or_token, password):
 def logout():
     if current_user.is_authenticated:
         logout_user()
-    return redirect('/posts')
+    return jsonify({'message': 'logout successfully'})
 
 
 # Special file handlers and error handlers
