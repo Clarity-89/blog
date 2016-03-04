@@ -30,7 +30,7 @@ auth = HTTPBasicAuth()
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 covers_path = 'https://s3-eu-west-1.amazonaws.com/theeblog/covers/'
-avas_path = ''
+avas_path = 'https://s3-eu-west-1.amazonaws.com/theeblog/avatars/'
 
 
 # Override default error message
@@ -202,14 +202,18 @@ def new_user():
     if User.query.filter_by(email=email).first() is not None:
         abort(400, 'Email already exists')
     if request.files:
+        s3 = boto3.resource('s3')
         # Generate unique file name
         ava = request.files['file']
         filename = str(uuid.uuid4()) + '.' + ava.filename.rsplit('.', 1)[1]
         img = Image.open(ava)
         maxsize = (480, 480)
         img.thumbnail(maxsize, Image.ANTIALIAS)
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
-        u = User(username=username, email=email, avatar='../img/avatars/' + filename)
+        output = io.BytesIO()
+        img.save(output, format='JPEG')
+        s3.Object('theeblog', 'avatars/' + filename).put(Body=output.getvalue())
+        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
+        u = User(username=username, email=email, avatar=avas_path + filename)
     else:
         u = User(username=username, email=email)
     u.hash_password(password)
@@ -241,16 +245,20 @@ def edit_user():
         abort(400, 'User does not exist')
     u.email = email
     if request.files:
+        s3 = boto3.resource('s3')
         ava = request.files['file']
         filename = u.avatar.rsplit('/', 1)[-1]
         # Do not overwrite default ava but generate unique file name instead
         if filename == 'default.png':
             filename = str(uuid.uuid4()) + '.' + ava.filename.rsplit('.', 1)[1]
-            u.avatar = '../img/avatars/' + filename
+            u.avatar = avas_path + filename
         img = Image.open(ava)
         maxsize = (480, 480)
         img.thumbnail(maxsize, Image.ANTIALIAS)
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
+        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
+        output = io.BytesIO()
+        img.save(output, format='JPEG')
+        s3.Object('theeblog', 'avatars/' + filename).put(Body=output.getvalue())
     if new_password:
         if not u.verify_password(password):
             return abort(400, 'password')
