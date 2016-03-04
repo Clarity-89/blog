@@ -1,4 +1,4 @@
-import os, json, uuid
+import os, json, uuid, io
 
 from flask import Flask, request, jsonify, g
 from flask import render_template, send_from_directory
@@ -7,6 +7,9 @@ from sqlalchemy.orm.exc import NoResultFound
 from flask.ext.httpauth import HTTPBasicAuth
 
 from PIL import Image
+import boto3
+
+import cStringIO
 
 from flask.ext.login import LoginManager, login_user, logout_user, current_user
 
@@ -25,6 +28,12 @@ session = api_manager.session
 auth = HTTPBasicAuth()
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+# Amazon S3
+s3 = boto3.resource('s3')
+
+covers_path = 'https://s3-eu-west-1.amazonaws.com/theeblog/covers/'
+avas_path = ''
 
 
 # Override default error message
@@ -100,11 +109,13 @@ def add_post():
         # Generate unique file name
         image = request.files['file']
         img = Image.open(image)
-        maxsize = (2046, 2046)
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-        img.thumbnail(maxsize, Image.ANTIALIAS)
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
-        post = Post(title=title, body=body, cover_photo='../img/covers/' + filename,
+        img2 = img.resize((1024, 1024), Image.NEAREST)
+        output = io.BytesIO()
+        img2.save(output, format='JPEG')
+        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+        s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
+        post = Post(title=title, body=body, cover_photo=covers_path + filename,
                     author=current_user)
     else:
         post = Post(title=title, body=body, author=current_user)
@@ -131,11 +142,13 @@ def edit_post(id):
         # Do not overwrite default image but generate unique file name instead
         if filename == 'default.jpg':
             filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-            p.cover_photo = '../img/covers/' + filename
+            p.cover_photo = covers_path + filename
         img = Image.open(image)
-        maxsize = (1024, 1024)
-        img.thumbnail(maxsize, Image.ANTIALIAS)
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+        img2 = img.resize((1024, 1024), Image.NEAREST)
+        output = io.BytesIO()
+        img2.save(output, format='JPEG')
+        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+        s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
     db.session.commit()
     return jsonify(p.serialize)
 
