@@ -93,8 +93,6 @@ def allowed_file(filename):
 # Add a new post
 @app.route('/blog/api/posts/new', methods=['POST'])
 def add_post():
-    """if not request.json or not 'title' in request.json:
-        abort(400)"""
     p = json.loads(request.form['post'])
     title = p.get('title')
     body = p.get('body')

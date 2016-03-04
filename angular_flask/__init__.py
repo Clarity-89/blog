@@ -1,19 +1,6 @@
 import os
 from flask import Flask
-import psycopg2
-import urlparse
 from flask_sslify import SSLify
-
-"""urlparse.uses_netloc.append("postgres")
-url = urlparse.urlparse(os.environ["DATABASE_URL"])
-
-conn = psycopg2.connect(
-    database=url.path[1:],
-    user=url.username,
-    password=url.password,
-    host=url.hostname,
-    port=url.port
-)"""
 
 app = Flask(__name__)
 if 'DYNO' in os.environ:
@@ -25,7 +12,7 @@ app.config["SECRET_KEY"] = "\xed\x9c\xac\xcd4\x83k\xd1\x17\xd54\xe71\x03\xaf\xd8
 # app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///' + os.path.join(basedir, 'data/posts.db')
 # app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://admin:111111@localhost:5432/posts'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['UPLOAD_FOLDER'] = os.path.join(basedir_img, 'angular_flask/static/img')
 
