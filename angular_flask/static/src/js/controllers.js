@@ -4,17 +4,17 @@ angular.module('app')
         function ($scope, allPosts, favoritePost, goTo) {
             $scope.posts = [];
             $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
-            allPosts.getPosts().get()
-                .$promise.then(function (response) {
-                    $scope.posts = response.posts;
-                    $scope.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
+            allPosts.getPosts()
+                .then(function (response) {
+                        $scope.posts = response.data.posts;
+                        $scope.posts.forEach(function (el) {
+                            favoritePost.checkFav(el);
+                        });
+                        buildGridModel($scope.posts);
+                    },
+                    function (response) {
+                        console.log('Error:', response.status, response.statusText);
                     });
-                    buildGridModel($scope.posts);
-                },
-                function (response) {
-                    console.log('Error:', response.status, response.statusText);
-                });
 
             // Build a grid of posts of various sizes
             function buildGridModel(posts) {
@@ -60,13 +60,12 @@ angular.module('app')
                 goTo.goTo(post, 'comments');
             };
         }])
-    .controller('PostDetailController', ['$scope', 'response', 'favoritePost', function ($scope, response, favoritePost) {
+    .controller('PostDetailController', ['$scope', '$routeParams', 'favoritePost', 'allPosts', function ($scope, $routeParams, favoritePost, allPosts) {
         $scope.post = {};
         $scope.size = "lg";
-
-        response.$promise.then(function (response) {
-                $scope.post = response.post;
-                $scope.post.comments = response.comments;
+        allPosts.getPosts(parseInt($routeParams.id, 10)).then(function (response) {
+                $scope.post = response.data.post;
+                $scope.post.comments = response.data.comments;
                 favoritePost.checkFav($scope.post)
             },
             function (response) {
@@ -219,7 +218,7 @@ angular.module('app')
     .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
         'updateUser', 'sharedPost', 'checkRedirect',
         function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost, checkRedirect) {
-            checkRedirect.forceSSL();
+            // checkRedirect.forceSSL();
             $scope.isOpen = false;
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
@@ -242,7 +241,7 @@ angular.module('app')
                             $cookies.remove('current_user');
                             console.log('logged out');
                             $location.path('/');
-                            checkRedirect.forceSSL();
+                            //checkRedirect.forceSSL();
                         }, function error(response) {
                             console.log('Could not log out', response);
                         });
@@ -271,7 +270,7 @@ angular.module('app')
                             u.favs = response.data.favs;
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
-                            checkRedirect.forceSSL();
+                            //checkRedirect.forceSSL();
                         }, function error(response) {
                             $scope.message = response.data.message;
                             if ($scope.message === 'password') {
@@ -284,7 +283,7 @@ angular.module('app')
             /* Redirect to '/new' route and clear the sharedPost since we are not editing but creating a new post */
             $scope.createPost = function () {
                 sharedPost.post = {};
-                checkRedirect.forceSSL();
+                //checkRedirect.forceSSL();
                 $location.path('/new');
             }
         }])

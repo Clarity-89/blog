@@ -26,7 +26,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
                     controller: 'PostDetailController',
                     resolve: {
                         response: function ($route, allPosts) {
-                            return allPosts.getPosts().get({id: parseInt($route.current.params.id, 10)});
+                            return allPosts.getPosts(parseInt($route.current.params.id, 10));
                         }
                     }
                 })

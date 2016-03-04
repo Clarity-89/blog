@@ -26,7 +26,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
                     controller: 'PostDetailController',
                     resolve: {
                         response: function ($route, allPosts) {
-                            return allPosts.getPosts().get({id: parseInt($route.current.params.id, 10)});
+                            return allPosts.getPosts(parseInt($route.current.params.id, 10));
                         }
                     }
                 })
@@ -77,17 +77,17 @@ angular.module('app')
         function ($scope, allPosts, favoritePost, goTo) {
             $scope.posts = [];
             $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
-            allPosts.getPosts().get()
-                .$promise.then(function (response) {
-                    $scope.posts = response.posts;
-                    $scope.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
+            allPosts.getPosts()
+                .then(function (response) {
+                        $scope.posts = response.data.posts;
+                        $scope.posts.forEach(function (el) {
+                            favoritePost.checkFav(el);
+                        });
+                        buildGridModel($scope.posts);
+                    },
+                    function (response) {
+                        console.log('Error:', response.status, response.statusText);
                     });
-                    buildGridModel($scope.posts);
-                },
-                function (response) {
-                    console.log('Error:', response.status, response.statusText);
-                });
 
             // Build a grid of posts of various sizes
             function buildGridModel(posts) {
@@ -133,13 +133,12 @@ angular.module('app')
                 goTo.goTo(post, 'comments');
             };
         }])
-    .controller('PostDetailController', ['$scope', 'response', 'favoritePost', function ($scope, response, favoritePost) {
+    .controller('PostDetailController', ['$scope', '$routeParams', 'favoritePost', 'allPosts', function ($scope, $routeParams, favoritePost, allPosts) {
         $scope.post = {};
         $scope.size = "lg";
-
-        response.$promise.then(function (response) {
-                $scope.post = response.post;
-                $scope.post.comments = response.comments;
+        allPosts.getPosts(parseInt($routeParams.id, 10)).then(function (response) {
+                $scope.post = response.data.post;
+                $scope.post.comments = response.data.comments;
                 favoritePost.checkFav($scope.post)
             },
             function (response) {
@@ -292,7 +291,7 @@ angular.module('app')
     .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
         'updateUser', 'sharedPost', 'checkRedirect',
         function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost, checkRedirect) {
-            checkRedirect.forceSSL();
+            // checkRedirect.forceSSL();
             $scope.isOpen = false;
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
@@ -315,7 +314,7 @@ angular.module('app')
                             $cookies.remove('current_user');
                             console.log('logged out');
                             $location.path('/');
-                            checkRedirect.forceSSL();
+                            //checkRedirect.forceSSL();
                         }, function error(response) {
                             console.log('Could not log out', response);
                         });
@@ -344,7 +343,7 @@ angular.module('app')
                             u.favs = response.data.favs;
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
-                            checkRedirect.forceSSL();
+                            //checkRedirect.forceSSL();
                         }, function error(response) {
                             $scope.message = response.data.message;
                             if ($scope.message === 'password') {
@@ -357,7 +356,7 @@ angular.module('app')
             /* Redirect to '/new' route and clear the sharedPost since we are not editing but creating a new post */
             $scope.createPost = function () {
                 sharedPost.post = {};
-                checkRedirect.forceSSL();
+                //checkRedirect.forceSSL();
                 $location.path('/new');
             }
         }])
@@ -498,14 +497,24 @@ angular.module('app')
     .service('sharedPost', function () {
         var post = this;
     })
-    .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
-        this.getPosts = function () {
-            return $resource(baseURL + '/blog/api/posts/:id', {}, {
-                query: {
-                    method: 'GET',
-                    isArray: true
-                }
-            });
+    /* .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
+     this.getPosts = function () {
+     return $resource(baseURL + '/blog/api/posts/:id', {}, {
+     query: {
+     method: 'GET',
+     isArray: true
+     }
+     });
+     }
+     }])*/
+    .service('allPosts', ['$http', function ($http) {
+        this.getPosts = function (id) {
+            if (id) {
+                return $http.get('/blog/api/posts/' + id, {});
+            } else {
+                return $http.get('/blog/api/posts', {});
+            }
+
         }
     }])
     .service('postUpload', ['$http', function ($http) {
@@ -513,7 +522,7 @@ angular.module('app')
             var fd = new FormData();
             fd.append('file', file);
             fd.append('post', JSON.stringify(data));
-            return $http.post("https://thee-blog.herokuapp.com/blog/api/posts/new", fd, {
+            return $http.post("/blog/api/posts/new", fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
@@ -541,7 +550,7 @@ angular.module('app')
                 .ok('Delete')
                 .cancel('Cancel');
             return $mdDialog.show(confirm).then(function () {
-                return $http.post("https://thee-blog.herokuapp.com/blog/api/posts/" + postId + "/delete", {})
+                return $http.post("/blog/api/posts/" + postId + "/delete", {})
                     .then(function success() {
                             console.log('Deleted post with id', postId);
                         },
@@ -567,7 +576,7 @@ angular.module('app')
     }])
     .service('logoutUser', ['$http', function ($http) {
         this.logout = function () {
-            return $http.post("https://thee-blog.herokuapp.com/logout", {});
+            return $http.post("/logout", {});
         }
     }])
     .service('userPosts', ['$http', function ($http) {
