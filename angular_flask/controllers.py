@@ -29,9 +29,6 @@ auth = HTTPBasicAuth()
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-# Amazon S3
-s3 = boto3.resource('s3')
-
 covers_path = 'https://s3-eu-west-1.amazonaws.com/theeblog/covers/'
 avas_path = ''
 
@@ -106,13 +103,16 @@ def add_post():
     title = p.get('title')
     body = p.get('body')
     if request.files:
+        # Amazon S3
+        s3 = boto3.resource('s3')
         # Generate unique file name
         image = request.files['file']
         img = Image.open(image)
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-        img2 = img.resize((1024, 1024), Image.NEAREST)
+        maxsize = (1024, 1024)
+        img.thumbnail(maxsize, Image.ANTIALIAS)
         output = io.BytesIO()
-        img2.save(output, format='JPEG')
+        img.save(output, format='JPEG')
         # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
         s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
         post = Post(title=title, body=body, cover_photo=covers_path + filename,
@@ -137,6 +137,7 @@ def edit_post(id):
     p.title = title
     p.body = body
     if request.files:
+        s3 = boto3.resource('s3')
         image = request.files['file']
         filename = p.cover_photo.rsplit('/', 1)[-1]
         # Do not overwrite default image but generate unique file name instead
@@ -144,9 +145,10 @@ def edit_post(id):
             filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
             p.cover_photo = covers_path + filename
         img = Image.open(image)
-        img2 = img.resize((1024, 1024), Image.NEAREST)
+        maxsize = (1024, 1024)
+        img.thumbnail(maxsize, Image.ANTIALIAS)
         output = io.BytesIO()
-        img2.save(output, format='JPEG')
+        img.save(output, format='JPEG')
         # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
         s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
     db.session.commit()
