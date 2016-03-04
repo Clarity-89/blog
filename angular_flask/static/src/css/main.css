@@ -303,6 +303,10 @@ md-tooltip .md-content {
     color: #616161;
 }
 
+.social > div {
+    margin: 50px auto;
+}
+
 .logos {
     /* border: 1px solid #979797;*/
     text-align: center;
@@ -317,11 +321,6 @@ md-tooltip .md-content {
 
 .social {
     min-height: 200px;
-}
-
-.social > .about-text {
-    padding-bottom: 30px;
-    text-align: center;
 }
 
 #about-cover {
