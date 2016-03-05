@@ -225,6 +225,10 @@ img, div {
     float: right;
 }
 
+.md-title {
+    font-weight: 400;
+}
+
 .num {
     font-size: 1.2em;
     font-weight: 600;
@@ -239,6 +243,7 @@ img, div {
 .comment-section-title {
     text-align: center;
     color: #616161;
+    font-weight: 400;
 }
 
 .comment-section {
@@ -265,6 +270,7 @@ label {
 
 .md-subheader {
     font-size: .9em;
+    font-weight: 400;
 }
 
 .comment-header > .md-user-avatar {
