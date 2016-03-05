@@ -269,6 +269,10 @@ label {
     font-size: 0.875em;
 }
 
+#new-post-circ {
+    margin: auto auto 5px 90px !important;
+}
+
 /* Overriding default background color for subheader */
 
 .comment-header > .md-subheader {
