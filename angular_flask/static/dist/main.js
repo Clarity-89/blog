@@ -163,10 +163,11 @@ angular.module('app')
             $scope.createPost = function (form) {
 
                 if (form.$valid) {
+                    $scope.loading = true;
                     var file = $scope.myFile;
                     postUpload.newPost(file, $scope.post)
                         .then(function success(response) {
-                            console.log('Posted');
+                            $scope.loading = false;
                             $location.path('/posts');
                         }, function error(response) {
                             console.log('Could not post', response);
@@ -191,10 +192,11 @@ angular.module('app')
             $scope.createPost = function (form) {
 
                 if (form.$valid) {
+                    $scope.loading = true;
                     var file = $scope.myFile;
                     editPost.editPost(file, $scope.post)
                         .then(function success(response) {
-                            console.log('Edited');
+                            $scope.loading = false;
                             $location.path('/posts');
                         }, function error(response) {
                             console.log('Could not edit', response);
