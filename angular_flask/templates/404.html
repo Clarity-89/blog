@@ -1,69 +1,33 @@
 <!doctype html>
-<html lang="en" ng-app="AngularFlask" ng-cloak>
+<html lang="en" ng-app="app" ng-cloak>
 <head>
     <meta charset="utf-8">
-    <title>AngularFlask</title>
-    <link rel="stylesheet" href="../static/src/css/angular-material.css">
-    <link rel="stylesheet" href="../static/src/css/main.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Blog - share your ideas</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/vendor.css') }}">
+
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/css/main.css') }}">
     <base href="/">
 </head>
 <body>
-<header>
-    <md-toolbar class="md-primary md-hue-2">
-        <div layout="row" layout-padding layout-align="space-between center">
-            <div class="nav-buttons">
-                <md-button ng-href='/' class="md-raised">Home</md-button>
-                <md-button ng-href='/about'>About</md-button>
-                <md-button ng-href='/'>Item 2</md-button>
-                <md-menu>
-                    <md-button ng-href='/' md-menu-origin ng-click="$mdOpenMenu()">Help</md-button>
-                    <md-menu-content width="2">
-                        <md-menu-item>
-                            <md-button>Help</md-button>
-                        </md-menu-item>
-                        <md-menu-item>
-                            <md-button>About</md-button>
-                        </md-menu-item>
-                    </md-menu-content>
-                </md-menu>
-            </div>
-            <div class="nav-buttons">
-                <md-button ng-href='/' class="md-raised md-accent">My profile</md-button>
-                <md-button ng-href='/' class="md-raised md-warn">Log Out</md-button>
-            </div>
-        </div>
-    </md-toolbar>
-</header>
+
 <main layout="row" layout-align="center center">
     <h3>404</h3>
 
     <h4>Sorry, but the page you were trying to view does not exist.</h4>
 </main>
 
-<footer>
-    <div layout="row" layout-align="center center">
-        <h4>&copy; 2015 AngularFlask</h4>
-    </div>
-</footer>
 
-
-<script src="../static/vendor/angular.js"></script>
-<script src="../static/vendor/angular-resource.js"></script>
-<script src="../static/vendor/angular-route.js"></script>
-
-<!-- jQuery -->
-<script src="../static/vendor/jquery.min.js"></script>
-
-<!-- Angular material and dependencies-->
-<script src="../static/vendor/angular-animate.min.js"></script>
-<script src="../static/vendor/angular-aria.min.js"></script>
-<script src="../static/vendor/angular-material.js"></script>
-
-<!--Custom JS-->
-<script src="../static/src/js/app.js"></script>
-<script src="../static/src/js/controllers.js"></script>
-<script src="../static/src/js/services.js"></script>
-
+<script src="{{ url_for('static', filename='dist/vendor.js') }}"></script>
+<script src="{{ url_for('static', filename='dist/main.js') }}"></script>
 </body>
 </html>
 
