@@ -8,8 +8,7 @@
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,100,700' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/vendor.css') }}">
 
@@ -19,10 +18,9 @@
 </head>
 <body layout="column" ng-controller="page404Controller">
 
-
-<div layout="column" id="wrapper" layout-align="center center" flex>
-    <md-content layout="column" class="md-whiteframe-5dp">
-        <div id="upper" layout-padding flex layout="column" layout-align="center start">
+<div layout="column" id="wrapper" flex>
+    <md-content layout="column" class="md-whiteframe-5dp" id="test">
+        <div id="upper" layout-padding flex layout="row">
             <h3 flex>Error 404</h3>
         </div>
         <md-button ng-click="goHome()" class="home-btn md-fab md-accent md-raised " aria-label="Home">
@@ -31,14 +29,13 @@
             </md-tooltip>
             <md-icon md-font-set="material-icons">home</md-icon>
         </md-button>
-        <div id="lower" layout-padding flex layout="column" layout-align="center center">
+        <div id="lower" layout-padding flex layout="row" layout-align="center center">
 
-            <h4>Sorry, but the page you were trying to view does not exist.</h4>
+            <h4>Sorry, but this page does not exist.</h4>
         </div>
     </md-content>
 
 </div>
-
 
 <script src="{{ url_for('static', filename='dist/vendor.js') }}"></script>
 <script src="{{ url_for('static', filename='dist/main.js') }}"></script>

@@ -225,6 +225,10 @@ img, div {
     float: right;
 }
 
+.md-title {
+    font-weight: 400;
+}
+
 .num {
     font-size: 1.2em;
     font-weight: 600;
@@ -239,6 +243,7 @@ img, div {
 .comment-section-title {
     text-align: center;
     color: #616161;
+    font-weight: 400;
 }
 
 .comment-section {
@@ -265,6 +270,7 @@ label {
 
 .md-subheader {
     font-size: .9em;
+    font-weight: 400;
 }
 
 .comment-header > .md-user-avatar {
@@ -331,16 +337,19 @@ md-tooltip .md-content {
 /*404 page*/
 #upper {
     height: 300px;
+    min-height: 300px; /* For Firefox */
     background-color: #00789b;
     color: white;
 }
 
 #upper > * {
     font-size: 8em;
+    font-weight: 300;
 }
 
 #lower {
-    height: 300px;
+    height: 250px;
+    min-height: 250px; /* For Firefox */
     padding: 20px;
     -webkit-column-width: 500px;
     -moz-column-width: 300px;
@@ -349,14 +358,14 @@ md-tooltip .md-content {
 
 #lower > h4 {
     font-size: 2.5em;
-
+    font-weight: 300;
 }
 
 .home-btn.md-fab {
     float: right;
     position: absolute;
     right: 10px;
-    top: calc(50% - 46px);
+    top: calc(50% - 22px);
     height: 76px;
     width: 76px;
 }
@@ -369,6 +378,14 @@ md-tooltip .md-content {
 
 #wrapper {
     background: linear-gradient(to bottom, #37474F 0%, #37474F 50%, #000000 50%, white 50%, white 100%);
+}
+
+#test {
+    position: absolute;
+    top: calc(50% - 300px);
+    /* Center abs positioned div */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /*Media queries*/
