@@ -114,7 +114,7 @@ def add_post():
         output = io.BytesIO()
         img.save(output, format='JPEG')
         s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
-        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+        #img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
         post = Post(title=title, body=body, cover_photo=covers_path + filename,
                     author=current_user)
     else:
@@ -150,7 +150,7 @@ def edit_post(id):
         output = io.BytesIO()
         img.save(output, format='JPEG')
         s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
-        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+        #img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
     db.session.commit()
     return jsonify(p.serialize)
 
@@ -212,7 +212,7 @@ def new_user():
         output = io.BytesIO()
         img.save(output, format='JPEG')
         s3.Object('theeblog', 'avatars/' + filename).put(Body=output.getvalue())
-        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
+        #img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
         u = User(username=username, email=email, avatar=avas_path + filename)
     else:
         u = User(username=username, email=email)
