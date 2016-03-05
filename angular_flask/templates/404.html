@@ -17,13 +17,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='src/css/main.css') }}">
     <base href="/">
 </head>
-<body>
+<body layout="column">
 
-<main layout="row" layout-align="center center">
-    <h3>404</h3>
 
-    <h4>Sorry, but the page you were trying to view does not exist.</h4>
-</main>
+<div layout="column" id="wrapper" layout-align="center center" flex>
+    <md-content layout="column" class="md-whiteframe-5dp">
+        <div id="upper" layout-padding flex layout="column" layout-align="center start">
+            <h3 flex>Error 404</h3>
+        </div>
+        <md-button class="home-btn md-fab md-accent md-raised " aria-label="Home">
+            <md-tooltip aria-label="menu" md-direction="bottom">
+                Home
+            </md-tooltip>
+            <md-icon md-font-set="material-icons">home</md-icon>
+        </md-button>
+        <div id="lower" layout-padding flex layout="column" layout-align="center center">
+
+            <h4>Sorry, but the page you were trying to view does not exist.</h4>
+        </div>
+    </md-content>
+
+</div>
 
 
 <script src="{{ url_for('static', filename='dist/vendor.js') }}"></script>

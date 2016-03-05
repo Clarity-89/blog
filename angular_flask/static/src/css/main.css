@@ -328,6 +328,49 @@ md-tooltip .md-content {
     height: 400px;
 }
 
+/*404 page*/
+#upper {
+    height: 300px;
+    background-color: #00789b;
+    color: white;
+}
+
+#upper > * {
+    font-size: 8em;
+}
+
+#lower {
+    height: 300px;
+    padding: 20px;
+    -webkit-column-width: 500px;
+    -moz-column-width: 300px;
+    column-width: 300px;
+}
+
+#lower > h4 {
+    font-size: 2.5em;
+
+}
+
+.home-btn.md-fab {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: calc(50% - 46px);
+    height: 76px;
+    width: 76px;
+}
+
+.home-btn.md-fab > md-icon {
+    font-size: 34px;
+    height: 34px;
+    width: 34px;
+}
+
+#wrapper {
+    background: linear-gradient(to bottom, #37474F 0%, #37474F 50%, #000000 50%, white 50%, white 100%);
+}
+
 /*Media queries*/
 /*Mobile*/
 @media screen and (max-device-width: 480px) {
