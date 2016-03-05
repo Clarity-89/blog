@@ -135,6 +135,10 @@ md-card > a {
     column-width: 1000px;
 }
 
+.abs {
+    position: absolute;
+}
+
 .body-text-lg {
     min-height: 22.5em;
     padding: 20px 50px;
