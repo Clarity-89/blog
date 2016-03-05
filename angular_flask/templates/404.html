@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='src/css/main.css') }}">
     <base href="/">
 </head>
-<body layout="column">
+<body layout="column" ng-controller="page404Controller">
 
 
 <div layout="column" id="wrapper" layout-align="center center" flex>
@@ -25,7 +25,7 @@
         <div id="upper" layout-padding flex layout="column" layout-align="center start">
             <h3 flex>Error 404</h3>
         </div>
-        <md-button class="home-btn md-fab md-accent md-raised " aria-label="Home">
+        <md-button ng-click="goHome()" class="home-btn md-fab md-accent md-raised " aria-label="Home">
             <md-tooltip aria-label="menu" md-direction="bottom">
                 Home
             </md-tooltip>
