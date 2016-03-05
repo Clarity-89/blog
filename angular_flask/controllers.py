@@ -111,10 +111,10 @@ def add_post():
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
         maxsize = (1024, 1024)
         img.thumbnail(maxsize, Image.ANTIALIAS)
-        """output = io.BytesIO()
+        output = io.BytesIO()
         img.save(output, format='JPEG')
-        s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())"""
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+        s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
+        #img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
         post = Post(title=title, body=body, cover_photo=covers_path + filename,
                     author=current_user)
     else:
@@ -147,10 +147,10 @@ def edit_post(id):
         img = Image.open(image)
         maxsize = (1024, 1024)
         img.thumbnail(maxsize, Image.ANTIALIAS)
-        """output = io.BytesIO()
+        output = io.BytesIO()
         img.save(output, format='JPEG')
-        s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())"""
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+        s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
+        #img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
     db.session.commit()
     return jsonify(p.serialize)
 
@@ -209,10 +209,10 @@ def new_user():
         img = Image.open(ava)
         maxsize = (480, 480)
         img.thumbnail(maxsize, Image.ANTIALIAS)
-        """output = io.BytesIO()
+        output = io.BytesIO()
         img.save(output, format='JPEG')
-        s3.Object('theeblog', 'avatars/' + filename).put(Body=output.getvalue())"""
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
+        s3.Object('theeblog', 'avatars/' + filename).put(Body=output.getvalue())
+        #img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
         u = User(username=username, email=email, avatar=avas_path + filename)
     else:
         u = User(username=username, email=email)
@@ -255,10 +255,10 @@ def edit_user():
         img = Image.open(ava)
         maxsize = (480, 480)
         img.thumbnail(maxsize, Image.ANTIALIAS)
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
-        """output = io.BytesIO()
+        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
+        output = io.BytesIO()
         img.save(output, format='JPEG')
-        s3.Object('theeblog', 'avatars/' + filename).put(Body=output.getvalue())"""
+        s3.Object('theeblog', 'avatars/' + filename).put(Body=output.getvalue())
     if new_password:
         if not u.verify_password(password):
             return abort(400, 'password')
