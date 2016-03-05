@@ -139,6 +139,11 @@ md-card > a {
     position: absolute;
 }
 
+/*Remove border radius from cover image*/
+md-card.md-default-theme .md-card-image, md-card .md-card-image {
+    border-radius: 0;
+}
+
 .body-text-lg {
     min-height: 22.5em;
     padding: 20px 50px;
