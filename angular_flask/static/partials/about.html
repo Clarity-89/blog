@@ -63,28 +63,37 @@
                 <md-content class="md-padding social">
                     <h4 class="about-text center">If you like this project star or fork it on GitHub and share on social
                         media.</h4>
-                    <div layout="row" layout-align="space-around center">
+                    <div layout="row" layout-xs="column" layout-align="center center" layout-wrap>
 
                         <!-- Github buttons -->
                         <iframe src="https://ghbtns.com/github-btn.html?user=Clarity-89&repo=blog&type=star&count=true&size=large"
                                 frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
 
+
                         <iframe src="https://ghbtns.com/github-btn.html?user=Clarity-89&repo=blog&type=fork&count=true&size=large"
                                 frameborder="0" scrolling="0" width="158px" height="30px"></iframe>
 
                         <!-- Twitter button -->
-                        <a href="https://twitter.com/share" class="twitter-share-button"
-                           data-via="{{ getUserDetails().username }}"
-                           data-size="large">Tweet</a>
 
-                        <!-- Facebook button -->
-                        <div class="fb-share-button" data-href="https://thee-blog.herokuapp.com/"
-                             data-layout="button_count"></div>
+                        <iframe src="https://platform.twitter.com/widgets/tweet_button.html?size=l&url=https://thee-blog.herokuapp.com&text=The%20Blog%20-%20share%20your%20ideas"
+                                height="30"
+                                width="154" scrolling="no"
+                                title="Twitter Tweet Button"
+                                style="border: 0; overflow: hidden;">
+                        </iframe>
                     </div>
+                    <div layout="row" layout-xs="column" layout-align="center center" layout-wrap>
+                        <!-- Facebook button -->
+                        <div class="fb-like" data-href="https://thee-blog.herokuapp.com" data-layout="button"
+                             data-action="like" data-show-faces="false" data-share="true"></div>
+                    </div>
+
                     <div layout="column" layout-align="space-between center">
                         <h4 class="about-text center">Or you can just check out the project's code on GitHub.</h4>
                         <br>
-                        <md-button href="https://github.com/Clarity-89/blog" target="_blank" class="md-raised md-accent">View on GitHub</md-button>
+                        <md-button href="https://github.com/Clarity-89/blog" target="_blank"
+                                   class="md-raised md-accent">View on GitHub
+                        </md-button>
                     </div>
 
                 </md-content>
