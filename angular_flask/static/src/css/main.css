@@ -439,6 +439,19 @@ md-tooltip .md-content {
         background: url("../../img/background.jpg") center center;
     }
 
+    /* Center social icons */
+    .social > div > iframe {
+        display: block;
+        margin: 10px auto;
+    }
+
+    .social > div {
+        margin: 20px auto;
+    }
+
+    .fb-like {
+        margin-left: -58px;
+    }
 }
 
 /*Laptop*/
