@@ -75,11 +75,13 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
 angular.module('app')
     .controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'goTo',
         function ($scope, allPosts, favoritePost, goTo) {
+            $scope.page.loading = true;
             $scope.posts = [];
             $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
             allPosts.getPosts()
                 .then(function (response) {
                         $scope.posts = response.data.posts;
+                        $scope.page.loading = false;
                         $scope.posts.forEach(function (el) {
                             favoritePost.checkFav(el);
                         });
@@ -134,11 +136,13 @@ angular.module('app')
             };
         }])
     .controller('PostDetailController', ['$scope', '$routeParams', 'favoritePost', 'allPosts', function ($scope, $routeParams, favoritePost, allPosts) {
+        $scope.page.loading = true;
         $scope.post = {};
         $scope.size = "lg";
         allPosts.getPosts(parseInt($routeParams.id, 10)).then(function (response) {
                 $scope.post = response.data.post;
                 $scope.post.comments = response.data.comments;
+                $scope.page.loading = false;
                 favoritePost.checkFav($scope.post)
             },
             function (response) {
@@ -293,6 +297,8 @@ angular.module('app')
     .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
         'updateUser', 'sharedPost',
         function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost) {
+            $scope.page = {};
+            $scope.page.loading = true;
             $scope.isOpen = false;
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
