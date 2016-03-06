@@ -151,6 +151,7 @@ angular.module('app')
     }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
         function ($scope, postUpload, $location, imgPreview, $cookies) {
+            $scope.page.loading = false;
             var currentUser = $cookies.getObject('current_user');
             $scope.heading = 'Create';
             $scope.button = 'Publish';
@@ -189,6 +190,7 @@ angular.module('app')
         }])
     .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost',
         function ($scope, editPost, $location, imgPreview, sharedPost) {
+            $scope.page.loading = false;
             $scope.heading = 'Edit';
             $scope.button = 'Save changes';
             $scope.post = sharedPost.post;
@@ -219,6 +221,7 @@ angular.module('app')
 
     .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview',
         function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview) {
+            $scope.page.loading = false;
             $scope.hasAccount = true;
             $scope.changeForm = function () {
                 $scope.hasAccount = !$scope.hasAccount;
@@ -366,10 +369,11 @@ angular.module('app')
         }])
     .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', 'favoritePost', function ($scope, userPosts, $cookies, favoritePost) {
         $scope.size = "sm";
-
+        $scope.page.loading = true;
         userPosts.getPosts($cookies.getObject('current_user').id)
             .then(function (response) {
                     $scope.posts = response.data.posts;
+                    $scope.page.loading = false;
                     $scope.posts.forEach(function (el) {
                         favoritePost.checkFav(el);
                     });
@@ -460,6 +464,9 @@ angular.module('app')
             $location.path('/');
             $window.location.reload();
         }
+    }])
+    .controller('aboutController', ['$scope', function ($scope) {
+        $scope.page.loading = false;
     }])
 ;
 angular.module('app')
