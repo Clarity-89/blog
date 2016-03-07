@@ -434,11 +434,6 @@ md-tooltip .md-content {
         font-size: 1em;
     }
 
-    /* Do not make background fixed on mobile cause it's not well supported*/
-    #main-view {
-        background: url("../../img/background.jpg") center center;
-    }
-
     /* Center social icons */
     .social > div > iframe {
         display: block;
@@ -451,6 +446,30 @@ md-tooltip .md-content {
 
     .fb-like {
         margin-left: -62px;
+    }
+}
+
+/* mobile + Ipad Mini*/
+@media screen and (max-device-width: 1024px) {
+    /* Do not make background fixed cause it's not well supported on smaller devices */
+    #main-view {
+        background: url("../../img/background.jpg") center center;
+    }
+}
+
+/* Ipad Mini*/
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+
+    .para-sm {
+        -webkit-column-width: 300px;
+        -moz-column-width: 300px;
+        column-width: 300px;
+    }
+
+    .para-md, .para-lg {
+        -webkit-column-width: 600px;
+        -moz-column-width: 600px;
+        column-width: 600px;
     }
 }
 
