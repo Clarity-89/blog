@@ -95,9 +95,6 @@ md-card > a {
     height: 2.813em; /*45px*/
     overflow: hidden;
     line-height: 1.2em;
-    -webkit-column-width: 300px;
-    -moz-column-width: 300px;
-    column-width: 300px;
 }
 
 .para-md, .para-md > * {
@@ -108,12 +105,15 @@ md-card > a {
     height: 18.75em;
 }
 
+.para-lg, .para-md {
+    -webkit-column-width: 400px;
+    -moz-column-width: 400px;
+    column-width: 400px;
+}
+
 .para-lg {
-    height: 10em;
+    height: 11em; /* 176px */
     overflow: hidden;
-    -webkit-column-width: 300px;
-    -moz-column-width: 300px;
-    column-width: 300px;
 }
 
 #register {
@@ -472,6 +472,10 @@ md-tooltip .md-content {
         column-width: 600px;
     }
 
+    .para-lg {
+        height: 10em;
+    }
+
     .logos > img {
         width: 150px;
         height: 100px;
@@ -488,4 +492,7 @@ md-tooltip .md-content {
         height: 80px;
     }
 
+    .para-sm > *, .para-md > * {
+        font-size: 1em;
+    }
 }
