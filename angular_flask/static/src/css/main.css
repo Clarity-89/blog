@@ -471,6 +471,11 @@ md-tooltip .md-content {
         -moz-column-width: 600px;
         column-width: 600px;
     }
+
+    .logos > img {
+        width: 150px;
+        height: 100px;
+    }
 }
 
 /*Laptop*/
