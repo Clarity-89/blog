@@ -121,7 +121,7 @@ def add_post():
         post = Post(title=title, body=body, author=current_user)
     session.add(post)
     session.commit()
-    return jsonify({'message': 'post created successfully'})
+    return jsonify({'id': post.id})
 
 
 # Edit post
