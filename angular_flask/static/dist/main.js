@@ -149,8 +149,8 @@ angular.module('app')
                 console.log('Error:', response.status, response.statusText);
             });
     }])
-    .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies',
-        function ($scope, postUpload, $location, imgPreview, $cookies) {
+    .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies', 'toast',
+        function ($scope, postUpload, $location, imgPreview, $cookies, toast) {
             $scope.page.loading = false;
             var currentUser = $cookies.getObject('current_user');
             $scope.heading = 'Create';
@@ -173,9 +173,12 @@ angular.module('app')
                     postUpload.newPost(file, $scope.post)
                         .then(function success(response) {
                             $scope.loading = false;
-                            $location.path('/posts');
+                            toast.showToast('Post created', 1000).then(function () {
+                                $location.path('/posts/' + response.data.id);
+                            })
                         }, function error(response) {
-                            console.log('Could not post', response);
+                            toast.showToast('Could not create post. Please try again later', 5000);
+                            $scope.loading = false;
                         });
                 }
             };
@@ -188,8 +191,8 @@ angular.module('app')
                 return imgPreview.activateUpload('uploadImage');
             }
         }])
-    .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost',
-        function ($scope, editPost, $location, imgPreview, sharedPost) {
+    .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost', 'toast', '$window',
+        function ($scope, editPost, $location, imgPreview, sharedPost, toast, $window) {
             $scope.page.loading = false;
             $scope.heading = 'Edit';
             $scope.button = 'Save changes';
@@ -203,9 +206,13 @@ angular.module('app')
                     editPost.editPost(file, $scope.post)
                         .then(function success(response) {
                             $scope.loading = false;
-                            $location.path('/posts');
+                            toast.showToast('Post edited', 1000).then(function () {
+                                $location.path('/posts/' + response.data.id);
+                                $window.location.reload();
+                            });
                         }, function error(response) {
-                            console.log('Could not edit', response);
+                            toast.showToast('Could not edit post. Please try again later', 5000);
+                            $scope.loading = false;
                         });
                 }
             };
@@ -274,8 +281,6 @@ angular.module('app')
                     createUser.loginUser(user)
                         .then(function success(response) {
                             var u = response.data.user;
-                            //favs = response.data.favs;
-                            //console.log(u)
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
                         }, function error(response) {
@@ -663,7 +668,18 @@ angular.module('app')
             }
         }
     }])
-    ;
+    .service('toast', ['$mdToast', function ($mdToast) {
+        this.showToast = function (message, delay) {
+            return $mdToast.show(
+                $mdToast.simple()
+                    .textContent(message)
+                    .position('left top')
+                    .parent('#toast')
+                    .hideDelay(delay)
+            );
+        }
+    }])
+;
 
 
 //# sourceMappingURL=maps/main.js.map

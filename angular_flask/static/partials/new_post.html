@@ -1,7 +1,7 @@
 <div ng-cloak layout="row" layout-align="center center">
     <div flex="100" flex-gt-sm="80" flex-gt-lg="60">
         <h3 class="page-heading">{{ heading }} Post</h3>
-        <md-content layout="row" layout-padding>
+        <md-content layout="row" layout-padding id="toast">
             <form enctype='multipart/form-data' name="newPost" ng-submit="createPost(newPost)" novalidate>
                 <md-input-container class="md-block">
                     <label for="title">Title</label>

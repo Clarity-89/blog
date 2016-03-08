@@ -156,5 +156,16 @@ angular.module('app')
             }
         }
     }])
-    ;
+    .service('toast', ['$mdToast', function ($mdToast) {
+        this.showToast = function (message, delay) {
+            return $mdToast.show(
+                $mdToast.simple()
+                    .textContent(message)
+                    .position('left top')
+                    .parent('#toast')
+                    .hideDelay(delay)
+            );
+        }
+    }])
+;
 
