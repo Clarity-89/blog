@@ -8,7 +8,7 @@ if 'DYNO' in os.environ:
 
 basedir = os.path.abspath(os.path.dirname('data'))
 basedir_img = os.path.abspath(os.path.dirname('angular_flask'))
-app.config["SECRET_KEY"] = "\xed\x9c\xac\xcd4\x83k\xd1\x17\xd54\xe71\x03\xaf\xd8\x04\xe3\xcd\xaa\xf4\x97\x82\x1e"
+app.config["SECRET_KEY"] = "secret_key"
 # app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///' + os.path.join(basedir, 'data/posts.db')
 app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://admin:111111@localhost:5432/posts'
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
