@@ -177,7 +177,8 @@ angular.module('app')
                                 $location.path('/posts/' + response.data.id);
                             })
                         }, function error(response) {
-                            console.log('Could not post', response);
+                            toast.showToast('Could not create post. Please try again later', 5000);
+                            $scope.loading = false;
                         });
                 }
             };
@@ -190,8 +191,8 @@ angular.module('app')
                 return imgPreview.activateUpload('uploadImage');
             }
         }])
-    .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost',
-        function ($scope, editPost, $location, imgPreview, sharedPost) {
+    .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost', 'toast', '$window',
+        function ($scope, editPost, $location, imgPreview, sharedPost, toast, $window) {
             $scope.page.loading = false;
             $scope.heading = 'Edit';
             $scope.button = 'Save changes';
@@ -205,9 +206,13 @@ angular.module('app')
                     editPost.editPost(file, $scope.post)
                         .then(function success(response) {
                             $scope.loading = false;
-                            $location.path('/posts');
+                            toast.showToast('Post edited', 1000).then(function () {
+                                $location.path('/posts/' + response.data.id);
+                                $window.location.reload();
+                            });
                         }, function error(response) {
-                            console.log('Could not edit', response);
+                            toast.showToast('Could not edit post. Please try again later', 5000);
+                            $scope.loading = false;
                         });
                 }
             };
@@ -276,8 +281,6 @@ angular.module('app')
                     createUser.loginUser(user)
                         .then(function success(response) {
                             var u = response.data.user;
-                            //favs = response.data.favs;
-                            //console.log(u)
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
                         }, function error(response) {
@@ -670,7 +673,7 @@ angular.module('app')
             return $mdToast.show(
                 $mdToast.simple()
                     .textContent(message)
-                    .position('top right')
+                    .position('left top')
                     .parent('#toast')
                     .hideDelay(delay)
             );

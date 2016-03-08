@@ -127,7 +127,6 @@ def add_post():
 # Edit post
 @app.route('/blog/api/posts/<int:id>/edit', methods=['POST'])
 def edit_post(id):
-    print 'received post ', json.loads(request.form['post'])
     post = json.loads(request.form['post'])
     title = post.get('title')
     body = post.get('body')
@@ -152,7 +151,7 @@ def edit_post(id):
         s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
         # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
     db.session.commit()
-    return jsonify(p.serialize)
+    return jsonify({'id': p.id})
 
 
 # Delete post

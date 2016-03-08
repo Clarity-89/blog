@@ -161,7 +161,7 @@ angular.module('app')
             return $mdToast.show(
                 $mdToast.simple()
                     .textContent(message)
-                    .position('top right')
+                    .position('left top')
                     .parent('#toast')
                     .hideDelay(delay)
             );
