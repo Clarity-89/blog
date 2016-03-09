@@ -151,7 +151,7 @@ angular.module('app')
     }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies', 'toast',
         function ($scope, postUpload, $location, imgPreview, $cookies, toast) {
-            $scope.page.loading = false;
+            $scope.page.loading = false; // loading progress bar
             var currentUser = $cookies.getObject('current_user');
             $scope.heading = 'Create';
             $scope.button = 'Publish';
@@ -168,7 +168,7 @@ angular.module('app')
             $scope.createPost = function (form) {
 
                 if (form.$valid) {
-                    $scope.loading = true;
+                    $scope.loading = true; // loading spinner
                     var file = $scope.myFile;
                     postUpload.newPost(file, $scope.post)
                         .then(function success(response) {
@@ -177,8 +177,8 @@ angular.module('app')
                                 $location.path('/posts/' + response.data.id);
                             })
                         }, function error(response) {
-                            toast.showToast('Could not create post. Please try again later', 5000);
                             $scope.loading = false;
+                            toast.showToast('Could not create post. Please try again later', 5000);
                         });
                 }
             };
@@ -193,7 +193,7 @@ angular.module('app')
         }])
     .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost', 'toast', '$window',
         function ($scope, editPost, $location, imgPreview, sharedPost, toast, $window) {
-            $scope.page.loading = false;
+            $scope.page.loading = false; // loading progress bar
             $scope.heading = 'Edit';
             $scope.button = 'Save changes';
             $scope.post = sharedPost.post;
@@ -201,7 +201,7 @@ angular.module('app')
             $scope.createPost = function (form) {
 
                 if (form.$valid) {
-                    $scope.loading = true;
+                    $scope.loading = true; // loading spinner
                     var file = $scope.myFile;
                     editPost.editPost(file, $scope.post)
                         .then(function success(response) {
@@ -211,8 +211,8 @@ angular.module('app')
                                 $window.location.reload();
                             });
                         }, function error(response) {
-                            toast.showToast('Could not edit post. Please try again later', 5000);
                             $scope.loading = false;
+                            toast.showToast('Could not edit post. Please try again later', 5000);
                         });
                 }
             };
@@ -226,8 +226,8 @@ angular.module('app')
             }
         }])
 
-    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview',
-        function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview) {
+    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview', 'toast',
+        function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview, toast) {
             $scope.page.loading = false;
             $scope.hasAccount = true;
             $scope.changeForm = function () {
@@ -242,32 +242,45 @@ angular.module('app')
             $scope.register = function (form) {
                 var self = this;
 
+                /* Use logical and here to make sure the function executes only userForm is not undefined, preventing errors*/
                 $scope.changeUsername = function () {
-                    self.userForm.username.$setValidity("userExists", true);
+                    self.userForm && self.userForm.username.$setValidity("userExists", true);
                 };
 
                 $scope.changeEmail = function () {
-                    self.userForm.email.$setValidity("emailExists", true);
+                    self.userForm && self.userForm.email.$setValidity("emailExists", true);
                 };
 
                 if (form.$valid) {
+                    $scope.loading = true; // loading spinner
                     var file = self.myAva,
                         user = $scope.user;
                     createUser.newUser(file, user)
                         .then(function success() {
-                            // Show log in form
-                            $scope.hasAccount = true;
-                            // Clear form for login in
-                            $scope.user = {
-                                username: "",
-                                password: ""
-                            };
+                            $scope.loading = false;
+                            toast.showToast('Successfully registered. Please log in with your details.', 1000).then(function () {
+                                // Show log in form
+                                $scope.hasAccount = true;
+                                // Clear form for login in
+                                $scope.user = {
+                                    username: "",
+                                    password: ""
+                                };
+                            })
                         }, function error(response) {
-                            $scope.userMessage = response.data.message;
-                            if ($scope.userMessage.split(' ')[0] === 'User') {
-                                self.userForm.username.$setValidity("userExists", false);
-                            } else if ($scope.userMessage.split(' ')[0] === 'Email') {
-                                self.userForm.email.$setValidity("emailExists", false);
+                            var userMessage = response.data.message;
+                            $scope.loading = false;
+                            console.log(userMessage)
+                            if (userMessage) {
+                                if (userMessage.split(' ')[0] === 'User') {
+                                    self.userForm.username.$setValidity("userExists", false);
+                                } else if (userMessage.split(' ')[0] === 'Email') {
+                                    self.userForm.email.$setValidity("emailExists", false);
+                                } else {
+                                    toast.showToast('Could not create user. Please try again later', 5000);
+                                }
+                            } else {
+                                toast.showToast('Could not create user. Please try again later', 5000);
                             }
                         });
                 }
@@ -283,9 +296,11 @@ angular.module('app')
                     self.loginForm.password.$setValidity("passwordIncorrect", true);
                 };
                 if (form.$valid) {
+                    $scope.loading = true; // loading spinner
                     var user = $scope.user;
                     createUser.loginUser(user)
                         .then(function success(response) {
+                            $scope.loading = false;
                             var u = response.data.user;
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');

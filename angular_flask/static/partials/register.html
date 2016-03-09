@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </md-input-container>
-            <md-input-container class="md-block">
+            <md-input-container class="md-block" id="toast" >
                 <label for="password2">Password (again)</label>
                 <input type="password" id="password2" name="confirmPassword" match-password="password"
                        ng-model="confirmPassword">
@@ -45,6 +45,8 @@
                 </div>
             </md-input-container>
             <md-button type="submit" class="md-raised md-accent">Register</md-button>
+            <md-progress-circular md-mode="indeterminate" class="md-accent spinner"
+                                  ng-show="loading"></md-progress-circular>
         </form>
         <p>If you already have an account <a href="#" ng-click="changeForm()">Sign in</a></p>
     </md-content>
@@ -71,7 +73,10 @@
                 </div>
             </md-input-container>
             <md-button type="submit" class="md-raised md-accent">Log In</md-button>
+            <md-progress-circular md-mode="indeterminate" class="md-accent spinner"
+                                  ng-show="loading"></md-progress-circular>
         </form>
         <p>Don't have an account? <a href="#" ng-click="changeForm()">Register</a></p>
+
     </md-content>
 </div>
