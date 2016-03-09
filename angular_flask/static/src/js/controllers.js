@@ -78,7 +78,7 @@ angular.module('app')
     }])
     .controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies', 'toast',
         function ($scope, postUpload, $location, imgPreview, $cookies, toast) {
-            $scope.page.loading = false;
+            $scope.page.loading = false; // loading progress bar
             var currentUser = $cookies.getObject('current_user');
             $scope.heading = 'Create';
             $scope.button = 'Publish';
@@ -95,7 +95,7 @@ angular.module('app')
             $scope.createPost = function (form) {
 
                 if (form.$valid) {
-                    $scope.loading = true;
+                    $scope.loading = true; // loading spinner
                     var file = $scope.myFile;
                     postUpload.newPost(file, $scope.post)
                         .then(function success(response) {
@@ -120,7 +120,7 @@ angular.module('app')
         }])
     .controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost', 'toast', '$window',
         function ($scope, editPost, $location, imgPreview, sharedPost, toast, $window) {
-            $scope.page.loading = false;
+            $scope.page.loading = false; // loading progress bar
             $scope.heading = 'Edit';
             $scope.button = 'Save changes';
             $scope.post = sharedPost.post;
@@ -128,7 +128,7 @@ angular.module('app')
             $scope.createPost = function (form) {
 
                 if (form.$valid) {
-                    $scope.loading = true;
+                    $scope.loading = true; // loading spinner
                     var file = $scope.myFile;
                     editPost.editPost(file, $scope.post)
                         .then(function success(response) {
@@ -178,10 +178,12 @@ angular.module('app')
                 };
 
                 if (form.$valid) {
+                    $scope.loading = true; // loading spinner
                     var file = self.myAva,
                         user = $scope.user;
                     createUser.newUser(file, user)
                         .then(function success() {
+                            $scope.loading = false;
                             // Show log in form
                             $scope.hasAccount = true;
                             // Clear form for login in
@@ -210,9 +212,11 @@ angular.module('app')
                     self.loginForm.password.$setValidity("passwordIncorrect", true);
                 };
                 if (form.$valid) {
+                    $scope.loading = true; // loading spinner
                     var user = $scope.user;
                     createUser.loginUser(user)
                         .then(function success(response) {
+                            $scope.loading = false;
                             var u = response.data.user;
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');

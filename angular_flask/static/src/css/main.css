@@ -273,6 +273,11 @@ label {
     margin: auto auto 5px 115px !important;
 }
 
+.spinner {
+    display: inline;
+    position: absolute;
+}
+
 /* Overriding default background color for subheader */
 
 .comment-header > .md-subheader {
