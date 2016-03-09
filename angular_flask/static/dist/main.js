@@ -255,7 +255,13 @@ angular.module('app')
                         user = $scope.user;
                     createUser.newUser(file, user)
                         .then(function success() {
-                            $location.path('/posts');
+                            // Show log in form
+                            $scope.hasAccount = true;
+                            // Clear form for login in
+                            $scope.user = {
+                                username: "",
+                                password: ""
+                            };
                         }, function error(response) {
                             $scope.userMessage = response.data.message;
                             if ($scope.userMessage.split(' ')[0] === 'User') {
