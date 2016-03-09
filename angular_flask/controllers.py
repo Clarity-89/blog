@@ -233,7 +233,6 @@ def get_user(id):
 # Edit user details
 @app.route('/blog/api/users/edit', methods=['POST'])
 def edit_user():
-    print 'received user ', json.loads(request.form['user'])
     user = json.loads(request.form['user'])
     username = user.get('username')
     email = user.get('email')
@@ -301,7 +300,6 @@ def verify_password(username_or_token, password):
             return abort(400, 'password')
     # g.user = user
     login_user(user)
-    print 'logged in the user', current_user.username
     return True
 
 

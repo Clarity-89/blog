@@ -197,7 +197,6 @@ angular.module('app')
                         }, function error(response) {
                             var userMessage = response.data.message;
                             $scope.loading = false;
-                            console.log(userMessage)
                             if (userMessage) {
                                 if (userMessage.split(' ')[0] === 'User') {
                                     self.userForm.username.$setValidity("userExists", false);
@@ -232,6 +231,7 @@ angular.module('app')
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
                         }, function error(response) {
+                            $scope.loading = false;
                             $scope.userMessage = response.data.message;
                             if ($scope.userMessage === 'username') {
                                 self.loginForm.username.$setValidity("userExists", false);
