@@ -245,8 +245,8 @@ angular.module('app')
             }
         }])
 
-    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview', 'toast',
-        function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview, toast) {
+    .controller('UserController', ['$scope', 'userService', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview', 'toast',
+        function ($scope, userService, $location, $timeout, $rootScope, $cookies, imgPreview, toast) {
             $scope.page.loading = false;
             $scope.hasAccount = true;
             $scope.changeForm = function () {
@@ -274,7 +274,7 @@ angular.module('app')
                     $scope.loading = true; // loading spinner
                     var file = self.myAva,
                         user = $scope.user;
-                    createUser.newUser(file, user)
+                    userService.newUser(file, user)
                         .then(function success() {
                             $scope.loading = false;
                             toast.showToast('Successfully registered. Please log in with your details.', 1000).then(function () {
@@ -316,7 +316,7 @@ angular.module('app')
                 if (form.$valid) {
                     $scope.loading = true; // loading spinner
                     var user = $scope.user;
-                    createUser.loginUser(user)
+                    userService.login(user)
                         .then(function success(response) {
                             $scope.loading = false;
                             var u = response.data.user;
@@ -342,11 +342,10 @@ angular.module('app')
                 return imgPreview.activateUpload('uploadAva');
             }
         }])
-    .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
-        'updateUser', 'sharedPost',
-        function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost) {
+    .controller('UserDetailsController', ['$scope', '$rootScope', 'userService', '$cookies', '$location', 'imgPreview',
+        'sharedPost', function ($scope, $rootScope, userService, $cookies, $location, imgPreview, sharedPost) {
             $scope.page = {};
-            $scope.page.loading = true;
+            $scope.page.loading = false;
             $scope.isOpen = false;
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
@@ -364,7 +363,7 @@ angular.module('app')
 
             $scope.logout = function () {
                 if ($scope.currentUser()) {
-                    logoutUser.logout()
+                    userService.logout()
                         .then(function success() {
                             $cookies.remove('current_user');
                             $location.path('/');
@@ -390,10 +389,9 @@ angular.module('app')
                 if (form.$valid) {
                     var file = self.myAva,
                         user = $scope.user;
-                    updateUser.update(file, user)
+                    userService.update(file, user)
                         .then(function success(response) {
                             var u = response.data.user;
-                            u.favs = response.data.favs;
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
                         }, function error(response) {
@@ -411,10 +409,10 @@ angular.module('app')
                 $location.path('/new');
             }
         }])
-    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', 'favoritePost', function ($scope, userPosts, $cookies, favoritePost) {
+    .controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', function ($scope, userService, $cookies, favoritePost) {
         $scope.size = "sm";
         $scope.page.loading = true;
-        userPosts.getPosts($cookies.getObject('current_user').id)
+        userService.getPosts($cookies.getObject('current_user').id)
             .then(function (response) {
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
@@ -608,30 +606,7 @@ angular.module('app')
             });
         }
     }])
-    .service('createUser', ['$http', function ($http) {
-        this.newUser = function (file, user) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('user', JSON.stringify(user));
-            return $http.post("/blog/api/users", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            });
-        };
-        this.loginUser = function (user) {
-            return $http.post("/login", user);
-        }
-    }])
-    .service('logoutUser', ['$http', function ($http) {
-        this.logout = function () {
-            return $http.post("/logout", {});
-        }
-    }])
-    .service('userPosts', ['$http', function ($http) {
-        this.getPosts = function (user_id) {
-            return $http.get("/blog/api/users/" + user_id + "/posts")
-        }
-    }])
+
     .service('imgPreview', function () {
         this.preview = function (element, scope) {
             var reader = new FileReader();
@@ -646,17 +621,6 @@ angular.module('app')
             document.getElementById(id).click();
         }
     })
-    .service('updateUser', ['$http', function ($http) {
-        this.update = function (file, user) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('user', JSON.stringify(user));
-            return $http.post("/blog/api/users/edit", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            });
-        };
-    }])
     .service('favoritePost', ['$http', '$cookies', function ($http, $cookies) {
         this.favorite = function (post) {
             return $http.post("/blog/api/posts/" + post.id, {});
@@ -709,6 +673,37 @@ angular.module('app')
     .service('userService', ['$http', function ($http) {
         this.isLoggedIn = function () {
             return $http.get("/blog/api/current_user");
+        };
+        this.newUser = function (file, user) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('user', JSON.stringify(user));
+            return $http.post("/blog/api/users", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            });
+        };
+
+        this.update = function (file, user) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('user', JSON.stringify(user));
+            return $http.post("/blog/api/users/edit", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            });
+        };
+
+        this.login = function (user) {
+            return $http.post("/login", user);
+        };
+
+        this.logout = function () {
+            return $http.post("/logout", {});
+        };
+
+        this.getPosts = function (user_id) {
+            return $http.get("/blog/api/users/" + user_id + "/posts")
         }
     }])
 ;

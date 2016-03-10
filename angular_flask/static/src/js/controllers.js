@@ -154,8 +154,8 @@ angular.module('app')
             }
         }])
 
-    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview', 'toast',
-        function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview, toast) {
+    .controller('UserController', ['$scope', 'userService', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview', 'toast',
+        function ($scope, userService, $location, $timeout, $rootScope, $cookies, imgPreview, toast) {
             $scope.page.loading = false;
             $scope.hasAccount = true;
             $scope.changeForm = function () {
@@ -183,7 +183,7 @@ angular.module('app')
                     $scope.loading = true; // loading spinner
                     var file = self.myAva,
                         user = $scope.user;
-                    createUser.newUser(file, user)
+                    userService.newUser(file, user)
                         .then(function success() {
                             $scope.loading = false;
                             toast.showToast('Successfully registered. Please log in with your details.', 1000).then(function () {
@@ -225,7 +225,7 @@ angular.module('app')
                 if (form.$valid) {
                     $scope.loading = true; // loading spinner
                     var user = $scope.user;
-                    createUser.loginUser(user)
+                    userService.login(user)
                         .then(function success(response) {
                             $scope.loading = false;
                             var u = response.data.user;
@@ -251,11 +251,10 @@ angular.module('app')
                 return imgPreview.activateUpload('uploadAva');
             }
         }])
-    .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
-        'updateUser', 'sharedPost',
-        function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost) {
+    .controller('UserDetailsController', ['$scope', '$rootScope', 'userService', '$cookies', '$location', 'imgPreview',
+        'sharedPost', function ($scope, $rootScope, userService, $cookies, $location, imgPreview, sharedPost) {
             $scope.page = {};
-            $scope.page.loading = true;
+            $scope.page.loading = false;
             $scope.isOpen = false;
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
@@ -273,7 +272,7 @@ angular.module('app')
 
             $scope.logout = function () {
                 if ($scope.currentUser()) {
-                    logoutUser.logout()
+                    userService.logout()
                         .then(function success() {
                             $cookies.remove('current_user');
                             $location.path('/');
@@ -299,10 +298,9 @@ angular.module('app')
                 if (form.$valid) {
                     var file = self.myAva,
                         user = $scope.user;
-                    updateUser.update(file, user)
+                    userService.update(file, user)
                         .then(function success(response) {
                             var u = response.data.user;
-                            u.favs = response.data.favs;
                             $cookies.putObject('current_user', u);
                             $location.path('/posts');
                         }, function error(response) {
@@ -320,10 +318,10 @@ angular.module('app')
                 $location.path('/new');
             }
         }])
-    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', 'favoritePost', function ($scope, userPosts, $cookies, favoritePost) {
+    .controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', function ($scope, userService, $cookies, favoritePost) {
         $scope.size = "sm";
         $scope.page.loading = true;
-        userPosts.getPosts($cookies.getObject('current_user').id)
+        userService.getPosts($cookies.getObject('current_user').id)
             .then(function (response) {
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
