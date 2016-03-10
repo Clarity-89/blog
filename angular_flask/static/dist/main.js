@@ -59,7 +59,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
             $locationProvider.html5Mode(true);
         }
     ])
-    .run(function ($rootScope, $location, $cookies) {
+    .run(function ($rootScope, $location, $cookies, userService) {
         $rootScope.$on("$routeChangeStart", function (event, next) {
             if (next.templateUrl == 'static/partials/new_post.html' || next.templateUrl == 'static/partials/profile.html'
                 || next.templateUrl == 'static/partials/my_posts.html') {
@@ -69,6 +69,24 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
                 }
             }
         });
+
+
+        /*
+         * Check if the user is still logged in on the server in case there were some errors or database reset
+         * to prevent the situations when user is logged out on the server but logged in in the browser
+         */
+        userService.isLoggedIn().then(function (response) {
+            var msg = response.data.message;
+            if (msg === 'no user' && $cookies.get('current_user')) {
+                console.log('user removed');
+                $cookies.remove('current_user');
+            }
+            // Fallback in case there is an unexpected server error
+        }, function (response) {
+            if ($cookies.get('current_user')) {
+                $cookies.remove('current_user');
+            }
+        })
     })
 ;
 'use strict';
@@ -349,7 +367,6 @@ angular.module('app')
                     logoutUser.logout()
                         .then(function success() {
                             $cookies.remove('current_user');
-                            console.log('logged out');
                             $location.path('/');
                         }, function error(response) {
                             console.log('Could not log out', response);
@@ -535,21 +552,10 @@ angular.module('appFilters', [])
 'use strict';
 
 angular.module('app')
-    .constant("baseURL", "https://thee-blog.herokuapp.com")
     // A service to share 'post' object between controllers
     .service('sharedPost', function () {
         var post = this;
     })
-    /* .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
-     this.getPosts = function () {
-     return $resource(baseURL + '/blog/api/posts/:id', {}, {
-     query: {
-     method: 'GET',
-     isArray: true
-     }
-     });
-     }
-     }])*/
     .service('allPosts', ['$http', function ($http) {
         this.getPosts = function (id) {
             if (id) {
@@ -557,7 +563,6 @@ angular.module('app')
             } else {
                 return $http.get('/blog/api/posts', {});
             }
-
         }
     }])
     .service('postUpload', ['$http', function ($http) {
@@ -699,6 +704,11 @@ angular.module('app')
                     .parent('#toast')
                     .hideDelay(delay)
             );
+        }
+    }])
+    .service('userService', ['$http', function ($http) {
+        this.isLoggedIn = function () {
+            return $http.get("/blog/api/current_user");
         }
     }])
 ;

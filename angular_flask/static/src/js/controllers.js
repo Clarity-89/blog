@@ -276,7 +276,6 @@ angular.module('app')
                     logoutUser.logout()
                         .then(function success() {
                             $cookies.remove('current_user');
-                            console.log('logged out');
                             $location.path('/');
                         }, function error(response) {
                             console.log('Could not log out', response);

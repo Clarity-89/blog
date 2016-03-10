@@ -230,6 +230,15 @@ def get_user(id):
     return jsonify({'username': user.username})
 
 
+# Check if user is logged in
+@app.route('/blog/api/current_user')
+def get_curr_user():
+    if current_user.is_anonymous:
+        return jsonify({'message': 'no user'})
+    else:
+        return jsonify({'message': 'logged in'})
+
+
 # Edit user details
 @app.route('/blog/api/users/edit', methods=['POST'])
 def edit_user():
@@ -284,6 +293,7 @@ def login():
     if not verify_password(username, password):
         return abort(400, 'Incorrect Username or Password')
     user = User.query.filter_by(username=username).first()
+    login_user(user)
     return jsonify(user=user.serialize, favs=[fav.serialize for fav in user.favorited])
 
 
@@ -298,8 +308,6 @@ def verify_password(username_or_token, password):
             return abort(400, 'username')
         elif not user.verify_password(password):
             return abort(400, 'password')
-    # g.user = user
-    login_user(user)
     return True
 
 

@@ -1,21 +1,10 @@
 'use strict';
 
 angular.module('app')
-    .constant("baseURL", "https://thee-blog.herokuapp.com")
     // A service to share 'post' object between controllers
     .service('sharedPost', function () {
         var post = this;
     })
-    /* .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
-     this.getPosts = function () {
-     return $resource(baseURL + '/blog/api/posts/:id', {}, {
-     query: {
-     method: 'GET',
-     isArray: true
-     }
-     });
-     }
-     }])*/
     .service('allPosts', ['$http', function ($http) {
         this.getPosts = function (id) {
             if (id) {
@@ -23,7 +12,6 @@ angular.module('app')
             } else {
                 return $http.get('/blog/api/posts', {});
             }
-
         }
     }])
     .service('postUpload', ['$http', function ($http) {
@@ -165,6 +153,11 @@ angular.module('app')
                     .parent('#toast')
                     .hideDelay(delay)
             );
+        }
+    }])
+    .service('userService', ['$http', function ($http) {
+        this.isLoggedIn = function () {
+            return $http.get("/blog/api/current_user");
         }
     }])
 ;
