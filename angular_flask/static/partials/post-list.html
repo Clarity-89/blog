@@ -3,7 +3,7 @@
                   md-row-height="4:3"
                   md-gutter="8px" md-gutter-gt-sm="18px">
 
-        <md-grid-tile ng-repeat="post in posts" md-rowspan="{{ post.span.row }}" md-colspan="{{ post.span.col }}"
+        <md-grid-tile ng-repeat="post in posts | orderBy: '-date'" md-rowspan="{{ post.span.row }}" md-colspan="{{ post.span.col }}"
                       md-colspan-xs="1" md-rowspan-xs="2">
             <md-card layout-fill>
                 <md-card-header>
