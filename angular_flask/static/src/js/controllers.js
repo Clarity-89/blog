@@ -11,6 +11,7 @@ angular.module('app')
                         $scope.page.loading = false;
                         $scope.posts.forEach(function (el) {
                             favoritePost.checkFav(el);
+                            el.date = new Date(el.date);
                         });
                         buildGridModel($scope.posts);
                     },
