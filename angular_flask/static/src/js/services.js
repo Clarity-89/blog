@@ -57,7 +57,6 @@ angular.module('app')
             });
         }
     }])
-
     .service('imgPreview', function () {
         this.preview = function (element, scope) {
             var reader = new FileReader();
@@ -115,7 +114,7 @@ angular.module('app')
             return $mdToast.show(
                 $mdToast.simple()
                     .textContent(message)
-                    .position('left top')
+                    .position('right top')
                     .parent('#toast')
                     .hideDelay(delay)
             );

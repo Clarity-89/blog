@@ -226,8 +226,9 @@ angular.module('app')
                         .then(function success(response) {
                             $scope.loading = false;
                             toast.showToast('Post edited', 1000).then(function () {
-                                $location.path('/posts/' + response.data.id);
                                 $window.location.reload();
+                                $location.path('/posts/' + response.data.id);
+
                             });
                         }, function error(response) {
                             $scope.loading = false;
@@ -318,6 +319,7 @@ angular.module('app')
                     var user = $scope.user;
                     userService.login(user)
                         .then(function success(response) {
+                            toast.showToast('Successfully logged in', 3000);
                             $scope.loading = false;
                             var u = response.data.user;
                             $cookies.putObject('current_user', u);
@@ -342,8 +344,8 @@ angular.module('app')
                 return imgPreview.activateUpload('uploadAva');
             }
         }])
-    .controller('UserDetailsController', ['$scope', '$rootScope', 'userService', '$cookies', '$location', 'imgPreview',
-        'sharedPost', function ($scope, $rootScope, userService, $cookies, $location, imgPreview, sharedPost) {
+    .controller('UserDetailsController', ['$scope', '$rootScope', 'userService', '$cookies', '$location', 'imgPreview', 'toast',
+        'sharedPost', function ($scope, $rootScope, userService, $cookies, $location, imgPreview, toast, sharedPost) {
             $scope.page = {};
             $scope.page.loading = false;
             $scope.isOpen = false;
@@ -387,17 +389,23 @@ angular.module('app')
                     self.userDetailsForm.password.$setValidity("passwordIncorrect", true);
                 };
                 if (form.$valid) {
+                    $scope.loading = true; // loading spinner
                     var file = self.myAva,
                         user = $scope.user;
                     userService.update(file, user)
                         .then(function success(response) {
-                            var u = response.data.user;
-                            $cookies.putObject('current_user', u);
-                            $location.path('/posts');
+                            $scope.loading = false;
+                            toast.showToast('Changes saved', 1000).then(function () {
+                                var u = response.data.user;
+                                $cookies.putObject('current_user', u);
+                            });
                         }, function error(response) {
+                            $scope.loading = false;
                             $scope.message = response.data.message;
                             if ($scope.message === 'password') {
                                 self.userDetailsForm.password.$setValidity("passwordIncorrect", false);
+                            } else {
+                                toast.showToast('Could not save changes. Please try again later', 3000);
                             }
                         });
                 }
@@ -606,7 +614,6 @@ angular.module('app')
             });
         }
     }])
-
     .service('imgPreview', function () {
         this.preview = function (element, scope) {
             var reader = new FileReader();
@@ -664,7 +671,7 @@ angular.module('app')
             return $mdToast.show(
                 $mdToast.simple()
                     .textContent(message)
-                    .position('left top')
+                    .position('right top')
                     .parent('#toast')
                     .hideDelay(delay)
             );
