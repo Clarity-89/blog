@@ -1,21 +1,10 @@
 'use strict';
 
 angular.module('app')
-    .constant("baseURL", "https://thee-blog.herokuapp.com")
     // A service to share 'post' object between controllers
     .service('sharedPost', function () {
         var post = this;
     })
-    /* .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
-     this.getPosts = function () {
-     return $resource(baseURL + '/blog/api/posts/:id', {}, {
-     query: {
-     method: 'GET',
-     isArray: true
-     }
-     });
-     }
-     }])*/
     .service('allPosts', ['$http', function ($http) {
         this.getPosts = function (id) {
             if (id) {
@@ -23,7 +12,6 @@ angular.module('app')
             } else {
                 return $http.get('/blog/api/posts', {});
             }
-
         }
     }])
     .service('postUpload', ['$http', function ($http) {
@@ -69,30 +57,6 @@ angular.module('app')
             });
         }
     }])
-    .service('createUser', ['$http', function ($http) {
-        this.newUser = function (file, user) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('user', JSON.stringify(user));
-            return $http.post("/blog/api/users", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            });
-        };
-        this.loginUser = function (user) {
-            return $http.post("/login", user);
-        }
-    }])
-    .service('logoutUser', ['$http', function ($http) {
-        this.logout = function () {
-            return $http.post("/logout", {});
-        }
-    }])
-    .service('userPosts', ['$http', function ($http) {
-        this.getPosts = function (user_id) {
-            return $http.get("/blog/api/users/" + user_id + "/posts")
-        }
-    }])
     .service('imgPreview', function () {
         this.preview = function (element, scope) {
             var reader = new FileReader();
@@ -107,17 +71,6 @@ angular.module('app')
             document.getElementById(id).click();
         }
     })
-    .service('updateUser', ['$http', function ($http) {
-        this.update = function (file, user) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('user', JSON.stringify(user));
-            return $http.post("/blog/api/users/edit", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            });
-        };
-    }])
     .service('favoritePost', ['$http', '$cookies', function ($http, $cookies) {
         this.favorite = function (post) {
             return $http.post("/blog/api/posts/" + post.id, {});
@@ -161,10 +114,46 @@ angular.module('app')
             return $mdToast.show(
                 $mdToast.simple()
                     .textContent(message)
-                    .position('left top')
+                    .position('right top')
                     .parent('#toast')
                     .hideDelay(delay)
             );
+        }
+    }])
+    .service('userService', ['$http', function ($http) {
+        this.isLoggedIn = function () {
+            return $http.get("/blog/api/current_user");
+        };
+        this.newUser = function (file, user) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('user', JSON.stringify(user));
+            return $http.post("/blog/api/users", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            });
+        };
+
+        this.update = function (file, user) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('user', JSON.stringify(user));
+            return $http.post("/blog/api/users/edit", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            });
+        };
+
+        this.login = function (user) {
+            return $http.post("/login", user);
+        };
+
+        this.logout = function () {
+            return $http.post("/logout", {});
+        };
+
+        this.getPosts = function (user_id) {
+            return $http.get("/blog/api/users/" + user_id + "/posts")
         }
     }])
 ;

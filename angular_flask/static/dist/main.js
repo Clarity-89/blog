@@ -59,7 +59,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
             $locationProvider.html5Mode(true);
         }
     ])
-    .run(function ($rootScope, $location, $cookies) {
+    .run(function ($rootScope, $location, $cookies, userService) {
         $rootScope.$on("$routeChangeStart", function (event, next) {
             if (next.templateUrl == 'static/partials/new_post.html' || next.templateUrl == 'static/partials/profile.html'
                 || next.templateUrl == 'static/partials/my_posts.html') {
@@ -69,6 +69,24 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
                 }
             }
         });
+
+
+        /*
+         * Check if the user is still logged in on the server in case there were some errors or database reset
+         * to prevent the situations when user is logged out on the server but logged in in the browser
+         */
+        userService.isLoggedIn().then(function (response) {
+            var msg = response.data.message;
+            if (msg === 'no user' && $cookies.get('current_user')) {
+                console.log('user removed');
+                $cookies.remove('current_user');
+            }
+            // Fallback in case there is an unexpected server error
+        }, function (response) {
+            if ($cookies.get('current_user')) {
+                $cookies.remove('current_user');
+            }
+        })
     })
 ;
 'use strict';
@@ -208,8 +226,9 @@ angular.module('app')
                         .then(function success(response) {
                             $scope.loading = false;
                             toast.showToast('Post edited', 1000).then(function () {
-                                $location.path('/posts/' + response.data.id);
                                 $window.location.reload();
+                                $location.path('/posts/' + response.data.id);
+
                             });
                         }, function error(response) {
                             $scope.loading = false;
@@ -227,8 +246,8 @@ angular.module('app')
             }
         }])
 
-    .controller('UserController', ['$scope', 'createUser', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview', 'toast',
-        function ($scope, createUser, $location, $timeout, $rootScope, $cookies, imgPreview, toast) {
+    .controller('UserController', ['$scope', 'userService', '$location', '$timeout', '$rootScope', '$cookies', 'imgPreview', 'toast',
+        function ($scope, userService, $location, $timeout, $rootScope, $cookies, imgPreview, toast) {
             $scope.page.loading = false;
             $scope.hasAccount = true;
             $scope.changeForm = function () {
@@ -256,7 +275,7 @@ angular.module('app')
                     $scope.loading = true; // loading spinner
                     var file = self.myAva,
                         user = $scope.user;
-                    createUser.newUser(file, user)
+                    userService.newUser(file, user)
                         .then(function success() {
                             $scope.loading = false;
                             toast.showToast('Successfully registered. Please log in with your details.', 1000).then(function () {
@@ -298,8 +317,9 @@ angular.module('app')
                 if (form.$valid) {
                     $scope.loading = true; // loading spinner
                     var user = $scope.user;
-                    createUser.loginUser(user)
+                    userService.login(user)
                         .then(function success(response) {
+                            toast.showToast('Successfully logged in', 3000);
                             $scope.loading = false;
                             var u = response.data.user;
                             $cookies.putObject('current_user', u);
@@ -324,11 +344,10 @@ angular.module('app')
                 return imgPreview.activateUpload('uploadAva');
             }
         }])
-    .controller('UserDetailsController', ['$scope', '$rootScope', 'logoutUser', '$cookies', '$location', 'imgPreview',
-        'updateUser', 'sharedPost',
-        function ($scope, $rootScope, logoutUser, $cookies, $location, imgPreview, updateUser, sharedPost) {
+    .controller('UserDetailsController', ['$scope', '$rootScope', 'userService', '$cookies', '$location', 'imgPreview', 'toast',
+        'sharedPost', function ($scope, $rootScope, userService, $cookies, $location, imgPreview, toast, sharedPost) {
             $scope.page = {};
-            $scope.page.loading = true;
+            $scope.page.loading = false;
             $scope.isOpen = false;
             $scope.currentUser = function () {
                 return $cookies.get('current_user');
@@ -346,10 +365,9 @@ angular.module('app')
 
             $scope.logout = function () {
                 if ($scope.currentUser()) {
-                    logoutUser.logout()
+                    userService.logout()
                         .then(function success() {
                             $cookies.remove('current_user');
-                            console.log('logged out');
                             $location.path('/');
                         }, function error(response) {
                             console.log('Could not log out', response);
@@ -371,18 +389,23 @@ angular.module('app')
                     self.userDetailsForm.password.$setValidity("passwordIncorrect", true);
                 };
                 if (form.$valid) {
+                    $scope.loading = true; // loading spinner
                     var file = self.myAva,
                         user = $scope.user;
-                    updateUser.update(file, user)
+                    userService.update(file, user)
                         .then(function success(response) {
-                            var u = response.data.user;
-                            u.favs = response.data.favs;
-                            $cookies.putObject('current_user', u);
-                            $location.path('/posts');
+                            $scope.loading = false;
+                            toast.showToast('Changes saved', 1000).then(function () {
+                                var u = response.data.user;
+                                $cookies.putObject('current_user', u);
+                            });
                         }, function error(response) {
+                            $scope.loading = false;
                             $scope.message = response.data.message;
                             if ($scope.message === 'password') {
                                 self.userDetailsForm.password.$setValidity("passwordIncorrect", false);
+                            } else {
+                                toast.showToast('Could not save changes. Please try again later', 3000);
                             }
                         });
                 }
@@ -394,10 +417,10 @@ angular.module('app')
                 $location.path('/new');
             }
         }])
-    .controller('UserPostsController', ['$scope', 'userPosts', '$cookies', 'favoritePost', function ($scope, userPosts, $cookies, favoritePost) {
+    .controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', function ($scope, userService, $cookies, favoritePost) {
         $scope.size = "sm";
         $scope.page.loading = true;
-        userPosts.getPosts($cookies.getObject('current_user').id)
+        userService.getPosts($cookies.getObject('current_user').id)
             .then(function (response) {
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
@@ -535,21 +558,10 @@ angular.module('appFilters', [])
 'use strict';
 
 angular.module('app')
-    .constant("baseURL", "https://thee-blog.herokuapp.com")
     // A service to share 'post' object between controllers
     .service('sharedPost', function () {
         var post = this;
     })
-    /* .service('allPosts', ['$resource', 'baseURL', function ($resource, baseURL) {
-     this.getPosts = function () {
-     return $resource(baseURL + '/blog/api/posts/:id', {}, {
-     query: {
-     method: 'GET',
-     isArray: true
-     }
-     });
-     }
-     }])*/
     .service('allPosts', ['$http', function ($http) {
         this.getPosts = function (id) {
             if (id) {
@@ -557,7 +569,6 @@ angular.module('app')
             } else {
                 return $http.get('/blog/api/posts', {});
             }
-
         }
     }])
     .service('postUpload', ['$http', function ($http) {
@@ -603,30 +614,6 @@ angular.module('app')
             });
         }
     }])
-    .service('createUser', ['$http', function ($http) {
-        this.newUser = function (file, user) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('user', JSON.stringify(user));
-            return $http.post("/blog/api/users", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            });
-        };
-        this.loginUser = function (user) {
-            return $http.post("/login", user);
-        }
-    }])
-    .service('logoutUser', ['$http', function ($http) {
-        this.logout = function () {
-            return $http.post("/logout", {});
-        }
-    }])
-    .service('userPosts', ['$http', function ($http) {
-        this.getPosts = function (user_id) {
-            return $http.get("/blog/api/users/" + user_id + "/posts")
-        }
-    }])
     .service('imgPreview', function () {
         this.preview = function (element, scope) {
             var reader = new FileReader();
@@ -641,17 +628,6 @@ angular.module('app')
             document.getElementById(id).click();
         }
     })
-    .service('updateUser', ['$http', function ($http) {
-        this.update = function (file, user) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('user', JSON.stringify(user));
-            return $http.post("/blog/api/users/edit", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            });
-        };
-    }])
     .service('favoritePost', ['$http', '$cookies', function ($http, $cookies) {
         this.favorite = function (post) {
             return $http.post("/blog/api/posts/" + post.id, {});
@@ -695,10 +671,46 @@ angular.module('app')
             return $mdToast.show(
                 $mdToast.simple()
                     .textContent(message)
-                    .position('left top')
+                    .position('right top')
                     .parent('#toast')
                     .hideDelay(delay)
             );
+        }
+    }])
+    .service('userService', ['$http', function ($http) {
+        this.isLoggedIn = function () {
+            return $http.get("/blog/api/current_user");
+        };
+        this.newUser = function (file, user) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('user', JSON.stringify(user));
+            return $http.post("/blog/api/users", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            });
+        };
+
+        this.update = function (file, user) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('user', JSON.stringify(user));
+            return $http.post("/blog/api/users/edit", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            });
+        };
+
+        this.login = function (user) {
+            return $http.post("/login", user);
+        };
+
+        this.logout = function () {
+            return $http.post("/logout", {});
+        };
+
+        this.getPosts = function (user_id) {
+            return $http.get("/blog/api/users/" + user_id + "/posts")
         }
     }])
 ;

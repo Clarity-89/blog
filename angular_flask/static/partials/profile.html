@@ -1,5 +1,4 @@
-<div layout="row" layout-align="center center"
-     ng-controller="UserDetailsController">
+<div layout="row" layout-align="center center">
     <md-content flex="100" flex-gt-xs="80" flex-gt-lg="60" id="information" layout-padding>
         <form name="userDetailsForm" novalidate ng-submit="updateUser(userDetailsForm)">
             <p id="info-header">Information</p>
@@ -58,6 +57,8 @@
                 </div>
             </div>
             <md-button type="submit" class="md-raised md-accent">Update</md-button>
+            <md-progress-circular md-mode="indeterminate" class="md-accent spinner"
+                                  ng-show="loading"></md-progress-circular>
         </form>
     </md-content>
 </div>
