@@ -406,6 +406,15 @@ md-tooltip .md-content {
     transform: translateX(-50%);
 }
 
+#all-posts {
+    color: #fff;
+    text-decoration: none;
+}
+
+#arrow {
+    color: rgba(0,0,0,0.54)
+}
+
 /*Media queries*/
 /*Mobile*/
 @media screen and (max-device-width: 480px) {
