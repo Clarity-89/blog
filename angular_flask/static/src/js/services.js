@@ -154,6 +154,11 @@ angular.module('app')
 
         this.getPosts = function (user_id) {
             return $http.get("/blog/api/users/" + user_id + "/posts")
+        };
+
+        this.getDetails = function (id) {
+            console.log(id)
+            return $http.get("/blog/api/users/" + id);
         }
     }])
 ;

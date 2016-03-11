@@ -228,7 +228,7 @@ def get_user(id):
     user = User.query.get(id)
     if not user:
         abort(400)
-    return jsonify({'username': user.username})
+    return jsonify(user=user.serialize, favs=[fav.serialize for fav in user.favorited])
 
 
 # Check if user is logged in

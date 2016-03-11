@@ -324,24 +324,38 @@ angular.module('app')
             $scope.createPost = function () {
                 sharedPost.post = {};
                 $location.path('/new');
-            }
-        }])
-    .controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', function ($scope, userService, $cookies, favoritePost) {
-        $scope.size = "sm";
-        $scope.page.loading = true;
-        userService.getPosts($cookies.getObject('current_user').id)
-            .then(function (response) {
-                    $scope.posts = response.data.posts;
-                    $scope.page.loading = false;
-                    $scope.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
-                    });
-                },
-                function (response) {
-                    console.log('Error:', response.status, response.statusText);
-                });
+            };
 
-    }])
+        }])
+    .controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', '$routeParams',
+        function ($scope, userService, $cookies, favoritePost, $routeParams) {
+            $scope.size = "sm";
+            $scope.page.loading = true;
+            userService.getPosts($cookies.getObject('current_user').id)
+                .then(function (response) {
+                        $scope.posts = response.data.posts;
+                        $scope.page.loading = false;
+                        $scope.posts.forEach(function (el) {
+                            favoritePost.checkFav(el);
+                        });
+                    },
+                    function (response) {
+                        console.log('Error:', response.status, response.statusText);
+                    });
+
+            $scope.user = {};
+
+            userService.getDetails($routeParams.user)
+                .then(function (response) {
+                    console.log('got details', response);
+                    $scope.user = response.data.user;
+                    $scope.user.favs = response.data.favs;
+                }, function (response) {
+                    console.log('error', response);
+                })
+
+
+        }])
     .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo',
         function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog, goTo) {
 
