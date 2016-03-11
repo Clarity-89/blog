@@ -50,6 +50,7 @@ def custom400(error):
 @app.route('/posts/<int:id>')
 @app.route('/register')
 @app.route('/me/posts')
+@app.route('/me/profile')
 @app.route('/users/<string:username>')
 @app.route('/new')
 def basic_pages(**kwargs):

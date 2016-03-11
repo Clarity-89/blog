@@ -43,6 +43,9 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
                     templateUrl: 'static/partials/my_posts.html',
                 })
                 .when('/users/:user', {
+                    templateUrl: 'static/partials/user_details.html',
+                })
+                .when('/me/profile', {
                     templateUrl: 'static/partials/profile.html',
                 })
                 .otherwise({
@@ -64,7 +67,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
             if (next.templateUrl == 'static/partials/new_post.html' || next.templateUrl == 'static/partials/profile.html'
                 || next.templateUrl == 'static/partials/my_posts.html') {
                 var user = $cookies.get('current_user');
-                if (!user || (next.templateUrl == 'static/partials/profile.html' && JSON.parse(user).username != next.params.user)) {
+                if (!user) {
                     $location.path("/login");
                 }
             }
