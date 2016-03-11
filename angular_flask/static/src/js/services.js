@@ -157,7 +157,6 @@ angular.module('app')
         };
 
         this.getDetails = function (id) {
-            console.log(id)
             return $http.get("/blog/api/users/" + id);
         }
     }])

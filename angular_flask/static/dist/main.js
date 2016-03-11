@@ -421,8 +421,8 @@ angular.module('app')
             };
 
         }])
-    .controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', '$routeParams',
-        function ($scope, userService, $cookies, favoritePost, $routeParams) {
+    .controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost',
+        function ($scope, userService, $cookies, favoritePost) {
             $scope.size = "sm";
             $scope.page.loading = true;
             userService.getPosts($cookies.getObject('current_user').id)
@@ -436,17 +436,31 @@ angular.module('app')
                     function (response) {
                         console.log('Error:', response.status, response.statusText);
                     });
-
+        }])
+    .controller('UserProfileController', ['userService', '$routeParams', '$scope', 'favoritePost',
+        function (userService, $routeParams, $scope, favoritePost) {
+            $scope.size = "sm";
             $scope.user = {};
 
             userService.getDetails($routeParams.user)
                 .then(function (response) {
-                    console.log('got details', response);
                     $scope.user = response.data.user;
                     $scope.user.favs = response.data.favs;
                 }, function (response) {
                     console.log('error', response);
-                })
+                });
+
+            userService.getPosts($routeParams.user)
+                .then(function (response) {
+                        $scope.posts = response.data.posts;
+                        $scope.page.loading = false;
+                        $scope.posts.forEach(function (el) {
+                            favoritePost.checkFav(el);
+                        });
+                    },
+                    function (response) {
+                        console.log('Error:', response.status, response.statusText);
+                    });
 
 
         }])
@@ -731,7 +745,6 @@ angular.module('app')
         };
 
         this.getDetails = function (id) {
-            console.log(id)
             return $http.get("/blog/api/users/" + id);
         }
     }])
