@@ -420,16 +420,37 @@ md-tooltip .md-content {
 #profile-ava {
     height: 100px;
     width: 100px;
-    border-radius: 50%;
-    display: inline;
+    border-radius: 50%;;
+    margin: auto auto 50px 50px;
 }
 
 .tab-heading {
-    /*margin: 1em auto 1.5em; /* 30/40px*/
     color: white;
-    /*font-weight: 900;*/
     text-shadow: 0px 0px 3px #000;
     display: inline;
+}
+
+.md-active > .tab-heading {
+    color: #9a9a9a;
+}
+
+#blurred {
+    background: hsla(0, 0%, 100%, .3);
+    position: relative;
+    overflow: hidden;
+}
+
+#blurred::before {
+    background: url("../../img/background.jpg") 0/ cover fixed;
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-filter: blur(20px);
+    filter: blur(20px);
+    margin: -30px;
 }
 
 /*Media queries*/

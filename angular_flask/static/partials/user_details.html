@@ -1,43 +1,46 @@
-<div layout="row" layout-align="center" ng-controller="UserProfileController">
+<div layout="row" layout-align="center" ng-controller="UserProfileController" ng-cloak>
 
-    <div layout="column" flex="100" flex-gt-md="60">
-        <h1 class="tab-heading">{{ user.username }}</h1> <img id="profile-ava" ng-src="{{ user.avatar }}">
+    <div layout="row" flex="100" flex-gt-md="40" style="display: inline">
+        <h1 class="tab-heading">{{ user.username }}</h1>
+        <img id="profile-ava" ng-src="{{ user.avatar }}">
         <md-tabs md-dynamic-height md-border-bottom>
-            <md-tab label="Bio">
-                <div class="md-padding">
-                    <h1 class="md-display-2">Tab One</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus
-                        volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium
-                        ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi.</p>
-                </div>
-            </md-tab>
-            <md-tab label="Posts">
-                <div class="md-padding">
-                    <h2 class="tab-heading">Posts by {{ user.username }}</h2>
-                    <div ng-if="!posts.length" layout-align="center center">
-                        <h3 flex>{{ user.username }} hasn't published any posts yet.</h3>
-                    </div>
+            <md-tab>
+                <md-tab-label>
+                    <span class="tab-heading">Posts</span>
+                </md-tab-label>
+                <md-tab-body>
+                    <div class="md-padding">
+                        <h2 class="tab-heading">Posts by {{ user.username }}</h2>
+                        <div ng-if="!posts.length" layout-align="center center">
+                            <h3 flex>{{ user.username }} hasn't published any posts yet.</h3>
+                        </div>
 
-                    <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap=""
-                         layout-align="center center"
-                         layout-xs="column">
-                        <div layout="column">
-                            <post></post>
+                        <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap=""
+                             layout-align="center center"
+                             layout-xs="column">
+                            <div layout="column">
+                                <post></post>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </md-tab-body>
             </md-tab>
-            <md-tab label="Favorites">
-                <div class="md-padding">
-                    <h1 class="tab-heading">Favorited by {{ user.username }}</h1>
-                    <div ng-repeat="post in user.favs" class="md-padding" layout="row" layout-wrap=""
-                         layout-align="center center"
-                         layout-xs="column">
-                        <div layout="column">
-                            <post></post>
+            <md-tab>
+                <md-tab-label>
+                    <span class="tab-heading">Favorites</span>
+                </md-tab-label>
+                <md-tab-body>
+                    <div class="md-padding">
+                        <h2 class="tab-heading">Favorited by {{ user.username }}</h2>
+                        <div ng-repeat="post in user.favs" class="md-padding" layout="row" layout-wrap=""
+                             layout-align="center center"
+                             layout-xs="column">
+                            <div layout="column">
+                                <post></post>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </md-tab-body>
             </md-tab>
         </md-tabs>
     </div>
