@@ -238,6 +238,8 @@ def get_curr_user():
 def edit_user():
     user = json.loads(request.form['user'])
     username = user.get('username')
+    name = user.get('name')
+    bio = user.get('bio')
     email = user.get('email')
     new_password = user.get('newPassword')
     password = user.get('password')
@@ -245,6 +247,8 @@ def edit_user():
     if u is None:
         abort(400, 'User does not exist')
     u.email = email
+    u.name = name
+    u.bio = bio
     if request.files:
         s3 = boto3.resource('s3')
         ava = request.files['file']
@@ -274,8 +278,10 @@ def edit_user():
 @app.route('/blog/api/users/<int:id>/posts', methods=['GET'])
 def get_user_posts(id):
     user = User.query.get(id)
-    return jsonify(posts=[post.serialize for post in user.posts])
-
+    if user:
+        return jsonify(posts=[post.serialize for post in user.posts])
+    else:
+        abort(400, 'No user found')
 
 # Login user
 @app.route('/login', methods=['GET', 'POST'])

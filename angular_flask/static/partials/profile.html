@@ -2,11 +2,14 @@
     <md-content flex="100" flex-gt-xs="80" flex-gt-lg="60" id="information" layout-padding>
         <form name="userDetailsForm" novalidate ng-submit="updateUser(userDetailsForm)">
             <p id="info-header">Information</p>
-            <md-divider></md-divider>
+            <md-divider class="custom-divider"></md-divider>
             <div layout="row" layout-xs="column" id="info-content">
                 <div flex>
-                    <md-subheader>Username</md-subheader>
-                    <p>{{ user.username }}</p>
+                    <md-subheader>Name</md-subheader>
+                    <md-input-container class="md-block">
+                        <label for="name">Your real name (visible to public)</label>
+                        <input type="text" name="name" id="name" ng-model="user.name">
+                    </md-input-container>
                     <md-subheader class="custom-subhead">Profile picture</md-subheader>
                     <div layout="row" layout-xs="column" layout-align-gt-xs="center center">
                         <div flex><img class="ava-preview" ng-src="{{ imageSrc || user.avatar }}"/></div>
@@ -17,16 +20,24 @@
                             </md-button>
                         </div>
                     </div>
+                    <br>
+                    <md-subheader>About</md-subheader>
+                    <md-input-container class="md-block">
+                        <label for="bio">Tell briefly about yourself</label>
+                        <textarea name="bio" id="bio" ng-model="user.bio"></textarea>
+                    </md-input-container>
                 </div>
                 <div flex>
                     <md-subheader>Email</md-subheader>
                     <md-input-container class="md-block">
-                        <input type="email" required name="email" aria-label="email" ng-pattern="/^.+@.+\..+$/" ng-model="user.email">
+                        <input type="email" required name="email" aria-label="email" ng-pattern="/^.+@.+\..+$/"
+                               ng-model="user.email">
                         <div ng-messages="userDetailsForm.email.$error" ng-if="userDetailsForm.email.$touched">
                             <div ng-message-exp="['pattern', 'required']">Enter a valid email address.</div>
                         </div>
                     </md-input-container>
-                    <p>Change password <span class="note">(Leave blank if you don't want to change it)</span></p>
+                    <md-subheader>Change password <span class="note">(Leave blank if you don't want to change it)</span>
+                    </md-subheader>
                     <div layout="row" layout-xs="column">
                         <md-input-container>
                             <label for="new-password">New Password</label>
@@ -56,9 +67,11 @@
                     </md-input-container>
                 </div>
             </div>
-            <md-button type="submit" class="md-raised md-accent">Update</md-button>
-            <md-progress-circular md-mode="indeterminate" class="md-accent spinner"
-                                  ng-show="loading"></md-progress-circular>
+            <div id="update-profile-btn">
+                <md-button type="submit" class="md-raised md-accent">Update</md-button>
+                <md-progress-circular md-mode="indeterminate" class="md-accent spinner"
+                                      ng-show="loading"></md-progress-circular>
+            </div>
         </form>
     </md-content>
 </div>
