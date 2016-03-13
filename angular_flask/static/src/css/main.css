@@ -454,6 +454,15 @@ md-tooltip .md-content {
     margin: -30px;
 }
 
+/* User profile */
+#update-profile-btn {
+    margin: 40px auto 10px;
+}
+
+.custom-divider {
+    border-color: #78909C;
+}
+
 /*Media queries*/
 /*Mobile*/
 @media screen and (max-device-width: 480px) {
