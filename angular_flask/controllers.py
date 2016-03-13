@@ -278,8 +278,10 @@ def edit_user():
 @app.route('/blog/api/users/<int:id>/posts', methods=['GET'])
 def get_user_posts(id):
     user = User.query.get(id)
-    return jsonify(posts=[post.serialize for post in user.posts])
-
+    if user:
+        return jsonify(posts=[post.serialize for post in user.posts])
+    else:
+        abort(400, 'No user found')
 
 # Login user
 @app.route('/login', methods=['GET', 'POST'])

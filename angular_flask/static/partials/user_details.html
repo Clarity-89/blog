@@ -1,12 +1,20 @@
-<div layout="row" layout-align="center" ng-controller="UserProfileController" ng-cloak ng-show="user.username">
+<div layout="row" layout-align="center" ng-controller="UserProfileController" ng-cloak>
 
-    <div layout="row" flex="100" flex-gt-md="40" style="display: inline">
-        <h1 class="tab-heading">{{ user.username }}</h1>
-        <img id="profile-ava" ng-src="{{ user.avatar }}">
+    <div layout="row" flex="100" flex-gt-md="40" style="display: inline" ng-show="user.username">
+        <div layout="row" layout-align="end end">
+            <h1 class="tab-heading">{{ user.username }}
+                <p ng-show="user.name">
+                    <small>({{ user.name }})</small>
+                </p>
+            </h1>
+            <img id="profile-ava" ng-src="{{ user.avatar }}"></div>
+
+        <p style="color: #fff;">  {{ user.bio }}</p>
         <md-tabs md-dynamic-height md-border-bottom>
             <md-tab>
                 <md-tab-label>
                     <span class="tab-heading">Posts</span>
+
                 </md-tab-label>
                 <md-tab-body>
                     <div class="md-padding">
@@ -47,5 +55,7 @@
             </md-tab>
         </md-tabs>
     </div>
-
+    <div ng-show="!user.username">
+        <h1 class="page-heading">No user found with such id.</h1>
+    </div>
 </div>
