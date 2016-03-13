@@ -43,6 +43,9 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
                     templateUrl: 'static/partials/my_posts.html',
                 })
                 .when('/users/:user', {
+                    templateUrl: 'static/partials/user_details.html',
+                })
+                .when('/me/profile', {
                     templateUrl: 'static/partials/profile.html',
                 })
                 .otherwise({
@@ -64,7 +67,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
             if (next.templateUrl == 'static/partials/new_post.html' || next.templateUrl == 'static/partials/profile.html'
                 || next.templateUrl == 'static/partials/my_posts.html') {
                 var user = $cookies.get('current_user');
-                if (!user || (next.templateUrl == 'static/partials/profile.html' && JSON.parse(user).username != next.params.user)) {
+                if (!user) {
                     $location.path("/login");
                 }
             }
@@ -415,24 +418,52 @@ angular.module('app')
             $scope.createPost = function () {
                 sharedPost.post = {};
                 $location.path('/new');
-            }
+            };
+
         }])
-    .controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', function ($scope, userService, $cookies, favoritePost) {
-        $scope.size = "sm";
-        $scope.page.loading = true;
-        userService.getPosts($cookies.getObject('current_user').id)
-            .then(function (response) {
-                    $scope.posts = response.data.posts;
-                    $scope.page.loading = false;
-                    $scope.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
+    .controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost',
+        function ($scope, userService, $cookies, favoritePost) {
+            $scope.size = "sm";
+            $scope.page.loading = true;
+            userService.getPosts($cookies.getObject('current_user').id)
+                .then(function (response) {
+                        $scope.posts = response.data.posts;
+                        $scope.page.loading = false;
+                        $scope.posts.forEach(function (el) {
+                            favoritePost.checkFav(el);
+                        });
+                    },
+                    function (response) {
+                        console.log('Error:', response.status, response.statusText);
                     });
-                },
-                function (response) {
-                    console.log('Error:', response.status, response.statusText);
+        }])
+    .controller('UserProfileController', ['userService', '$routeParams', '$scope', 'favoritePost',
+        function (userService, $routeParams, $scope, favoritePost) {
+            $scope.size = "sm";
+            $scope.user = {};
+
+            userService.getDetails($routeParams.user)
+                .then(function (response) {
+                    $scope.user = response.data.user;
+                    $scope.user.favs = response.data.favs;
+                }, function (response) {
+                    console.log('error', response);
                 });
 
-    }])
+            userService.getPosts($routeParams.user)
+                .then(function (response) {
+                        $scope.posts = response.data.posts;
+                        $scope.page.loading = false;
+                        $scope.posts.forEach(function (el) {
+                            favoritePost.checkFav(el);
+                        });
+                    },
+                    function (response) {
+                        console.log('Error:', response.status, response.statusText);
+                    });
+
+
+        }])
     .controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo',
         function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog, goTo) {
 
@@ -711,6 +742,10 @@ angular.module('app')
 
         this.getPosts = function (user_id) {
             return $http.get("/blog/api/users/" + user_id + "/posts")
+        };
+
+        this.getDetails = function (id) {
+            return $http.get("/blog/api/users/" + id);
         }
     }])
 ;

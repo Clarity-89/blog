@@ -1,12 +1,14 @@
-<div flex class="layout-content" ng-controller="PostListController">
+<div flex class="layout-content" ng-controller="PostListController" ng-cloak>
     <h2 class="page-heading">Latest posts</h2>
 
     <div layout="row" layout-align="center center" ng-repeat="post in posts | orderBy: '-date' | limitTo: 5">
         <post flex="100" flex-sm="60" flex-gt-sm="50" layout="column"></post>
     </div>
-    <div class="center">
+
+
+    <div ng-show="posts.length > 5" layout="column" layout-align="center center">
         <a ng-cloak id="all-posts" href="/posts"> All Posts
-            <md-button class="md-fab md-raised md-mini" aria-label="Eat cake">
+            <md-button class="md-fab md-raised md-mini">
                 <md-icon id="arrow" md-font-set="material-icons" aria-label="All Posts">arrow_forward</md-icon>
             </md-button>
         </a>

@@ -12,9 +12,10 @@
         </md-toolbar>
         <md-dialog-content>
             <md-list>
-                <md-list-item ng-repeat="user in post.favorited_by">
-                    <img class="md-avatar" ng-src="{{ user.avatar }}" alt="{{ user.username }}">
-                    <p>{{ user.username }}</p>
+                <md-list-item layout="row" ng-repeat="user in post.favorited_by">
+                   <a href="/users/{{ post.author_id }}" ng-click="cancel()">
+                       <img class="md-avatar" ng-src="{{ user.avatar }}" alt="{{ user.username }}">
+                   {{ user.username }}</a>
                 </md-list-item>
             </md-list>
         </md-dialog-content>

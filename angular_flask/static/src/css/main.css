@@ -12,7 +12,8 @@ body {
 }
 
 #main-view {
-    background: url("../../img/background.jpg") center center fixed;
+    /*background: url("../../img/background.jpg") center center fixed;*/
+    background: #455A64;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -68,7 +69,7 @@ body {
     text-shadow: 0px 0px 3px #000;
 }
 
-md-card > a {
+md-card > a, md-card-header-text > a, md-list-item > a, md-card-header-text > a:hover {
     text-decoration: none;
     color: inherit;
 }
@@ -195,7 +196,7 @@ img, div {
 .page-heading, .page-heading h3 {
     margin: 1em auto 1.5em; /* 30/40px*/
     color: white;
-    font-weight: 900;
+    font-weight: 400;
     text-shadow: 0px 0px 3px #000;
     text-align: center;
 }
@@ -413,6 +414,44 @@ md-tooltip .md-content {
 
 #arrow {
     color: rgba(0, 0, 0, 0.54)
+}
+
+/* User details page */
+
+#profile-ava {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;;
+    margin: auto auto 50px 50px;
+}
+
+.tab-heading {
+    color: white;
+    text-shadow: 0px 0px 3px #000;
+    display: inline;
+}
+
+.md-active > .tab-heading {
+    color: #9a9a9a;
+}
+
+#blurred {
+    background: hsla(0, 0%, 100%, .3);
+    position: relative;
+    overflow: hidden;
+}
+
+#blurred::before {
+    background: url("../../img/background.jpg") 0/ cover fixed;
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-filter: blur(20px);
+    filter: blur(20px);
+    margin: -30px;
 }
 
 /*Media queries*/
