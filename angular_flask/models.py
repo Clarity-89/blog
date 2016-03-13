@@ -58,6 +58,8 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32))
+    name = db.Column(db.String(64), nullable=True)
+    bio = db.Column(db.Text(), nullable=True)
     email = db.Column(db.String(32))
     avatar = db.Column(db.String(), default='../img/avatars/default.png')
     password_hash = db.Column(db.String(128))
