@@ -9,8 +9,6 @@ from flask.ext.httpauth import HTTPBasicAuth
 from PIL import Image
 import boto3
 
-import cStringIO
-
 from flask.ext.login import LoginManager, login_user, logout_user, current_user
 
 # routing for API endpoints, generated from the models designated as API_MODELS
@@ -19,11 +17,6 @@ from angular_flask.models import *
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-"""for model_name in app.config['API_MODELS']:
-    model_class = app.config['API_MODELS'][model_name]
-    api_manager.create_api(model_class, methods=['GET', 'POST'])"""
-
 session = api_manager.session
 auth = HTTPBasicAuth()
 
@@ -321,10 +314,10 @@ def logout():
 
 
 # Special file handlers and error handlers
-"""@app.route('/favicon.ico')
+@app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'img/favicon.ico')"""
+                               'img/favicon.ico')
 
 
 @app.errorhandler(404)

@@ -12,7 +12,7 @@
                     <div class="md-padding">
                         <h2 class="tab-heading">Posts by {{ user.username }}</h2>
                         <div ng-if="!posts.length" layout-align="center center">
-                            <h3 flex>{{ user.username }} hasn't published any posts yet.</h3>
+                            <h3 class="tab-heading">{{ user.username }} hasn't published any posts yet.</h3>
                         </div>
 
                         <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap=""
@@ -32,6 +32,9 @@
                 <md-tab-body>
                     <div class="md-padding">
                         <h2 class="tab-heading">Favorited by {{ user.username }}</h2>
+                        <div ng-if="!user.favs.length" layout-align="center center">
+                            <h3 class="page-heading">{{ user.username }} doesn't have any favorite posts yet.</h3>
+                        </div>
                         <div ng-repeat="post in user.favs" class="md-padding" layout="row" layout-wrap=""
                              layout-align="center center"
                              layout-xs="column">
