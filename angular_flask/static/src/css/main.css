@@ -422,7 +422,7 @@ md-tooltip .md-content {
     height: 100px;
     width: 100px;
     border-radius: 50%;;
-    margin: auto auto 0 50px;
+    margin: auto auto 20px 50px;
 }
 
 .tab-heading {
