@@ -96,6 +96,8 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
+            'name': self.name,
+            'bio': self.bio,
             'email': self.email,
             'avatar': self.avatar,
         }
