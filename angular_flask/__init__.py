@@ -1,6 +1,9 @@
 import os
 from flask import Flask
 from flask_sslify import SSLify
+import angular_flask.core
+import angular_flask.models
+import angular_flask.controllers
 
 app = Flask(__name__)
 if 'DYNO' in os.environ:
@@ -16,6 +19,4 @@ app.config["DEBUG"] = True
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['UPLOAD_FOLDER'] = os.path.join(basedir_img, 'angular_flask/static/img')
 
-import angular_flask.core
-import angular_flask.models
-import angular_flask.controllers
+
