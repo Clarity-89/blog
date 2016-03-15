@@ -5,6 +5,7 @@ angular.module('app')
             $scope.page.loading = true;
             $scope.posts = [];
             $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
+            $scope.imageSrc = '';
             allPosts.getPosts()
                 .then(function (response) {
                         $scope.posts = response.data.posts;
@@ -331,6 +332,7 @@ angular.module('app')
         function ($scope, userService, $cookies, favoritePost) {
             $scope.size = "sm";
             $scope.page.loading = true;
+            $scope.imageSrc = '';
             userService.getPosts($cookies.getObject('current_user').id)
                 .then(function (response) {
                         $scope.posts = response.data.posts;
@@ -347,6 +349,7 @@ angular.module('app')
         function (userService, $routeParams, $scope, favoritePost) {
             $scope.size = "sm";
             $scope.user = {};
+            $scope.imageSrc = '';
 
             userService.getDetails($routeParams.user)
                 .then(function (response) {

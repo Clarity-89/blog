@@ -95,7 +95,7 @@ def save_image(img_type, elem):
         # Do not overwrite default image but generate unique file name instead
         if filename == 'default.jpg':
             filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-            elem.photo = app.config['UPLOAD_FOLDER'] + img_type + filename
+            elem.photo = app.config['IMG_FOLDER'] + img_type + '/' + filename
     else:
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
     img = Image.open(image)
