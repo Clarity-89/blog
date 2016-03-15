@@ -88,27 +88,32 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
 
-def save_image(img_type, post):
+def save_image(img_type, elem):
     image = request.files['file']
-    if post:
-        filename = post.cover_photo.rsplit('/', 1)[-1]
+    if elem:
+        filename = elem.photo.rsplit('/', 1)[-1]
         # Do not overwrite default image but generate unique file name instead
         if filename == 'default.jpg':
             filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-            post.cover_photo = covers_path + filename
+            elem.photo = app.config['UPLOAD_FOLDER'] + img_type + filename
     else:
         filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
     img = Image.open(image)
-    maxsize = (1024, 1024)
+    if img_type == 'avatars':
+        size = 512
+    else:
+        size = 1024
+    maxsize = (size, size)
     img.thumbnail(maxsize, Image.ANTIALIAS)
     if 'DYNO' in os.environ:  # check if the app is running on Heroku server
         s3 = boto3.resource('s3')
         output = io.BytesIO()
         img.save(output, format='JPEG')
         s3.Object('theeblog', img_type + '/' + filename).put(Body=output.getvalue())
-    else: # Otherwise save to local filesystem
+    else:  # Otherwise save to local filesystem
         img.save(os.path.join(app.config['UPLOAD_FOLDER'] + img_type, filename))
     return filename
+
 
 # Add a new post
 @app.route('/blog/api/posts/new', methods=['POST'])
@@ -118,7 +123,7 @@ def add_post():
     body = p.get('body')
     if request.files:
         filename = save_image('covers', None)
-        post = Post(title=title, body=body, cover_photo=app.config['IMG_FOLDER'] + 'covers/' + filename,
+        post = Post(title=title, body=body, photo=app.config['IMG_FOLDER'] + 'covers/' + filename,
                     author=current_user)
     else:
         post = Post(title=title, body=body, author=current_user)
@@ -191,18 +196,8 @@ def new_user():
     if User.query.filter_by(email=email).first() is not None:
         abort(400, 'Email already exists')
     if request.files:
-        s3 = boto3.resource('s3')
-        # Generate unique file name
-        ava = request.files['file']
-        filename = str(uuid.uuid4()) + '.' + ava.filename.rsplit('.', 1)[1]
-        img = Image.open(ava)
-        maxsize = (480, 480)
-        img.thumbnail(maxsize, Image.ANTIALIAS)
-        output = io.BytesIO()
-        img.save(output, format='JPEG')
-        s3.Object('theeblog', 'avatars/' + filename).put(Body=output.getvalue())
-        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
-        u = User(username=username, email=email, avatar=avas_path + filename)
+        filename = save_image('avatars', None)
+        u = User(username=username, email=email, photo=app.config['IMG_FOLDER'] + 'avatars/' + filename)
     else:
         u = User(username=username, email=email)
     u.hash_password(password)
@@ -246,20 +241,7 @@ def edit_user():
     u.name = name
     u.bio = bio
     if request.files:
-        s3 = boto3.resource('s3')
-        ava = request.files['file']
-        filename = u.avatar.rsplit('/', 1)[-1]
-        # Do not overwrite default ava but generate unique file name instead
-        if filename == 'default.png':
-            filename = str(uuid.uuid4()) + '.' + ava.filename.rsplit('.', 1)[1]
-            u.avatar = avas_path + filename
-        img = Image.open(ava)
-        maxsize = (480, 480)
-        img.thumbnail(maxsize, Image.ANTIALIAS)
-        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/avatars', filename))
-        output = io.BytesIO()
-        img.save(output, format='JPEG')
-        s3.Object('theeblog', 'avatars/' + filename).put(Body=output.getvalue())
+        save_image('avatars', u)
     if new_password:
         if not u.verify_password(password):
             return abort(400, 'password')

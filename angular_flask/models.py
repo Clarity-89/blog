@@ -18,7 +18,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(240))
     body = db.Column(db.String())
-    cover_photo = db.Column(db.String(), default='../img/covers/default.jpg')
+    photo = db.Column(db.String(), default='../img/covers/default.jpg')
     # Store time as integer in milliseconds
     date = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -32,20 +32,20 @@ class Post(db.Model):
             'id': self.id,
             'title': self.title,
             'body': self.body,
-            'cover_photo': self.cover_photo,
+            'cover_photo': self.photo,
             'date': self.date,
             'author': self.author.username,
-            'avatar': self.author.avatar,
+            'avatar': self.author.photo,
             'favorited': self.favorited,
             'favorited_by': [user.serialize for user in self.favorited_by],
             'comments': [comment.serialize for comment in self.comments],
             'author_id': self.user_id
         }
 
-    def __init__(self, title, body, author, cover_photo='../img/covers/default.jpg', ):
+    def __init__(self, title, body, author, photo='../img/covers/default.jpg', ):
         self.title = title
         self.body = body
-        self.cover_photo = cover_photo
+        self.photo = photo
         self.author = author
 
 
@@ -61,7 +61,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(64), nullable=True)
     bio = db.Column(db.Text(), nullable=True)
     email = db.Column(db.String(32))
-    avatar = db.Column(db.String(), default='../img/avatars/default.png')
+    photo = db.Column(db.String(), default='../img/avatars/default.jpg')
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
@@ -75,7 +75,6 @@ class User(db.Model, UserMixin):
     def generate_auth_token(self, expiration=600):
         s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
         return s.dumps({'id': self.id})
-
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -99,7 +98,7 @@ class User(db.Model, UserMixin):
             'name': self.name,
             'bio': self.bio,
             'email': self.email,
-            'avatar': self.avatar,
+            'avatar': self.photo,
         }
 
 
@@ -119,5 +118,5 @@ class Comment(db.Model):
             'body': self.body,
             'date': self.date,
             'author': self.author.username,
-            'author_ava': self.author.avatar
+            'author_ava': self.author.photo
         }
