@@ -1,5 +1,4 @@
 from datetime import datetime
-import time
 from angular_flask.core import db
 from angular_flask import app
 from passlib.apps import custom_app_context as pwd_context

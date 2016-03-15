@@ -1,6 +1,6 @@
 import os, json, uuid, io
 
-from flask import Flask, request, jsonify, g
+from flask import request, jsonify, g
 from flask import render_template, send_from_directory
 from flask import make_response, abort
 from sqlalchemy.orm.exc import NoResultFound
@@ -19,9 +19,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 session = api_manager.session
 auth = HTTPBasicAuth()
-
-covers_path = 'https://s3-eu-west-1.amazonaws.com/theeblog/covers/'
-avas_path = 'https://s3-eu-west-1.amazonaws.com/theeblog/avatars/'
 
 
 # Override default error message
