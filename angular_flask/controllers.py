@@ -86,6 +86,12 @@ def allowed_file(filename):
 
 
 def save_image(img_type, elem):
+    """
+    Save post cover or user avatar to local filesystem in dev or to S3 in prod
+    :param img_type: 'avatars' or 'covers'
+    :param elem: post or user obj on which to save the image
+    :return: name of the file to be saved
+    """
     image = request.files['file']
     if elem:
         filename = elem.photo.rsplit('/', 1)[-1]
