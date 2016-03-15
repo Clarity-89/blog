@@ -339,8 +339,8 @@ md-tooltip .md-content {
 }
 
 .logos > img {
-    width: 200px;
-    height: 150px;
+    width: 180px;
+    height: auto;
 }
 
 .social {
@@ -544,7 +544,7 @@ md-tooltip .md-content {
 
     .logos > img {
         width: 150px;
-        height: 100px;
+        height: auto;
     }
 }
 
