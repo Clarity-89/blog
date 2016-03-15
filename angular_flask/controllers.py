@@ -20,8 +20,6 @@ login_manager.init_app(app)
 session = api_manager.session
 auth = HTTPBasicAuth()
 
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-
 covers_path = 'https://s3-eu-west-1.amazonaws.com/theeblog/covers/'
 avas_path = 'https://s3-eu-west-1.amazonaws.com/theeblog/avatars/'
 
@@ -87,7 +85,7 @@ def get_post(id):
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
 
 # Add a new post
