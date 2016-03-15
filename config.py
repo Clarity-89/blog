@@ -7,5 +7,6 @@ SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
 DEBUG = False
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-UPLOAD_FOLDER = os.path.join(basedir_img, 'angular_flask/static/img')
+UPLOAD_FOLDER = os.path.join(basedir_img, 'angular_flask/static/img/')
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+IMG_FOLDER = 'https://s3-eu-west-1.amazonaws.com/theeblog/'

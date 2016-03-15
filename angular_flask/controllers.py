@@ -52,7 +52,7 @@ def basic_pages(**kwargs):
 # Serve images
 @app.route('/img/<type>/<filename>')
 def uploaded_file(type, filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'] + '/' + type, filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'] + type, filename)
 
 
 # Endpoint for all posts
@@ -88,6 +88,28 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
 
+def save_image(img_type, post):
+    image = request.files['file']
+    if post:
+        filename = post.cover_photo.rsplit('/', 1)[-1]
+        # Do not overwrite default image but generate unique file name instead
+        if filename == 'default.jpg':
+            filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
+            post.cover_photo = covers_path + filename
+    else:
+        filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
+    img = Image.open(image)
+    maxsize = (1024, 1024)
+    img.thumbnail(maxsize, Image.ANTIALIAS)
+    if 'DYNO' in os.environ:  # check if the app is running on Heroku server
+        s3 = boto3.resource('s3')
+        output = io.BytesIO()
+        img.save(output, format='JPEG')
+        s3.Object('theeblog', img_type + '/' + filename).put(Body=output.getvalue())
+    else: # Otherwise save to local filesystem
+        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + img_type, filename))
+    return filename
+
 # Add a new post
 @app.route('/blog/api/posts/new', methods=['POST'])
 def add_post():
@@ -95,19 +117,8 @@ def add_post():
     title = p.get('title')
     body = p.get('body')
     if request.files:
-        # Amazon S3
-        s3 = boto3.resource('s3')
-        # Generate unique file name
-        image = request.files['file']
-        img = Image.open(image)
-        filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-        maxsize = (1024, 1024)
-        img.thumbnail(maxsize, Image.ANTIALIAS)
-        output = io.BytesIO()
-        img.save(output, format='JPEG')
-        s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
-        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
-        post = Post(title=title, body=body, cover_photo=covers_path + filename,
+        filename = save_image('covers', None)
+        post = Post(title=title, body=body, cover_photo=app.config['IMG_FOLDER'] + 'covers/' + filename,
                     author=current_user)
     else:
         post = Post(title=title, body=body, author=current_user)
@@ -128,20 +139,7 @@ def edit_post(id):
     p.title = title
     p.body = body
     if request.files:
-        s3 = boto3.resource('s3')
-        image = request.files['file']
-        filename = p.cover_photo.rsplit('/', 1)[-1]
-        # Do not overwrite default image but generate unique file name instead
-        if filename == 'default.jpg':
-            filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-            p.cover_photo = covers_path + filename
-        img = Image.open(image)
-        maxsize = (1024, 1024)
-        img.thumbnail(maxsize, Image.ANTIALIAS)
-        output = io.BytesIO()
-        img.save(output, format='JPEG')
-        s3.Object('theeblog', 'covers/' + filename).put(Body=output.getvalue())
-        # img.save(os.path.join(app.config['UPLOAD_FOLDER'] + '/covers', filename))
+        save_image('covers', p)
     db.session.commit()
     return jsonify({'id': p.id})
 
@@ -280,6 +278,7 @@ def get_user_posts(id):
         return jsonify(posts=[post.serialize for post in user.posts])
     else:
         abort(400, 'No user found')
+
 
 # Login user
 @app.route('/login', methods=['GET', 'POST'])
