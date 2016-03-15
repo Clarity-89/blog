@@ -2,9 +2,8 @@ import os
 from flask import Flask
 from flask_sslify import SSLify
 
-basedir = os.path.abspath(os.path.dirname('data')) + '/instance/'
 
-app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__, instance_path='/instance')
 if 'DYNO' in os.environ:
     sslify = SSLify(app)
 
