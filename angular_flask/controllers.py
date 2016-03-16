@@ -1,24 +1,20 @@
-import os, json, uuid, io
+import os, json
 
 from flask import request, jsonify, g
 from flask import render_template, send_from_directory
 from flask import make_response, abort
 from sqlalchemy.orm.exc import NoResultFound
-from flask.ext.httpauth import HTTPBasicAuth
 
-from PIL import Image
-import boto3
 
 from flask.ext.login import LoginManager, login_user, logout_user, current_user
 
 # routing for API endpoints, generated from the models designated as API_MODELS
 from angular_flask.core import api_manager
-from angular_flask.models import *
+from angular_flask.utils import *
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 session = api_manager.session
-auth = HTTPBasicAuth()
 
 
 # Override default error message
@@ -78,44 +74,6 @@ def get_post(id):
         post.favorited = len(post.favorited_by)
         session.commit()
         return jsonify(post=post.serialize, favs=[fav.serialize for fav in post.favorited_by])
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
-
-
-def save_image(img_type, elem):
-    """
-    Save post cover or user avatar to local filesystem in dev or to S3 in prod
-    :param img_type: 'avatars' or 'covers'
-    :param elem: post or user obj on which to save the image
-    :return: name of the file to be saved
-    """
-    image = request.files['file']
-    if elem:
-        filename = elem.photo.rsplit('/', 1)[-1]
-        # Do not overwrite default image but generate unique file name instead
-        if filename == 'default.jpg':
-            filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-            elem.photo = app.config['IMG_FOLDER'] + img_type + '/' + filename
-    else:
-        filename = str(uuid.uuid4()) + '.' + image.filename.rsplit('.', 1)[1]
-    img = Image.open(image)
-    if img_type == 'avatars':
-        size = 512
-    else:
-        size = 1024
-    maxsize = (size, size)
-    img.thumbnail(maxsize, Image.ANTIALIAS)
-    if 'DYNO' in os.environ:  # check if the app is running on Heroku server
-        s3 = boto3.resource('s3')
-        output = io.BytesIO()
-        img.save(output, format='JPEG')
-        s3.Object('theeblog', img_type + '/' + filename).put(Body=output.getvalue())
-    else:  # Otherwise save to local filesystem
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'] + img_type, filename))
-    return filename
 
 
 # Add a new post
@@ -279,22 +237,7 @@ def login():
     return jsonify(user=user.serialize, favs=[fav.serialize for fav in user.favorited])
 
 
-@auth.verify_password
-def verify_password(username_or_token, password):
-    # first try to authenticate by token
-    user = User.verify_auth_token(username_or_token)
-    if not user:
-        # try to authenticate with username/password
-        user = User.query.filter_by(username=username_or_token).first()
-        if not user:
-            return abort(400, 'username')
-        elif not user.verify_password(password):
-            return abort(400, 'password')
-    return True
-
-
 @app.route('/logout', methods=['POST'])
-# @login_required
 def logout():
     if current_user.is_authenticated:
         logout_user()
@@ -314,7 +257,7 @@ def page_not_found(e):
 
 
 @app.errorhandler(500)
-def page_not_found(e):
+def server_error(e):
     return render_template('404.html'), 500
 
 

@@ -13,3 +13,4 @@ app.config.from_pyfile('config.py', True)
 import angular_flask.core
 import angular_flask.models
 import angular_flask.controllers
+import angular_flask.utils
