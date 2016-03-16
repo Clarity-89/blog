@@ -21,12 +21,12 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
                     templateUrl: 'static/partials/new_post.html',
                     controller: 'EditPostController'
                 })
-                .when('/posts/:id', {
+                .when('/posts/:slug', {
                     templateUrl: '/static/partials/post-detail.html',
                     controller: 'PostDetailController',
                     resolve: {
                         response: function ($route, allPosts) {
-                            return allPosts.getPosts(parseInt($route.current.params.id, 10));
+                            return allPosts.getPosts($route.current.params.slug);
                         }
                     }
                 })

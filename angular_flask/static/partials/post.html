@@ -25,7 +25,7 @@
             </md-fab-trigger>
             <md-fab-actions>
                 <md-button
-                        href="https://www.facebook.com/dialog/share?app_id=819933928129983&href={{ 'https://thee-blog.herokuapp.com/' + post.id }}&redirect_uri=http://0.0.0.0:5000/posts"
+                        href="https://www.facebook.com/dialog/share?app_id=819933928129983&href={{ 'https://thee-blog.herokuapp.com/' + post.slug }}&redirect_uri=http://0.0.0.0:5000/posts"
                         aria-label="Share on Facebook" class="md-fab md-raised md-mini" ng-disabled="post.disabled">
                     <md-tooltip md-direction="bottom">
                         Share on Facebook
@@ -34,7 +34,7 @@
                 </md-button>
                 <md-button
                         href="https://twitter.com/intent/tweet?text='{{ post.title }}'%20by%20{{ post.author }}&
-                            &url={{ 'https://thee-blog.herokuapp.com/' + post.id }}"
+                            &url={{ 'https://thee-blog.herokuapp.com/' + post.slug }}"
                         aria-label="Share on Twitter" class="md-fab md-raised md-mini" ng-disabled="post.disabled">
                     <md-tooltip md-direction="bottom">
                         Share on Twitter
@@ -70,7 +70,7 @@
     </md-card-header>
 
     <!-- Card cover image and title -->
-    <a ng-href="{{ post.disabled ? '#' : '/posts/' + post.id}}">
+    <a ng-href="{{ post.disabled ? '#' : '/posts/' + post.slug}}">
         <div class="md-card-image image-{{ size }}"
              ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
 

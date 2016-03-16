@@ -1,9 +1,12 @@
+import translitcodec, re, itertools
 from datetime import datetime
 from angular_flask.core import db
 from angular_flask import app
 from passlib.apps import custom_app_context as pwd_context
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
 from flask.ext.login import UserMixin
+
+_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 favorites = db.Table('favorites',
                      db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
@@ -16,20 +19,42 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(240))
+    slug = db.Column(db.String(240), unique=True)
     body = db.Column(db.String())
     photo = db.Column(db.String(), default='../img/covers/default.jpg')
-    # Store time as integer in milliseconds
     date = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     favorited = db.Column(db.Integer, default=0)
     favorited_by = db.relationship('User', secondary=favorites, backref=db.backref('favorited', lazy='dynamic'))
     comments = db.relationship('Comment', cascade="all, delete-orphan", backref='post', lazy='dynamic')
 
+    def slugify(self, text, delim=u'-'):
+        """
+        Generates an ASCII-only slug with unique index in case of slug name clashes and saves it to db.
+        :param text: text to be made into slug
+        :param delim: delimiter for slug
+        """
+        result = []
+        for word in _punct_re.split(text.lower()):
+            word = word.encode('translit/long')
+            if word:
+                result.append(word)
+
+        slug = orig = unicode(delim.join(result))
+
+        for x in itertools.count(0):
+            if not Post.query.filter_by(slug=slug).first():
+                break
+            slug = '%s-%d' % (orig, x)
+
+        self.slug = slug
+
     @property
     def serialize(self):
         return {
             'id': self.id,
             'title': self.title,
+            'slug': self.slug,
             'body': self.body,
             'cover_photo': self.photo,
             'date': self.date,
@@ -41,15 +66,18 @@ class Post(db.Model):
             'author_id': self.user_id
         }
 
-    def __init__(self, title, body, author, photo='../img/covers/default.jpg', ):
+    def __init__(self, title, slug, body, author, photo='../img/covers/default.jpg'):
         self.title = title
         self.body = body
+        self.slug = slug,
         self.photo = photo
         self.author = author
 
+    def get_slug(self):
+        return self.slug
 
-def __repr__(self):
-    return '<id {}>'.format(self.id)  # models for which we want to create API endpoints
+    def __repr__(self):
+        return self.id
 
 
 class User(db.Model, UserMixin):
