@@ -88,6 +88,7 @@ def add_post():
                     author=current_user)
     else:
         post = Post(title=title, body=body, author=current_user)
+    post.slugify(title)
     session.add(post)
     session.commit()
     return jsonify({'id': post.id})

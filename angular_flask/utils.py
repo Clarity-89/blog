@@ -2,14 +2,13 @@
 Helper functions for controllers.py
 """
 
-import os, boto3, uuid, io, re
+import os, boto3, uuid, io
 from PIL import Image
 from flask.ext.httpauth import HTTPBasicAuth
 
 from flask import request, abort
 from angular_flask.models import *
 
-_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 auth = HTTPBasicAuth()
 
 
@@ -75,17 +74,3 @@ def save_image(img_type, elem):
         img.save(os.path.join(app.config['UPLOAD_FOLDER'] + img_type, filename))
     return filename
 
-
-def slugify(text, delim=u'-'):
-    """
-    Generates an ASCII-only slug.
-    :param text: text to be slugified
-    :param delim: delimiter for slug
-    :return:
-    """
-    result = []
-    for word in _punct_re.split(text.lower()):
-        word = word.encode('translit/long')
-        if word:
-            result.append(word)
-    return unicode(delim.join(result))

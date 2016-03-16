@@ -1,9 +1,13 @@
+import translitcodec, re
 from datetime import datetime
 from angular_flask.core import db
 from angular_flask import app
 from passlib.apps import custom_app_context as pwd_context
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
 from flask.ext.login import UserMixin
+from sqlalchemy.exc import IntegrityError
+
+_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 favorites = db.Table('favorites',
                      db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
@@ -16,6 +20,7 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(240))
+    slug = db.Column(db.String(240), unique=True)
     body = db.Column(db.String())
     photo = db.Column(db.String(), default='../img/covers/default.jpg')
     # Store time as integer in milliseconds
@@ -25,11 +30,30 @@ class Post(db.Model):
     favorited_by = db.relationship('User', secondary=favorites, backref=db.backref('favorited', lazy='dynamic'))
     comments = db.relationship('Comment', cascade="all, delete-orphan", backref='post', lazy='dynamic')
 
+    def slugify(self, text, delim=u'-'):
+        """
+        Generates an ASCII-only slug and saves it to db.
+        :param text: text to be slugified
+        :param delim: delimiter for slug
+        :return:
+        """
+        result = []
+        for word in _punct_re.split(text.lower()):
+            word = word.encode('translit/long')
+            if word:
+                result.append(word)
+        slug = unicode(delim.join(result))
+        res = Post.query.filter_by(slug=slug).first()
+        if res:
+            slug = unicode(delim.join(result)) + '-1'
+        self.slug = slug
+
     @property
     def serialize(self):
         return {
             'id': self.id,
             'title': self.title,
+            'slug': self.slug,
             'body': self.body,
             'cover_photo': self.photo,
             'date': self.date,
