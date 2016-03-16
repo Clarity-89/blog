@@ -21,12 +21,12 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
                     templateUrl: 'static/partials/new_post.html',
                     controller: 'EditPostController'
                 })
-                .when('/posts/:id', {
+                .when('/posts/:slug', {
                     templateUrl: '/static/partials/post-detail.html',
                     controller: 'PostDetailController',
                     resolve: {
                         response: function ($route, allPosts) {
-                            return allPosts.getPosts(parseInt($route.current.params.id, 10));
+                            return allPosts.getPosts($route.current.params.slug);
                         }
                     }
                 })
@@ -162,7 +162,7 @@ angular.module('app')
         $scope.page.loading = true;
         $scope.post = {};
         $scope.size = "lg";
-        allPosts.getPosts(parseInt($routeParams.id, 10)).then(function (response) {
+        allPosts.getPosts($routeParams.slug).then(function (response) {
                 $scope.post = response.data.post;
                 $scope.post.comments = response.data.comments;
                 $scope.page.loading = false;
@@ -197,7 +197,7 @@ angular.module('app')
                         .then(function success(response) {
                             $scope.loading = false;
                             toast.showToast('Post created', 1000).then(function () {
-                                $location.path('/posts/' + response.data.id);
+                                $location.path('/posts/' + response.data.slug);
                             })
                         }, function error(response) {
                             $scope.loading = false;
@@ -231,7 +231,7 @@ angular.module('app')
                             $scope.loading = false;
                             toast.showToast('Post edited', 1000).then(function () {
                                 $window.location.reload();
-                                $location.path('/posts/' + response.data.id);
+                                $location.path('/posts/' + response.data.slug);
 
                             });
                         }, function error(response) {
@@ -597,9 +597,9 @@ angular.module('app')
         var post = this;
     })
     .service('allPosts', ['$http', function ($http) {
-        this.getPosts = function (id) {
-            if (id) {
-                return $http.get('/blog/api/posts/' + id, {});
+        this.getPosts = function (slug) {
+            if (slug) {
+                return $http.get('/blog/api/posts/' + slug, {});
             } else {
                 return $http.get('/blog/api/posts', {});
             }
@@ -664,7 +664,7 @@ angular.module('app')
     })
     .service('favoritePost', ['$http', '$cookies', function ($http, $cookies) {
         this.favorite = function (post) {
-            return $http.post("/blog/api/posts/" + post.id, {});
+            return $http.post("/blog/api/posts/" + post.slug, {});
         };
 
         /* Check if the logged in user has favorited the post and add red color to fav icon if yes */
@@ -696,7 +696,7 @@ angular.module('app')
                 $anchorScroll();
                 // Else go to post detail page and jump to comments
             } else {
-                $location.path('/posts/' + post.id).hash(el);
+                $location.path('/posts/' + post.slug).hash(el);
             }
         }
     }])

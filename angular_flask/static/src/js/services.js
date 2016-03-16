@@ -6,9 +6,9 @@ angular.module('app')
         var post = this;
     })
     .service('allPosts', ['$http', function ($http) {
-        this.getPosts = function (id) {
-            if (id) {
-                return $http.get('/blog/api/posts/' + id, {});
+        this.getPosts = function (slug) {
+            if (slug) {
+                return $http.get('/blog/api/posts/' + slug, {});
             } else {
                 return $http.get('/blog/api/posts', {});
             }
@@ -73,7 +73,7 @@ angular.module('app')
     })
     .service('favoritePost', ['$http', '$cookies', function ($http, $cookies) {
         this.favorite = function (post) {
-            return $http.post("/blog/api/posts/" + post.id, {});
+            return $http.post("/blog/api/posts/" + post.slug, {});
         };
 
         /* Check if the logged in user has favorited the post and add red color to fav icon if yes */
@@ -105,7 +105,7 @@ angular.module('app')
                 $anchorScroll();
                 // Else go to post detail page and jump to comments
             } else {
-                $location.path('/posts/' + post.id).hash(el);
+                $location.path('/posts/' + post.slug).hash(el);
             }
         }
     }])

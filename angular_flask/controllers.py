@@ -31,7 +31,7 @@ def custom400(error):
 @app.route('/about')
 @app.route('/blog')
 @app.route('/posts')
-@app.route('/posts/<int:id>')
+@app.route('/posts/<string:slug>')
 @app.route('/register')
 @app.route('/me/posts')
 @app.route('/me/profile')
@@ -56,16 +56,16 @@ def get_posts():
 
 
 # Get specific post or add post to favorites
-@app.route('/blog/api/posts/<int:id>', methods=['GET', 'POST'])
-def get_post(id):
+@app.route('/blog/api/posts/<string:slug>', methods=['GET', 'POST'])
+def get_post(slug):
     if request.method == 'GET':
         try:
-            post = Post.query.filter_by(id=id).one()
+            post = Post.query.filter_by(slug=slug).one()
             return jsonify(post=post.serialize, comments=[c.serialize for c in post.comments])
         except NoResultFound:
             return render_template('404.html'), 404
     elif request.method == 'POST':
-        post = Post.query.filter_by(id=id).one()
+        post = Post.query.filter_by(slug=slug).one()
         user = current_user
         if user in post.favorited_by:
             post.favorited_by.remove(user)
@@ -91,7 +91,7 @@ def add_post():
     post.slugify(title)
     session.add(post)
     session.commit()
-    return jsonify({'id': post.id})
+    return jsonify({'slug': post.slug})
 
 
 # Edit post
@@ -107,8 +107,9 @@ def edit_post(id):
     p.body = body
     if request.files:
         save_image('covers', p)
+    p.slugify(title)
     db.session.commit()
-    return jsonify({'id': p.id})
+    return jsonify({'slug': p.slug})
 
 
 # Delete post

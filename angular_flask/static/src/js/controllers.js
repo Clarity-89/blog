@@ -68,7 +68,7 @@ angular.module('app')
         $scope.page.loading = true;
         $scope.post = {};
         $scope.size = "lg";
-        allPosts.getPosts(parseInt($routeParams.id, 10)).then(function (response) {
+        allPosts.getPosts($routeParams.slug).then(function (response) {
                 $scope.post = response.data.post;
                 $scope.post.comments = response.data.comments;
                 $scope.page.loading = false;
@@ -103,7 +103,7 @@ angular.module('app')
                         .then(function success(response) {
                             $scope.loading = false;
                             toast.showToast('Post created', 1000).then(function () {
-                                $location.path('/posts/' + response.data.id);
+                                $location.path('/posts/' + response.data.slug);
                             })
                         }, function error(response) {
                             $scope.loading = false;
@@ -137,7 +137,7 @@ angular.module('app')
                             $scope.loading = false;
                             toast.showToast('Post edited', 1000).then(function () {
                                 $window.location.reload();
-                                $location.path('/posts/' + response.data.id);
+                                $location.path('/posts/' + response.data.slug);
 
                             });
                         }, function error(response) {
