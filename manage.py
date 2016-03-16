@@ -16,7 +16,7 @@ def init_db():
     db.create_all()
     password = pwd_context.encrypt('111111')
     u = User(username='Admin', email='me@test.com', password_hash=password)
-    p = Post(title='First post',
+    p = Post(title='First post', slug='first-post',
                         body="Welcome to my blog. I will be putting up posts about various topics, so make sure to check back soon.",
                         author=u)
     db.session.add(u)

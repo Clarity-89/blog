@@ -66,9 +66,10 @@ class Post(db.Model):
             'author_id': self.user_id
         }
 
-    def __init__(self, title, body, author, photo='../img/covers/default.jpg', ):
+    def __init__(self, title, slug, body, author, photo='../img/covers/default.jpg'):
         self.title = title
         self.body = body
+        self.slug = slug,
         self.photo = photo
         self.author = author
 
