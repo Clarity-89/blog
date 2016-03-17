@@ -23,8 +23,7 @@ app.controller('UserProfileController', ['userService', '$routeParams', '$scope'
                     });
                 },
                 function (response) {
+                    $scope.page.loading = false;
                     console.log('Error:', response.status, response.statusText);
                 });
-
-
     }]);
