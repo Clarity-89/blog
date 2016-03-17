@@ -542,8 +542,8 @@ app.controller('PostDetailController', ['$scope', '$routeParams', 'favoritePost'
 }]);
 'use strict';
 
-app.controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'goTo',
-    function ($scope, allPosts, favoritePost, goTo) {
+app.controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'goTo', '$mdDialog',
+    function ($scope, allPosts, favoritePost, goTo, $mdDialog) {
         $scope.page.loading = true;
         $scope.posts = [];
         $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
@@ -600,6 +600,21 @@ app.controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'goT
                         console.log('Couldn\'t favorite a post', response);
                     }
                 )
+        };
+
+        $scope.showAdvanced = function (ev, post) {
+
+            $mdDialog.show({
+                templateUrl: 'static/partials/user-list.html',
+                locals: {
+                    post: post
+                },
+                controller: DialogController,
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: false
+            });
         };
 
         $scope.gotoComments = function (post) {
