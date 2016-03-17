@@ -1,4 +1,4 @@
-import os, json
+import json
 
 from flask import request, jsonify, g
 from flask import render_template, send_from_directory
@@ -6,7 +6,6 @@ from flask import make_response, abort
 
 from flask.ext.login import LoginManager, login_user, logout_user, current_user
 
-# routing for API endpoints, generated from the models designated as API_MODELS
 from angular_flask.core import api_manager
 from angular_flask.utils import *
 
@@ -24,7 +23,6 @@ def custom400(error):
     return response
 
 
-# Routing for basic pages (pass routing onto the Angular app)
 @app.route('/')
 @app.route('/about')
 @app.route('/blog')
@@ -37,6 +35,12 @@ def custom400(error):
 @app.route('/new')
 def basic_pages(**kwargs):
     # return make_response(open('angular_flask/templates/index.html').read())
+    """
+    Routing for basic pages (pass routing onto the Angular app) and if variable params are
+    passed check that db entry exists for them
+    :param kwargs:
+    :return: index.html or 404.html templates
+    """
     if kwargs and kwargs.get('slug'):
         entry = Post.query.filter_by(slug=kwargs['slug']).first()
         if entry is None:
