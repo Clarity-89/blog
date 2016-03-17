@@ -47,6 +47,7 @@ var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnima
                 })
                 .when('/me/profile', {
                     templateUrl: 'static/partials/profile.html',
+                    controller: 'UserDetailsController'
                 })
                 .otherwise({
                     redirectTo: '/'

@@ -47,6 +47,7 @@ var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnima
                 })
                 .when('/me/profile', {
                     templateUrl: 'static/partials/profile.html',
+                    controller: 'UserDetailsController'
                 })
                 .otherwise({
                     redirectTo: '/'
@@ -331,6 +332,54 @@ app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPre
         }
     }])
 
+'use strict';
+
+app.controller('MainController', ['$scope', '$rootScope', 'userService', '$cookies', '$location', 'imgPreview', 'toast',
+    'sharedPost', function ($scope, $rootScope, userService, $cookies, $location, imgPreview, toast, sharedPost) {
+        $scope.page = {};
+        $scope.page.loading = false;
+        $scope.isOpen = false;
+        $scope.currentUser = function () {
+            return $cookies.get('current_user');
+        };
+
+        /* Separate function to get user details to avoid loops with JSON.parse since
+         currentUser() is called constantly */
+        $scope.getUserDetails = function () {
+            if ($scope.currentUser()) {
+                return JSON.parse($scope.currentUser());
+            }
+        };
+
+        $scope.user = $scope.getUserDetails();
+
+        $scope.logout = function () {
+            if ($scope.currentUser()) {
+                userService.logout()
+                    .then(function success() {
+                        $cookies.remove('current_user');
+                        $location.path('/');
+                    }, function error(response) {
+                        console.log('Could not log out', response);
+                    });
+            }
+        };
+
+        $scope.setFile = function (element) {
+            return imgPreview.preview(element, $scope);
+        };
+
+        $scope.activateUpload = function () {
+            return imgPreview.activateUpload('uploadAva');
+        };
+
+        /* Redirect to '/new' route and clear the sharedPost since we are not editing but creating a new post */
+        $scope.createPost = function () {
+            sharedPost.post = {};
+            $location.path('/new');
+        };
+
+    }]);
 'use strict';
 
 app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies', 'toast',
@@ -641,80 +690,50 @@ app.controller('UserController', ['$scope', 'userService', '$location', '$timeou
     }]);
 'use strict';
 
-app.controller('UserDetailsController', ['$scope', '$rootScope', 'userService', '$cookies', '$location', 'imgPreview', 'toast',
-    'sharedPost', function ($scope, $rootScope, userService, $cookies, $location, imgPreview, toast, sharedPost) {
-        $scope.page = {};
-        $scope.page.loading = false;
-        $scope.isOpen = false;
-        $scope.currentUser = function () {
-            return $cookies.get('current_user');
+app.controller('UserDetailsController', ['$scope', 'toast', 'userService', '$cookies', function ($scope, toast, userService, $cookies) {
+
+    $scope.currentUser = function () {
+        return $cookies.get('current_user');
+    };
+
+    /* Separate function to get user details to avoid loops with JSON.parse since
+     currentUser() is called constantly */
+    $scope.getUserDetails = function () {
+        if ($scope.currentUser()) {
+            return JSON.parse($scope.currentUser());
+        }
+    };
+
+    $scope.user = $scope.getUserDetails();
+
+    $scope.updateUser = function (form) {
+        var self = this;
+        $scope.change = function () {
+            self.userDetailsForm.password.$setValidity("passwordIncorrect", true);
         };
-
-        /* Separate function to get user details to avoid loops with JSON.parse since
-         currentUser() is called constantly */
-        $scope.getUserDetails = function () {
-            if ($scope.currentUser()) {
-                return JSON.parse($scope.currentUser());
-            }
-        };
-
-        $scope.user = $scope.getUserDetails();
-
-        $scope.logout = function () {
-            if ($scope.currentUser()) {
-                userService.logout()
-                    .then(function success() {
-                        $cookies.remove('current_user');
-                        $location.path('/');
-                    }, function error(response) {
-                        console.log('Could not log out', response);
+        if (form.$valid) {
+            $scope.loading = true; // loading spinner
+            var file = self.myAva,
+                user = $scope.user;
+            userService.update(file, user)
+                .then(function success(response) {
+                    $scope.loading = false;
+                    toast.showToast('Changes saved', 1000).then(function () {
+                        var u = response.data.user;
+                        $cookies.putObject('current_user', u);
                     });
-            }
-        };
-
-        $scope.setFile = function (element) {
-            return imgPreview.preview(element, $scope);
-        };
-
-        $scope.activateUpload = function () {
-            return imgPreview.activateUpload('uploadAva');
-        };
-
-        $scope.updateUser = function (form) {
-            var self = this;
-            $scope.change = function () {
-                self.userDetailsForm.password.$setValidity("passwordIncorrect", true);
-            };
-            if (form.$valid) {
-                $scope.loading = true; // loading spinner
-                var file = self.myAva,
-                    user = $scope.user;
-                userService.update(file, user)
-                    .then(function success(response) {
-                        $scope.loading = false;
-                        toast.showToast('Changes saved', 1000).then(function () {
-                            var u = response.data.user;
-                            $cookies.putObject('current_user', u);
-                        });
-                    }, function error(response) {
-                        $scope.loading = false;
-                        $scope.message = response.data.message;
-                        if ($scope.message === 'password') {
-                            self.userDetailsForm.password.$setValidity("passwordIncorrect", false);
-                        } else {
-                            toast.showToast('Could not save changes. Please try again later', 3000);
-                        }
-                    });
-            }
-        };
-
-        /* Redirect to '/new' route and clear the sharedPost since we are not editing but creating a new post */
-        $scope.createPost = function () {
-            sharedPost.post = {};
-            $location.path('/new');
-        };
-
-    }]);
+                }, function error(response) {
+                    $scope.loading = false;
+                    $scope.message = response.data.message;
+                    if ($scope.message === 'password') {
+                        self.userDetailsForm.password.$setValidity("passwordIncorrect", false);
+                    } else {
+                        toast.showToast('Could not save changes. Please try again later', 3000);
+                    }
+                });
+        }
+    };
+}]);
 'use strict';
 
 app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost',
