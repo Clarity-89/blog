@@ -250,7 +250,6 @@ angular.module('app')
                 $mdToast.simple()
                     .textContent(message)
                     .position('right top')
-                    .parent('#toast')
                     .hideDelay(delay)
             );
         }
@@ -341,7 +340,7 @@ app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPre
         $scope.activateUpload = function () {
             return imgPreview.activateUpload('uploadImage');
         }
-    }])
+    }]);
 
 'use strict';
 
@@ -681,7 +680,7 @@ app.controller('UserController', ['$scope', 'userService', '$location', '$timeou
                 var user = $scope.user;
                 userService.login(user)
                     .then(function success(response) {
-                        toast.showToast('Successfully logged in', 3000);
+                        toast.showToast('Successfully logged in', 1000);
                         $scope.loading = false;
                         var u = response.data.user;
                         $cookies.putObject('current_user', u);
@@ -755,8 +754,8 @@ app.controller('UserDetailsController', ['$scope', 'toast', 'userService', '$coo
 }]);
 'use strict';
 
-app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost',
-    function ($scope, userService, $cookies, favoritePost) {
+app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', 'toast',
+    function ($scope, userService, $cookies, favoritePost, toast) {
         $scope.size = "sm";
         $scope.page.loading = true;
         $scope.imageSrc = '';
@@ -770,13 +769,14 @@ app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'fav
                 },
                 function (response) {
                     $scope.page.loading = false;
+                    toast.showToast('Could not get data from the server. Please try again later', 5000);
                     console.log('Error:', response.status, response.statusText);
                 });
     }]);
 'use strict';
 
-app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'favoritePost',
-    function (userService, $routeParams, $scope, favoritePost) {
+app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'favoritePost', 'toast',
+    function (userService, $routeParams, $scope, favoritePost, toast) {
         $scope.size = "sm";
         $scope.user = {};
         $scope.imageSrc = '';
@@ -786,7 +786,7 @@ app.controller('UserProfileController', ['userService', '$routeParams', '$scope'
                 $scope.user = response.data.user;
                 $scope.user.favs = response.data.favs;
             }, function (response) {
-                console.log('error', response);
+                toast.showToast('Could not get data from the server. Please try again later', 5000);
             });
 
         userService.getPosts($routeParams.user)
@@ -798,9 +798,8 @@ app.controller('UserProfileController', ['userService', '$routeParams', '$scope'
                     });
                 },
                 function (response) {
-                    console.log('Error:', response.status, response.statusText);
+                    $scope.page.loading = false;
+                    toast.showToast('Could not get data from the server. Please try again later', 5000);
                 });
-
-
     }]);
 //# sourceMappingURL=maps/main.js.map

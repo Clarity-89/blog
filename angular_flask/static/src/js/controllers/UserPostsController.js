@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost',
-    function ($scope, userService, $cookies, favoritePost) {
+app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', 'toast',
+    function ($scope, userService, $cookies, favoritePost, toast) {
         $scope.size = "sm";
         $scope.page.loading = true;
         $scope.imageSrc = '';
@@ -15,6 +15,7 @@ app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'fav
                 },
                 function (response) {
                     $scope.page.loading = false;
+                    toast.showToast('Could not get data from the server. Please try again later', 5000);
                     console.log('Error:', response.status, response.statusText);
                 });
     }]);

@@ -72,7 +72,7 @@ app.controller('UserController', ['$scope', 'userService', '$location', '$timeou
                 var user = $scope.user;
                 userService.login(user)
                     .then(function success(response) {
-                        toast.showToast('Successfully logged in', 3000);
+                        toast.showToast('Successfully logged in', 1000);
                         $scope.loading = false;
                         var u = response.data.user;
                         $cookies.putObject('current_user', u);

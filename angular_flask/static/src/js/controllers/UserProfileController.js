@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'favoritePost',
-    function (userService, $routeParams, $scope, favoritePost) {
+app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'favoritePost', 'toast',
+    function (userService, $routeParams, $scope, favoritePost, toast) {
         $scope.size = "sm";
         $scope.user = {};
         $scope.imageSrc = '';
@@ -11,7 +11,7 @@ app.controller('UserProfileController', ['userService', '$routeParams', '$scope'
                 $scope.user = response.data.user;
                 $scope.user.favs = response.data.favs;
             }, function (response) {
-                console.log('error', response);
+                toast.showToast('Could not get data from the server. Please try again later', 5000);
             });
 
         userService.getPosts($routeParams.user)
@@ -24,6 +24,6 @@ app.controller('UserProfileController', ['userService', '$routeParams', '$scope'
                 },
                 function (response) {
                     $scope.page.loading = false;
-                    console.log('Error:', response.status, response.statusText);
+                    toast.showToast('Could not get data from the server. Please try again later', 5000);
                 });
     }]);

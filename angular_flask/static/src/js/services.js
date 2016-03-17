@@ -115,7 +115,6 @@ angular.module('app')
                 $mdToast.simple()
                     .textContent(message)
                     .position('right top')
-                    .parent('#toast')
                     .hideDelay(delay)
             );
         }

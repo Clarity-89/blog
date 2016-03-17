@@ -34,4 +34,4 @@ app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPre
         $scope.activateUpload = function () {
             return imgPreview.activateUpload('uploadImage');
         }
-    }])
+    }]);
