@@ -54,7 +54,7 @@ var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnima
                     controller: 'UserDetailsController'
                 })
                 .otherwise({
-                    redirectTo: '/404'
+                    redirectTo: '/'
                 });
 
             //Customize themes for Angular Material

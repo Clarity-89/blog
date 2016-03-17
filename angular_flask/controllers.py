@@ -5,7 +5,6 @@ from flask import render_template, send_from_directory
 from flask import make_response, abort
 from sqlalchemy.orm.exc import NoResultFound
 
-
 from flask.ext.login import LoginManager, login_user, logout_user, current_user
 
 # routing for API endpoints, generated from the models designated as API_MODELS
@@ -39,6 +38,14 @@ def custom400(error):
 @app.route('/new')
 def basic_pages(**kwargs):
     # return make_response(open('angular_flask/templates/index.html').read())
+    if kwargs and kwargs.get('slug'):
+        entry = Post.query.filter_by(slug=kwargs['slug']).first()
+        if entry is None:
+            return render_template('404.html')
+    elif kwargs and kwargs.get('username'):
+        entry = User.query.filter_by(username=kwargs['username']).first()
+        if entry is None:
+            return render_template('404.html')
     return render_template('index.html')
 
 
@@ -59,11 +66,11 @@ def get_posts():
 @app.route('/blog/api/posts/<string:slug>', methods=['GET', 'POST'])
 def get_post(slug):
     if request.method == 'GET':
-        try:
-            post = Post.query.filter_by(slug=slug).one()
+        post = Post.query.filter_by(slug=slug).first()
+        if post is None:
+            return render_template('404.html')
+        else:
             return jsonify(post=post.serialize, comments=[c.serialize for c in post.comments])
-        except NoResultFound:
-            return render_template('404.html'), 404
     elif request.method == 'POST':
         post = Post.query.filter_by(slug=slug).one()
         user = current_user
