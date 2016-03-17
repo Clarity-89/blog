@@ -1,17 +1,20 @@
 'use strict';
 
-angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize', 'ngMessages', 'ngPassword', 'ngCookies', 'appFilters'])
+var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize', 'ngMessages', 'ngPassword', 'ngCookies', 'appFilters'])
     .config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
         function ($routeProvider, $locationProvider, $mdThemingProvider) {
             $routeProvider
                 .when('/', {
                     templateUrl: 'static/partials/landing.html',
+                    controller: 'PostListController'
                 })
                 .when('/about', {
                     templateUrl: 'static/partials/about.html',
+                    controller: 'AboutController'
                 })
                 .when('/posts', {
                     templateUrl: 'static/partials/post-list.html',
+                    controller: 'PostListController'
                 })
                 .when('/new', {
                     templateUrl: 'static/partials/new_post.html',
@@ -30,23 +33,25 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'text
                         }
                     }
                 })
-                .when('/blog', {
-                    templateUrl: 'static/partials/post-list.html',
-                })
                 .when('/register', {
                     templateUrl: 'static/partials/register.html',
+                    controller: 'UserController'
                 })
                 .when('/login', {
                     templateUrl: 'static/partials/register.html',
+                    controller: 'UserController'
                 })
                 .when('/me/posts', {
                     templateUrl: 'static/partials/my_posts.html',
+                    controller: 'UserPostsController'
                 })
                 .when('/users/:user', {
                     templateUrl: 'static/partials/user_details.html',
+                    controller: 'UserProfileController'
                 })
                 .when('/me/profile', {
                     templateUrl: 'static/partials/profile.html',
+                    controller: 'UserDetailsController'
                 })
                 .otherwise({
                     redirectTo: '/'

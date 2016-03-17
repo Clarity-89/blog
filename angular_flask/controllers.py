@@ -1,14 +1,11 @@
-import os, json
+import json
 
 from flask import request, jsonify, g
 from flask import render_template, send_from_directory
 from flask import make_response, abort
-from sqlalchemy.orm.exc import NoResultFound
-
 
 from flask.ext.login import LoginManager, login_user, logout_user, current_user
 
-# routing for API endpoints, generated from the models designated as API_MODELS
 from angular_flask.core import api_manager
 from angular_flask.utils import *
 
@@ -26,7 +23,6 @@ def custom400(error):
     return response
 
 
-# Routing for basic pages (pass routing onto the Angular app)
 @app.route('/')
 @app.route('/about')
 @app.route('/blog')
@@ -39,6 +35,20 @@ def custom400(error):
 @app.route('/new')
 def basic_pages(**kwargs):
     # return make_response(open('angular_flask/templates/index.html').read())
+    """
+    Routing for basic pages (pass routing onto the Angular app) and if variable params are
+    passed check that db entry exists for them
+    :param kwargs:
+    :return: index.html or 404.html templates
+    """
+    if kwargs and kwargs.get('slug'):
+        entry = Post.query.filter_by(slug=kwargs['slug']).first()
+        if entry is None:
+            return render_template('404.html')
+    elif kwargs and kwargs.get('username'):
+        entry = User.query.filter_by(username=kwargs['username']).first()
+        if entry is None:
+            return render_template('404.html')
     return render_template('index.html')
 
 
@@ -59,11 +69,11 @@ def get_posts():
 @app.route('/blog/api/posts/<string:slug>', methods=['GET', 'POST'])
 def get_post(slug):
     if request.method == 'GET':
-        try:
-            post = Post.query.filter_by(slug=slug).one()
+        post = Post.query.filter_by(slug=slug).first()
+        if post is None:
+            abort(404, 'Post not found')
+        else:
             return jsonify(post=post.serialize, comments=[c.serialize for c in post.comments])
-        except NoResultFound:
-            return render_template('404.html'), 404
     elif request.method == 'POST':
         post = Post.query.filter_by(slug=slug).one()
         user = current_user
@@ -107,7 +117,6 @@ def edit_post(id):
     p.body = body
     if request.files:
         save_image('covers', p)
-    p.slugify(title)
     db.session.commit()
     return jsonify({'slug': p.slug})
 
@@ -170,9 +179,9 @@ def new_user():
 
 
 # Get individual user by id
-@app.route('/blog/api/users/<int:id>')
-def get_user(id):
-    user = User.query.get(id)
+@app.route('/blog/api/users/<string:username>')
+def get_user(username):
+    user = User.query.filter_by(username=username).first()
     if not user:
         abort(400)
     return jsonify(user=user.serialize, favs=[fav.serialize for fav in user.favorited])
@@ -216,9 +225,9 @@ def edit_user():
 
 
 # Get all posts by a user
-@app.route('/blog/api/users/<int:id>/posts', methods=['GET'])
-def get_user_posts(id):
-    user = User.query.get(id)
+@app.route('/blog/api/users/<string:username>/posts', methods=['GET'])
+def get_user_posts(username):
+    user = User.query.filter_by(username=username).first()
     if user:
         return jsonify(posts=[post.serialize for post in user.posts])
     else:

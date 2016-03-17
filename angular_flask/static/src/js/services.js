@@ -115,7 +115,6 @@ angular.module('app')
                 $mdToast.simple()
                     .textContent(message)
                     .position('right top')
-                    .parent('#toast')
                     .hideDelay(delay)
             );
         }
@@ -156,8 +155,8 @@ angular.module('app')
             return $http.get("/blog/api/users/" + user_id + "/posts")
         };
 
-        this.getDetails = function (id) {
-            return $http.get("/blog/api/users/" + id);
+        this.getDetails = function (username) {
+            return $http.get("/blog/api/users/" + username);
         }
     }])
 ;
