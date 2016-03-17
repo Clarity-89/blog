@@ -13,7 +13,7 @@
         <md-dialog-content>
             <md-list>
                 <md-list-item layout="row" ng-repeat="user in post.favorited_by">
-                   <a href="/users/{{ post.author_id }}" ng-click="cancel()">
+                   <a href="/users/{{ post.author }}" ng-click="cancel()">
                        <img class="md-avatar" ng-src="{{ user.avatar }}" alt="{{ user.username }}">
                    {{ user.username }}</a>
                 </md-list-item>
