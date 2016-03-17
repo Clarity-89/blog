@@ -3,7 +3,6 @@ import os, json
 from flask import request, jsonify, g
 from flask import render_template, send_from_directory
 from flask import make_response, abort
-from sqlalchemy.orm.exc import NoResultFound
 
 from flask.ext.login import LoginManager, login_user, logout_user, current_user
 
@@ -68,7 +67,7 @@ def get_post(slug):
     if request.method == 'GET':
         post = Post.query.filter_by(slug=slug).first()
         if post is None:
-            return render_template('404.html')
+            abort(404, 'Post not found')
         else:
             return jsonify(post=post.serialize, comments=[c.serialize for c in post.comments])
     elif request.method == 'POST':
@@ -177,9 +176,9 @@ def new_user():
 
 
 # Get individual user by id
-@app.route('/blog/api/users/<int:id>')
-def get_user(id):
-    user = User.query.get(id)
+@app.route('/blog/api/users/<string:username>')
+def get_user(username):
+    user = User.query.filter_by(username=username).first()
     if not user:
         abort(400)
     return jsonify(user=user.serialize, favs=[fav.serialize for fav in user.favorited])
@@ -223,9 +222,9 @@ def edit_user():
 
 
 # Get all posts by a user
-@app.route('/blog/api/users/<int:id>/posts', methods=['GET'])
-def get_user_posts(id):
-    user = User.query.get(id)
+@app.route('/blog/api/users/<string:username>/posts', methods=['GET'])
+def get_user_posts(username):
+    user = User.query.filter_by(username=username).first()
     if user:
         return jsonify(posts=[post.serialize for post in user.posts])
     else:

@@ -1,12 +1,12 @@
 <md-card>
     <md-card-header>
         <md-card-avatar>
-            <a href="/users/{{ post.author_id }}">
+            <a href="/users/{{ post.author }}">
                 <img class="md-user-avatar" ng-src="{{ post.avatar }}">
             </a>
         </md-card-avatar>
         <md-card-header-text>
-            <a href="/users/{{ post.author_id }}">
+            <a href="/users/{{ post.author }}">
                 <span class="md-title">{{ post.author }}</span>
             </a>
             <span class="md-subheader abs">{{ post.date | localDate }}</span>

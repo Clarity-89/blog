@@ -291,8 +291,8 @@ angular.module('app')
             return $http.get("/blog/api/users/" + user_id + "/posts")
         };
 
-        this.getDetails = function (id) {
-            return $http.get("/blog/api/users/" + id);
+        this.getDetails = function (username) {
+            return $http.get("/blog/api/users/" + username);
         }
     }])
 ;
@@ -756,22 +756,23 @@ app.controller('UserDetailsController', ['$scope', 'toast', 'userService', '$coo
 'use strict';
 
 app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost',
-        function ($scope, userService, $cookies, favoritePost) {
-            $scope.size = "sm";
-            $scope.page.loading = true;
-            $scope.imageSrc = '';
-            userService.getPosts($cookies.getObject('current_user').id)
-                .then(function (response) {
-                        $scope.posts = response.data.posts;
-                        $scope.page.loading = false;
-                        $scope.posts.forEach(function (el) {
-                            favoritePost.checkFav(el);
-                        });
-                    },
-                    function (response) {
-                        console.log('Error:', response.status, response.statusText);
+    function ($scope, userService, $cookies, favoritePost) {
+        $scope.size = "sm";
+        $scope.page.loading = true;
+        $scope.imageSrc = '';
+        userService.getPosts($cookies.getObject('current_user').username)
+            .then(function (response) {
+                    $scope.posts = response.data.posts;
+                    $scope.page.loading = false;
+                    $scope.posts.forEach(function (el) {
+                        favoritePost.checkFav(el);
                     });
-        }])
+                },
+                function (response) {
+                    $scope.page.loading = false;
+                    console.log('Error:', response.status, response.statusText);
+                });
+    }]);
 'use strict';
 
 app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'favoritePost',
