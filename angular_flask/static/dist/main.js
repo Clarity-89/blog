@@ -6,12 +6,15 @@ var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnima
             $routeProvider
                 .when('/', {
                     templateUrl: 'static/partials/landing.html',
+                    controller: 'PostListController'
                 })
                 .when('/about', {
                     templateUrl: 'static/partials/about.html',
+                    controller: 'AboutController'
                 })
                 .when('/posts', {
                     templateUrl: 'static/partials/post-list.html',
+                    controller: 'PostListController'
                 })
                 .when('/new', {
                     templateUrl: 'static/partials/new_post.html',
@@ -30,27 +33,28 @@ var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnima
                         }
                     }
                 })
-                .when('/blog', {
-                    templateUrl: 'static/partials/post-list.html',
-                })
                 .when('/register', {
                     templateUrl: 'static/partials/register.html',
+                    controller: 'UserController'
                 })
                 .when('/login', {
                     templateUrl: 'static/partials/register.html',
+                    controller: 'UserController'
                 })
                 .when('/me/posts', {
                     templateUrl: 'static/partials/my_posts.html',
+                    controller: 'UserPostsController'
                 })
                 .when('/users/:user', {
                     templateUrl: 'static/partials/user_details.html',
+                    controller: 'UserProfileController'
                 })
                 .when('/me/profile', {
                     templateUrl: 'static/partials/profile.html',
                     controller: 'UserDetailsController'
                 })
                 .otherwise({
-                    redirectTo: '/'
+                    redirectTo: '/404'
                 });
 
             //Customize themes for Angular Material
@@ -296,6 +300,13 @@ angular.module('app')
 
 'use strict';
 
+app.controller('AboutController', ['$scope', function ($scope) {
+    $scope.page.loading = false;
+}]);
+
+
+'use strict';
+
 app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost', 'toast', '$window',
     function ($scope, editPost, $location, imgPreview, sharedPost, toast, $window) {
         $scope.page.loading = false; // loading progress bar
@@ -424,6 +435,14 @@ app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPr
             return imgPreview.activateUpload('uploadImage');
         }
     }]);
+'use strict';
+
+app.controller('Page404Controller', ['$scope', '$location', '$window', function ($scope, $location, $window) {
+    $scope.goHome = function () {
+        $location.path('/');
+        $window.location.reload();
+    }
+}]);
 'use strict';
 
 app.controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo',
@@ -783,19 +802,4 @@ app.controller('UserProfileController', ['userService', '$routeParams', '$scope'
 
 
     }]);
-'use strict';
-
-app.controller('aboutController', ['$scope', function ($scope) {
-    $scope.page.loading = false;
-}]);
-
-
-'use strict';
-
-app.controller('page404Controller', ['$scope', '$location', '$window', function ($scope, $location, $window) {
-    $scope.goHome = function () {
-        $location.path('/');
-        $window.location.reload();
-    }
-}]);
 //# sourceMappingURL=maps/main.js.map

@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('aboutController', ['$scope', function ($scope) {
+app.controller('AboutController', ['$scope', function ($scope) {
     $scope.page.loading = false;
 }]);
 

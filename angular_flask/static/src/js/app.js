@@ -6,12 +6,15 @@ var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnima
             $routeProvider
                 .when('/', {
                     templateUrl: 'static/partials/landing.html',
+                    controller: 'PostListController'
                 })
                 .when('/about', {
                     templateUrl: 'static/partials/about.html',
+                    controller: 'AboutController'
                 })
                 .when('/posts', {
                     templateUrl: 'static/partials/post-list.html',
+                    controller: 'PostListController'
                 })
                 .when('/new', {
                     templateUrl: 'static/partials/new_post.html',
@@ -30,27 +33,28 @@ var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnima
                         }
                     }
                 })
-                .when('/blog', {
-                    templateUrl: 'static/partials/post-list.html',
-                })
                 .when('/register', {
                     templateUrl: 'static/partials/register.html',
+                    controller: 'UserController'
                 })
                 .when('/login', {
                     templateUrl: 'static/partials/register.html',
+                    controller: 'UserController'
                 })
                 .when('/me/posts', {
                     templateUrl: 'static/partials/my_posts.html',
+                    controller: 'UserPostsController'
                 })
                 .when('/users/:user', {
                     templateUrl: 'static/partials/user_details.html',
+                    controller: 'UserProfileController'
                 })
                 .when('/me/profile', {
                     templateUrl: 'static/partials/profile.html',
                     controller: 'UserDetailsController'
                 })
                 .otherwise({
-                    redirectTo: '/'
+                    redirectTo: '/404'
                 });
 
             //Customize themes for Angular Material
