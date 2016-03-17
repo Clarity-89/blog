@@ -117,7 +117,6 @@ def edit_post(id):
     p.body = body
     if request.files:
         save_image('covers', p)
-    p.slugify(title)
     db.session.commit()
     return jsonify({'slug': p.slug})
 
