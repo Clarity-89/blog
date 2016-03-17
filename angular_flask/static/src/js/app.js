@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize', 'ngMessages', 'ngPassword', 'ngCookies', 'appFilters'])
+var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnimate', 'textAngular', 'ngSanitize', 'ngMessages', 'ngPassword', 'ngCookies', 'appFilters'])
     .config(['$routeProvider', '$locationProvider', '$mdThemingProvider',
         function ($routeProvider, $locationProvider, $mdThemingProvider) {
             $routeProvider
