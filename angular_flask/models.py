@@ -23,6 +23,7 @@ class Post(db.Model):
     body = db.Column(db.String())
     photo = db.Column(db.String(), default='../img/covers/default.jpg')
     date = db.Column(db.DateTime, default=datetime.utcnow)
+    public = db.Column(db.Boolean, nullable=False, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     favorited = db.Column(db.Integer, default=0)
     favorited_by = db.relationship('User', secondary=favorites, backref=db.backref('favorited', lazy='dynamic'))
