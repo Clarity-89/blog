@@ -1,0 +1,36 @@
+.md-title {
+    font-weight: 400;
+}
+
+.ta-editor {
+    min-height: 300px;
+    height: auto;
+    overflow: auto;
+    font-family: inherit;
+    font-size: 100%;
+    margin: 20px 0;
+}
+
+/* Text area */
+.ta-scroll-window > .ta-bind {
+    max-height: 25em; /*400px on PC screen*/
+}
+
+#enable-preview {
+    float: right;
+}
+
+#imgPreview {
+    height: 140px;
+    width: 140px;
+    float: left;
+}
+
+#new-post-circ {
+    margin: auto auto 5px 115px !important;
+}
+
+#publish {
+    position: absolute;
+    bottom: 20px;
+}

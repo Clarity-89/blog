@@ -1,0 +1,95 @@
+/* General styles used throughout the whole app*/
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+img, div {
+    outline: 0;
+}
+
+label {
+    font-weight: 400;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+/* Override default tooltip height to allow multiline tooltips */
+md-tooltip .md-content {
+    height: auto;
+}
+
+.center {
+    text-align: center;
+}
+
+.md-subheader .md-subheader-inner {
+    padding: 10px 0;
+}
+
+.page-heading, .page-heading h3 {
+    margin: 1em auto 1.5em; /* 30/40px*/
+    color: white;
+    font-weight: 400;
+    text-shadow: 0px 0px 3px #000;
+    text-align: center;
+}
+
+.red {
+    color: #D50000;
+}
+
+.spinner {
+    display: inline;
+    position: absolute;
+}
+
+#current-user {
+    width: 50px;
+    height: 50px;
+    border-radius: 25%;
+}
+
+/* Fix Chrome 48 flexbox bug */
+#footer-outer {
+    position: relative;
+    width: 100%;
+}
+
+#footer-inner {
+    background: #212121;
+    color: white;
+    align-self: flex-end;
+    padding: 16px 32px;
+    width: 100%;
+    text-align: center;
+}
+
+#main-view {
+    /*background: url("../../img/background.jpg") center center fixed;*/
+    background: #455A64;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#register {
+    width: 60%;
+}
+
+#user-menu > span {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 14px;
+    margin-right: 5px;
+    letter-spacing: .010em;
+}
+

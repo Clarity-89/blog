@@ -1,0 +1,34 @@
+/* About page */
+
+.about-text {
+    color: #616161;
+}
+
+.logos {
+    text-align: center;
+    padding: 20px;
+    margin: 30px auto;
+}
+
+.logos > img {
+    width: 180px;
+    height: auto;
+}
+
+.social {
+    min-height: 200px;
+}
+
+.social > div {
+    margin: 50px auto;
+}
+
+#about-cover {
+    background: url('../../img/covers/knowledge.jpg');
+    background-size: cover;
+    height: 400px;
+}
+
+#about-page {
+    margin-bottom: 30px;
+}
