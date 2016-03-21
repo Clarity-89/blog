@@ -1,0 +1,31 @@
+/* Page for editing user profile */
+
+.ava-preview {
+    width: 8.25em;
+    height: 8.25em;
+}
+
+.custom-divider {
+    border-color: #78909C;
+}
+
+.note {
+    font-style: italic;
+}
+
+#info-content {
+    margin-top: 10px;
+}
+
+#info-header {
+    text-transform: uppercase;
+}
+
+#information {
+    padding: 16px;
+}
+
+#update-profile-btn {
+    margin: 40px auto 10px;
+}
+

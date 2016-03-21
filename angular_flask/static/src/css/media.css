@@ -1,0 +1,95 @@
+/*Media queries*/
+/*Mobile*/
+@media screen and (max-device-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    .body-text-lg {
+        padding: 0;
+    }
+
+    .img-lg {
+        height: 120px;
+    }
+
+    .img-sm {
+        height: 120px;
+    }
+
+    .para-sm, .para-md {
+        height: 150px;
+        font-size: 1em; /*14px*/
+        overflow: hidden;
+        line-height: 1.5em;
+        -webkit-column-width: 150px;
+        -moz-column-width: 150px;
+        column-width: 150px;
+    }
+
+    .para-sm > *, .para-md > * {
+        font-size: 1em;
+    }
+
+    /* Center social icons */
+    .social > div > iframe {
+        display: block;
+        margin: 10px auto;
+    }
+
+    .social > div {
+        margin: 20px auto;
+    }
+
+    .fb-like {
+        margin-left: -62px;
+    }
+}
+
+/* mobile + Ipad Mini*/
+@media screen and (max-device-width: 1024px) {
+    /* Do not make background fixed cause it's not well supported on smaller devices */
+    #main-view {
+        background: url("../../img/background.jpg") center center;
+    }
+}
+
+/* Ipad Mini*/
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+
+    .para-sm {
+        -webkit-column-width: 300px;
+        -moz-column-width: 300px;
+        column-width: 300px;
+    }
+
+    .para-md, .para-lg {
+        -webkit-column-width: 600px;
+        -moz-column-width: 600px;
+        column-width: 600px;
+    }
+
+    .para-lg {
+        height: 10em;
+    }
+
+    .logos > img {
+        width: 150px;
+        height: auto;
+    }
+}
+
+/*Laptop*/
+@media screen and (min-device-width: 481px) and (max-device-width: 1440px) {
+    .img-lg {
+        height: 200px;
+    }
+
+    .img-sm {
+        height: 80px;
+    }
+
+    .para-sm > *, .para-md > * {
+        font-size: 1em;
+    }
+}

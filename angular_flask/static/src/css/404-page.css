@@ -1,0 +1,66 @@
+/* 404 page */
+
+.home-btn.md-fab {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: calc(50% - 22px);
+    height: 76px;
+    width: 76px;
+}
+
+.home-btn.md-fab > md-icon {
+    font-size: 34px;
+    height: 34px;
+    width: 34px;
+}
+
+#all-posts {
+    color: #fff;
+    text-decoration: none;
+}
+
+#arrow {
+    color: rgba(0, 0, 0, 0.54)
+}
+
+#background-wrapper {
+    position: absolute;
+    top: calc(50% - 300px);
+    /* Center abs positioned div */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#lower {
+    height: 250px;
+    min-height: 250px; /* For Firefox */
+    padding: 20px;
+    -webkit-column-width: 500px;
+    -moz-column-width: 300px;
+    column-width: 300px;
+}
+
+#lower > h4 {
+    font-size: 2.5em;
+    font-weight: 300;
+}
+
+#upper {
+    height: 300px;
+    min-height: 300px; /* For Firefox */
+    background-color: #00789b;
+    color: white;
+}
+
+#upper > * {
+    font-size: 8em;
+    font-weight: 300;
+}
+
+#wrapper {
+    background: linear-gradient(to bottom, #37474F 0%, #37474F 50%, #000000 50%, white 50%, white 100%);
+}
+
+
+

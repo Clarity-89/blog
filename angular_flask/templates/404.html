@@ -13,13 +13,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/vendor.css') }}">
 
     <!--Custom CSS-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='src/css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/main.css') }}">
     <base href="/">
 </head>
 <body layout="column" ng-controller="Page404Controller">
 
 <div layout="column" id="wrapper" flex>
-    <md-content layout="column" class="md-whiteframe-5dp" id="test">
+    <md-content layout="column" class="md-whiteframe-5dp" id="background-wrapper">
         <div id="upper" layout-padding flex layout="row">
             <h3 flex>Error 404</h3>
         </div>

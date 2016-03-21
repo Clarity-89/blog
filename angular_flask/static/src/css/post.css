@@ -1,0 +1,125 @@
+/* Styles for a post */
+
+md-card md-card-content {
+    padding: 0 16px 16px;
+}
+
+md-card > a, md-card-header-text > a, md-list-item > a, md-card-header-text > a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+/*Remove border radius from cover image*/
+md-card.md-default-theme .md-card-image, md-card .md-card-image {
+    border-radius: 0;
+}
+
+.abs {
+    position: absolute;
+}
+
+.md-user-avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.md-card-image {
+    position: relative;
+    padding: 20px;
+    height: 300px;
+    width: 100%;
+    background-size: cover;
+}
+
+.md-headline {
+    position: absolute;
+    bottom: 20px;
+    color: white;
+    font-weight: 900;
+    text-shadow: 0px 0px 3px #000;
+}
+
+/* Classes for post detail and post lists (landing, user posts) */
+.body-text-lg {
+    min-height: 22.5em;
+    padding: 20px 50px;
+}
+
+.body-text-sm {
+    max-height: 6.25em;
+    overflow: hidden;
+    line-height: 1.5em;
+    -webkit-column-width: 1000px;
+    -moz-column-width: 1000px;
+    column-width: 1000px;
+}
+
+.image-lg {
+    height: 25em;
+}
+
+.image-sm {
+    height: 12.5em;
+}
+
+/* Classes for the post-list view */
+.img-sm {
+    height: 130px;
+}
+
+.img-lg {
+    height: 18.75em;
+}
+
+.para-sm {
+    height: 2.813em; /*45px*/
+    overflow: hidden;
+    line-height: 1.2em;
+    -webkit-column-width: 150px;
+    -moz-column-width: 150px;
+    column-width: 150px;
+}
+
+.para-sm, .para-sm > * {
+    font-size: .95em;
+}
+
+.para-md {
+    height: 2.813em; /*45px*/
+    overflow: hidden;
+    line-height: 1.2em;
+}
+
+.para-md, .para-md > * {
+    font-size: .95em;
+}
+
+.para-lg, .para-md {
+    -webkit-column-width: 400px;
+    -moz-column-width: 400px;
+    column-width: 400px;
+}
+
+.para-lg {
+    height: 11em; /* 176px */
+    overflow: hidden;
+}
+
+.num {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.54);
+    margin-right: 6px;
+}
+
+.num:hover {
+    cursor: pointer;
+}
+
+/* Put numbers closer to buttons */
+#fav-button, #comment-button, #fav-button-num {
+    margin: 0;
+}
+
+
+

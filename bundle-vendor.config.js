@@ -16,6 +16,12 @@ module.exports = {
                 './node_modules/angular-password/angular-password.js',
                 './node_modules/angular-cookies/angular-cookies.js'
             ],
+            styles: [
+                './node_modules/textangular/dist/*.css',
+                './node_modules/bootstrap/dist/css/bootstrap.css',
+                './node_modules/angular-material/angular-material.css',
+                './node_modules/angular-material/angular-material.layouts.css'
+            ],
             options: {
                 rev: false
             }

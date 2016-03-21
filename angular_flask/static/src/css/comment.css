@@ -1,0 +1,47 @@
+/* Post comments */
+
+.comment {
+    color: #424242;
+    font-size: 0.875em;
+}
+
+.comment-author {
+    margin: 5px auto auto 15px;
+}
+
+.comment-section-title {
+    text-align: center;
+    color: #616161;
+    font-weight: 400;
+}
+
+.comment-section {
+    background: #eee;
+    padding: 30px;
+}
+
+.comment-text {
+    margin: 12px auto 20px auto;
+}
+
+.md-subheader {
+    font-size: .9em;
+    font-weight: 400;
+}
+
+/* Overriding default background color for subheader */
+
+.comment-header > .md-subheader {
+    background-color: inherit;
+    color: inherit;
+    font-size: .95em;
+}
+
+.comment-header > .md-user-avatar {
+    border-radius: 50%;
+}
+
+
+
+
+
