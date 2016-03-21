@@ -46,10 +46,8 @@
 
         <!--Edit/delete menu-->
         <md-menu md-position-mode="target-right target" ng-show="getUserDetails().username ===  post.author">
-            <md-button class="md-icon-button" aria-label="Post Menu">
-                <md-icon aria-label="Open share menu" md-menu-origin md-font-set="material-icons"
-                         ng-click="$mdOpenMenu(ev)">more_vert
-                </md-icon>
+            <md-button class="md-icon-button" aria-label="Post Menu" md-menu-origin ng-click="$mdOpenMenu(ev)">
+                <md-icon aria-label="Open share menu" md-font-set="material-icons">more_vert</md-icon>
             </md-button>
             <md-menu-content width="2">
                 <md-menu-item>
