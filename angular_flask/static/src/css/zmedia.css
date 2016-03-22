@@ -46,14 +46,6 @@
     }
 }
 
-/* mobile + Ipad Mini*/
-@media screen and (max-device-width: 1024px) {
-    /* Do not make background fixed cause it's not well supported on smaller devices */
-    #main-view {
-        background: url("../../img/background.jpg") center center;
-    }
-}
-
 /* Ipad Mini*/
 @media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
 
