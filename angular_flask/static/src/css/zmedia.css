@@ -1,5 +1,6 @@
-/*Media queries*/
-/*Mobile*/
+/* Media queries named with 'z' in front to make sure they are added to the bundle last */
+
+/* Mobile */
 @media screen and (max-device-width: 480px) {
     body {
         font-size: 14px;
