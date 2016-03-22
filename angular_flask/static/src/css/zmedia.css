@@ -1,5 +1,6 @@
-/*Media queries*/
-/*Mobile*/
+/* Media queries named with 'z' in front to make sure they are added to the bundle last */
+
+/* Mobile */
 @media screen and (max-device-width: 480px) {
     body {
         font-size: 14px;
@@ -43,14 +44,6 @@
 
     .fb-like {
         margin-left: -62px;
-    }
-}
-
-/* mobile + Ipad Mini*/
-@media screen and (max-device-width: 1024px) {
-    /* Do not make background fixed cause it's not well supported on smaller devices */
-    #main-view {
-        background: url("../../img/background.jpg") center center;
     }
 }
 
