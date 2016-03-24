@@ -24,7 +24,7 @@
                 <md-button class="md-raised md-accent" ng-disabled="!post.body"
                            ng-click="createPost(newPost, post, true)" ng-hide="post.public">Publish</md-button>
                 <md-button type="submit" class="md-raised md-accent" ng-disabled="!post.body">{{ button }}</md-button>
-                <md-progress-circular id="new-post-circ" md-mode="indeterminate" class="md-accent"
+                <md-progress-circular md-mode="indeterminate" class="md-accent spinner"
                                       ng-show="loading"></md-progress-circular>
             </form>
         </md-content>

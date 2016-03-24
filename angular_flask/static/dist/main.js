@@ -325,10 +325,10 @@ app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPre
                 post.public = publish || post.public;
                 editPost.editPost(file, post)
                     .then(function success(response) {
-                        $scope.loading = false;
+                        //$scope.loading = false;
                         toast.showToast('Post edited', 1000).then(function () {
-                            $window.location.reload();
-                            $location.path('/posts/' + response.data.slug);
+                            //$window.location.reload();
+                            //$location.path('/posts/' + response.data.slug);
                         });
                     }, function error(response) {
                         $scope.loading = false;
