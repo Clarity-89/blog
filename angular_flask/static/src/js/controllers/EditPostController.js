@@ -6,7 +6,6 @@ app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPre
         $scope.heading = 'Edit';
         $scope.button = 'Save changes';
         $scope.post = sharedPost.post;
-        console.log($scope.post)
         $scope.post.disabled = true;
 
         $scope.createPost = function (form, post, publish) {

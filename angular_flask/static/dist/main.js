@@ -163,7 +163,6 @@ angular.module('app')
     }])
     .service('editPost', ['$http', function ($http) {
         this.editPost = function (file, data) {
-            console.log(data)
             var fd = new FormData();
             fd.append('file', file);
             fd.append('post', JSON.stringify(data));
@@ -314,7 +313,6 @@ app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPre
         $scope.heading = 'Edit';
         $scope.button = 'Save changes';
         $scope.post = sharedPost.post;
-        console.log($scope.post)
         $scope.post.disabled = true;
 
         $scope.createPost = function (form, post, publish) {
