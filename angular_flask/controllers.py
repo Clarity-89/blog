@@ -58,10 +58,10 @@ def uploaded_file(type, filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'] + type, filename)
 
 
-# Endpoint for all posts
+# Endpoint for all public posts
 @app.route('/blog/api/posts', methods=['GET'])
 def get_posts():
-    posts = Post.query.join(User)
+    posts = Post.query.filter_by(public=True).all()
     return jsonify(posts=[post.serialize for post in posts])
 
 
@@ -72,6 +72,8 @@ def get_post(slug):
         post = Post.query.filter_by(slug=slug).first()
         if post is None:
             abort(404, 'Post not found')
+        elif post.public is not True and post.author != current_user:
+            abort(401)
         else:
             return jsonify(post=post.serialize, comments=[c.serialize for c in post.comments])
     elif request.method == 'POST':
