@@ -53,14 +53,21 @@
                 <md-menu-item>
                     <md-button aria-label="Edit post" ng-click="editPost(post)" ng-disabled="post.disabled">
                         <md-icon md-font-set="material-icons" aria-label="Edit">mode_edit</md-icon>
-                        Edit Post
+                        Edit
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button aria-label="Unpublish post" ng-click="unpublish($event, post)"
+                               ng-disabled="post.disabled">
+                        <md-icon md-font-set="material-icons" aria-label="Delete">restore</md-icon>
+                        Unpublish
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
                     <md-button aria-label="Delete post" ng-click="showConfirm($event, post.id)"
                                ng-disabled="post.disabled">
                         <md-icon md-font-set="material-icons" aria-label="Delete">delete</md-icon>
-                        Delete Post
+                        Delete
                     </md-button>
                 </md-menu-item>
             </md-menu-content>

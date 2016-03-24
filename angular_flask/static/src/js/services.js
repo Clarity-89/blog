@@ -16,7 +16,6 @@ angular.module('app')
     }])
     .service('postUpload', ['$http', function ($http) {
         this.newPost = function (file, data) {
-            console.log(data)
             var fd = new FormData();
             fd.append('file', file);
             fd.append('post', JSON.stringify(data));
