@@ -287,8 +287,8 @@ angular.module('app')
             return $http.post("/logout", {});
         };
 
-        this.getPosts = function (user_id) {
-            return $http.get("/blog/api/users/" + user_id + "/posts")
+        this.getPosts = function (username) {
+            return $http.get("/blog/api/users/" + username + "/posts")
         };
 
         this.getDetails = function (username) {
