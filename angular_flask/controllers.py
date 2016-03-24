@@ -233,7 +233,11 @@ def edit_user():
 def get_user_posts(username):
     user = User.query.filter_by(username=username).first()
     if user:
-        return jsonify(posts=[post.serialize for post in user.posts])
+        if user == current_user:
+            return jsonify(posts=[post.serialize for post in user.posts])
+        else:
+            posts = Post.query.filter_by(user_id=user.id, public=True)
+            return jsonify(posts=[post.serialize for post in posts])
     else:
         abort(400, 'No user found')
 
