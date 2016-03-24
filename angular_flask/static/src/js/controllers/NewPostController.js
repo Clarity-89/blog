@@ -5,7 +5,7 @@ app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPr
         $scope.page.loading = false; // loading progress bar
         var currentUser = $cookies.getObject('current_user');
         $scope.heading = 'Create';
-        $scope.button = 'Publish';
+        $scope.button = 'Save';
         if (currentUser) {
             $scope.post = {
                 title: '',
@@ -16,7 +16,26 @@ app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPr
                 disabled: true
             };
         }
-        $scope.createPost = function (form) {
+        $scope.createPost = function (form, post, publish) {
+
+            if (form.$valid) {
+                $scope.loading = true; // loading spinner
+                var file = $scope.myFile;
+                post.public = publish;
+                postUpload.newPost(file, post)
+                    .then(function success(response) {
+                        $scope.loading = false;
+                        toast.showToast('Post saved', 1000).then(function () {
+                            $location.path('/posts/' + response.data.slug);
+                        })
+                    }, function error(response) {
+                        $scope.loading = false;
+                        toast.showToast('Could not save post. Please try again later', 5000);
+                    });
+            }
+        };
+
+        $scope.publish = function (form, post) {
 
             if (form.$valid) {
                 $scope.loading = true; // loading spinner
@@ -24,12 +43,12 @@ app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPr
                 postUpload.newPost(file, $scope.post)
                     .then(function success(response) {
                         $scope.loading = false;
-                        toast.showToast('Post created', 1000).then(function () {
+                        toast.showToast('Post saved', 1000).then(function () {
                             $location.path('/posts/' + response.data.slug);
                         })
                     }, function error(response) {
                         $scope.loading = false;
-                        toast.showToast('Could not create post. Please try again later', 5000);
+                        toast.showToast('Could not save post. Please try again later', 5000);
                     });
             }
         };

@@ -92,12 +92,13 @@ def add_post():
     p = json.loads(request.form['post'])
     title = p.get('title')
     body = p.get('body')
+    public = p.get('public')
     if request.files:
         filename = save_image('covers', None)
         post = Post(title=title, body=body, photo=app.config['IMG_FOLDER'] + 'covers/' + filename,
-                    author=current_user)
+                    public=public, author=current_user)
     else:
-        post = Post(title=title, body=body, author=current_user)
+        post = Post(title=title, body=body, public=public, author=current_user)
     post.slugify(title)
     session.add(post)
     session.commit()
@@ -107,18 +108,19 @@ def add_post():
 # Edit post
 @app.route('/blog/api/posts/<int:id>/edit', methods=['POST'])
 def edit_post(id):
-    post = json.loads(request.form['post'])
-    title = post.get('title')
-    body = post.get('body')
-    p = Post.query.filter_by(id=id).first()
-    if p is None:
+    p = json.loads(request.form['post'])
+    post = Post.query.filter_by(id=id).first()
+    if post is None:
         abort(400, 'Post does not exist')
-    p.title = title
-    p.body = body
+    post.title = p.get('title')
+    post.body = p.get('body')
+    public = p.get('public')
+    if public:
+        post.public = public
     if request.files:
-        save_image('covers', p)
+        save_image('covers', post)
     db.session.commit()
-    return jsonify({'slug': p.slug})
+    return jsonify({'slug': post.slug})
 
 
 # Delete post

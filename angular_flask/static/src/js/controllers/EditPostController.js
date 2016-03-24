@@ -6,19 +6,21 @@ app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPre
         $scope.heading = 'Edit';
         $scope.button = 'Save changes';
         $scope.post = sharedPost.post;
+        console.log($scope.post)
         $scope.post.disabled = true;
-        $scope.createPost = function (form) {
+
+        $scope.createPost = function (form, post, publish) {
 
             if (form.$valid) {
                 $scope.loading = true; // loading spinner
                 var file = $scope.myFile;
-                editPost.editPost(file, $scope.post)
+                post.public = publish;
+                editPost.editPost(file, post)
                     .then(function success(response) {
                         $scope.loading = false;
                         toast.showToast('Post edited', 1000).then(function () {
                             $window.location.reload();
                             $location.path('/posts/' + response.data.slug);
-
                         });
                     }, function error(response) {
                         $scope.loading = false;

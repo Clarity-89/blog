@@ -16,6 +16,7 @@ angular.module('app')
     }])
     .service('postUpload', ['$http', function ($http) {
         this.newPost = function (file, data) {
+            console.log(data)
             var fd = new FormData();
             fd.append('file', file);
             fd.append('post', JSON.stringify(data));
@@ -27,6 +28,7 @@ angular.module('app')
     }])
     .service('editPost', ['$http', function ($http) {
         this.editPost = function (file, data) {
+            console.log(data)
             var fd = new FormData();
             fd.append('file', file);
             fd.append('post', JSON.stringify(data));
