@@ -322,7 +322,7 @@ app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPre
             if (form.$valid) {
                 $scope.loading = true; // loading spinner
                 var file = $scope.myFile;
-                post.public = publish;
+                post.public = publish || post.public;
                 editPost.editPost(file, post)
                     .then(function success(response) {
                         $scope.loading = false;
