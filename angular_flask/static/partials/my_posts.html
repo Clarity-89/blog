@@ -1,16 +1,53 @@
-<div flex ng-cloak>
+<div ng-cloak layout="row" layout-align="center">
 
-    <h2 class="center page-heading">My posts</h2>
+    <div layout="column" flex="100" flex-gt-md="50">
 
-    <div ng-if="!posts.length" layout-align="center center" class="page-heading">
-        <h3 flex>You haven't published any posts yet.</h3>
-    </div>
+        <h2 class="center page-heading">My posts</h2>
 
-    <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap=""
-         layout-align="center center"
-         layout-xs="column">
-        <div flex="100" flex-sm="60"  flex-gt-sm="50" layout="column">
-            <post></post>
-        </div>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab>
+                <md-tab-label>
+                    <span class="tab-heading">Public Posts</span>
+                </md-tab-label>
+                <md-tab-body>
+                    <div class="md-padding">
+                        <div ng-if="!posts.length" layout-align="center center">
+                            <h3 class="page-heading">You don't have any public posts yet.</h3>
+                        </div>
+
+                        <div ng-repeat="post in posts| filter: public" class="md-padding" layout="row"
+                             layout-wrap=""
+                             layout-align="center center"
+                             layout-xs="column">
+                            <div layout="column">
+                                <post></post>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+            <md-tab>
+                <md-tab-label>
+                    <span class="tab-heading">Drafts</span>
+                </md-tab-label>
+                <md-tab-body>
+                    <div class="md-padding">
+                        <div ng-if="!drafts.length" layout-align="center center">
+                            <h3 class="page-heading">You don't have any drafts yet.
+                                <br>
+                                <a href="/new">Start a post.</a>
+                            </h3>
+                        </div>
+                        <div ng-repeat="post in drafts" class="md-padding" layout="row" layout-wrap=""
+                             layout-align="center center"
+                             layout-xs="column">
+                            <div layout="column">
+                                <post></post>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
     </div>
 </div>

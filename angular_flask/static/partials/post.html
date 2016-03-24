@@ -14,7 +14,7 @@
 
         <!-- Share on social media FAB menu-->
         <md-fab-speed-dial md-open="isOpen" ng-mouseenter="isOpen=true" ng-mouseleave="isOpen=false"
-                           class="md-scale" md-direction="left">
+                           class="md-scale" md-direction="left" ng-if="post.public">
             <md-fab-trigger>
                 <md-button class="md-icon-button">
                     <md-tooltip aria-label="menu" md-direction="bottom">

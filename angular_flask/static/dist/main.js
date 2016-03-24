@@ -797,11 +797,16 @@ app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'fav
         $scope.imageSrc = '';
         userService.getPosts($cookies.getObject('current_user').username)
             .then(function (response) {
-                    $scope.posts = response.data.posts;
-                    $scope.page.loading = false;
-                    $scope.posts.forEach(function (el) {
+                    response.data.posts.forEach(function (el) {
                         favoritePost.checkFav(el);
                     });
+                    $scope.posts = response.data.posts.filter(function (post) {
+                        return post.public;
+                    });
+                    $scope.drafts = response.data.posts.filter(function (post) {
+                        return !post.public;
+                    });
+                    $scope.page.loading = false;
                 },
                 function (response) {
                     $scope.page.loading = false;
