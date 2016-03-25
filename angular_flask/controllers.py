@@ -125,6 +125,19 @@ def edit_post(id):
     return jsonify({'slug': post.slug})
 
 
+# Unpublish post
+@app.route('/blog/api/posts/<int:id>/unpublish', methods=['POST'])
+def unpublish_post(id):
+    post = Post.query.filter_by(id=id).first()
+    if post is None:
+        abort(404, 'Post not found')
+    if post.author != current_user:
+        abort(400)
+    post.public = False
+    db.session.commit()
+    return jsonify({'message': 'successfully unpublished'})
+
+
 # Delete post
 @app.route('/blog/api/posts/<int:id>/delete', methods=['POST'])
 def delete_post(id):
