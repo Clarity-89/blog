@@ -205,17 +205,14 @@ def get_curr_user():
 def edit_user():
     user = json.loads(request.form['user'])
     username = user.get('username')
-    name = user.get('name')
-    bio = user.get('bio')
-    email = user.get('email')
     new_password = user.get('newPassword')
     password = user.get('password')
     u = User.query.filter_by(username=username).first()
     if u is None:
         abort(400, 'User does not exist')
-    u.email = email
-    u.name = name
-    u.bio = bio
+    u.email = user.get('email')
+    u.name = user.get('name')
+    u.bio = user.get('bio')
     if request.files:
         save_image('avatars', u)
     if new_password:
