@@ -24,7 +24,8 @@
                             <h3 class="page-heading">{{ user.username }} hasn't published any posts yet.</h3>
                         </div>
 
-                        <div ng-repeat="post in posts" class="md-padding" layout="row" layout-wrap=""
+                        <div ng-repeat="post in posts | filter: {public: true}" class="md-padding" layout="row"
+                             layout-wrap=""
                              layout-align="center center"
                              layout-xs="column">
                             <div layout="column">
@@ -44,7 +45,8 @@
                         <div ng-if="!user.favs.length" layout-align="center center">
                             <h3 class="page-heading">{{ user.username }} doesn't have any favorite posts yet.</h3>
                         </div>
-                        <div ng-repeat="post in user.favs" class="md-padding" layout="row" layout-wrap=""
+                        <div ng-repeat="post in user.favs | filter: {public: true}" class="md-padding" layout="row"
+                             layout-wrap=""
                              layout-align="center center"
                              layout-xs="column">
                             <div layout="column">
