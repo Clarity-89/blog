@@ -5,6 +5,12 @@ angular.module('app')
     .service('sharedPost', function () {
         var post = this;
     })
+
+    .service('postService', ['$http', function ($http) {
+        this.unpublish = function (post) {
+            return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
+        }
+    }])
     .service('allPosts', ['$http', function ($http) {
         this.getPosts = function (slug) {
             if (slug) {

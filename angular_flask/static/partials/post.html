@@ -56,8 +56,8 @@
                         Edit
                     </md-button>
                 </md-menu-item>
-                <md-menu-item>
-                    <md-button aria-label="Unpublish post" ng-click="unpublish($event, post)"
+                <md-menu-item ng-if="post.public">
+                    <md-button aria-label="Unpublish post" ng-click="unpublishPost($event, post)"
                                ng-disabled="post.disabled">
                         <md-icon md-font-set="material-icons" aria-label="Delete">restore</md-icon>
                         Unpublish

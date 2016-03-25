@@ -135,7 +135,7 @@ def unpublish_post(id):
         abort(400)
     post.public = False
     db.session.commit()
-    return jsonify({'message': 'successfully unpublished'})
+    return jsonify(post=post.serialize)
 
 
 # Delete post
