@@ -5,6 +5,12 @@ angular.module('app')
     .service('sharedPost', function () {
         var post = this;
     })
+
+    .service('postService', ['$http', function ($http) {
+        this.unpublish = function (post) {
+            return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
+        }
+    }])
     .service('allPosts', ['$http', function ($http) {
         this.getPosts = function (slug) {
             if (slug) {
@@ -151,8 +157,8 @@ angular.module('app')
             return $http.post("/logout", {});
         };
 
-        this.getPosts = function (user_id) {
-            return $http.get("/blog/api/users/" + user_id + "/posts")
+        this.getPosts = function (username) {
+            return $http.get("/blog/api/users/" + username + "/posts")
         };
 
         this.getDetails = function (username) {

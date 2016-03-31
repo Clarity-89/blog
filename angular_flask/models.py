@@ -64,7 +64,8 @@ class Post(db.Model):
             'favorited': self.favorited,
             'favorited_by': [user.serialize for user in self.favorited_by],
             'comments': [comment.serialize for comment in self.comments],
-            'author_id': self.user_id
+            'author_id': self.user_id,
+            'public': self.public
         }
 
     def get_slug(self):

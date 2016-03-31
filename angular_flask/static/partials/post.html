@@ -14,7 +14,7 @@
 
         <!-- Share on social media FAB menu-->
         <md-fab-speed-dial md-open="isOpen" ng-mouseenter="isOpen=true" ng-mouseleave="isOpen=false"
-                           class="md-scale" md-direction="left">
+                           class="md-scale" md-direction="left" ng-if="post.public">
             <md-fab-trigger>
                 <md-button class="md-icon-button">
                     <md-tooltip aria-label="menu" md-direction="bottom">
@@ -53,14 +53,21 @@
                 <md-menu-item>
                     <md-button aria-label="Edit post" ng-click="editPost(post)" ng-disabled="post.disabled">
                         <md-icon md-font-set="material-icons" aria-label="Edit">mode_edit</md-icon>
-                        Edit Post
+                        Edit
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item ng-if="post.public">
+                    <md-button aria-label="Unpublish post" ng-click="unpublishPost($event, post)"
+                               ng-disabled="post.disabled">
+                        <md-icon md-font-set="material-icons" aria-label="Delete">restore</md-icon>
+                        Unpublish
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
                     <md-button aria-label="Delete post" ng-click="showConfirm($event, post.id)"
                                ng-disabled="post.disabled">
                         <md-icon md-font-set="material-icons" aria-label="Delete">delete</md-icon>
-                        Delete Post
+                        Delete
                     </md-button>
                 </md-menu-item>
             </md-menu-content>

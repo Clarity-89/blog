@@ -25,12 +25,3 @@
     width: 140px;
     float: left;
 }
-
-#new-post-circ {
-    margin: auto auto 5px 115px !important;
-}
-
-#publish {
-    position: absolute;
-    bottom: 20px;
-}

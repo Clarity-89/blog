@@ -2,7 +2,7 @@
     <div flex="100" flex-gt-sm="80" flex-gt-lg="60">
         <h3 class="page-heading">{{ heading }} Post</h3>
         <md-content layout="row" layout-padding id="toast">
-            <form enctype='multipart/form-data' name="newPost" ng-submit="createPost(newPost)" novalidate>
+            <form enctype='multipart/form-data' name="newPost" ng-submit="createPost(newPost, post)" novalidate>
                 <md-input-container class="md-block">
                     <label for="title">Title</label>
                     <input required name="title" placeholder="Your title" id="title" ng-model="post.title">
@@ -21,9 +21,11 @@
                 <md-input-container class="md-block">
                     <div text-angular id="ta-body" name="body" ng-model="post.body" required></div>
                 </md-input-container>
-                <md-button type="submit" class="md-raised md-accent" id="publish"
-                           ng-disabled="!post.body">{{ button }}</md-button>
-                <md-progress-circular id="new-post-circ" md-mode="indeterminate" class="md-accent" ng-show="loading"></md-progress-circular>
+                <md-button class="md-raised md-accent" ng-disabled="!post.body"
+                           ng-click="createPost(newPost, post, true)" ng-hide="post.public">Publish</md-button>
+                <md-button type="submit" class="md-raised md-accent" ng-disabled="!post.body">{{ button }}</md-button>
+                <md-progress-circular md-mode="indeterminate" class="md-accent spinner"
+                                      ng-show="loading"></md-progress-circular>
             </form>
         </md-content>
 

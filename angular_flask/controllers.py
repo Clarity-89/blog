@@ -58,10 +58,10 @@ def uploaded_file(type, filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'] + type, filename)
 
 
-# Endpoint for all posts
+# Endpoint for all public posts
 @app.route('/blog/api/posts', methods=['GET'])
 def get_posts():
-    posts = Post.query.join(User)
+    posts = Post.query.filter_by(public=True).all()
     return jsonify(posts=[post.serialize for post in posts])
 
 
@@ -72,6 +72,8 @@ def get_post(slug):
         post = Post.query.filter_by(slug=slug).first()
         if post is None:
             abort(404, 'Post not found')
+        elif post.public is not True and post.author != current_user:
+            abort(401)
         else:
             return jsonify(post=post.serialize, comments=[c.serialize for c in post.comments])
     elif request.method == 'POST':
@@ -92,12 +94,13 @@ def add_post():
     p = json.loads(request.form['post'])
     title = p.get('title')
     body = p.get('body')
+    public = p.get('public')
     if request.files:
         filename = save_image('covers', None)
         post = Post(title=title, body=body, photo=app.config['IMG_FOLDER'] + 'covers/' + filename,
-                    author=current_user)
+                    public=public, author=current_user)
     else:
-        post = Post(title=title, body=body, author=current_user)
+        post = Post(title=title, body=body, public=public, author=current_user)
     post.slugify(title)
     session.add(post)
     session.commit()
@@ -107,18 +110,32 @@ def add_post():
 # Edit post
 @app.route('/blog/api/posts/<int:id>/edit', methods=['POST'])
 def edit_post(id):
-    post = json.loads(request.form['post'])
-    title = post.get('title')
-    body = post.get('body')
-    p = Post.query.filter_by(id=id).first()
-    if p is None:
+    p = json.loads(request.form['post'])
+    post = Post.query.filter_by(id=id).first()
+    if post is None:
         abort(400, 'Post does not exist')
-    p.title = title
-    p.body = body
+    post.title = p.get('title')
+    post.body = p.get('body')
+    public = p.get('public')
+    if public:
+        post.public = public
     if request.files:
-        save_image('covers', p)
+        save_image('covers', post)
     db.session.commit()
-    return jsonify({'slug': p.slug})
+    return jsonify({'slug': post.slug})
+
+
+# Unpublish post
+@app.route('/blog/api/posts/<int:id>/unpublish', methods=['POST'])
+def unpublish_post(id):
+    post = Post.query.filter_by(id=id).first()
+    if post is None:
+        abort(404, 'Post not found')
+    if post.author != current_user:
+        abort(400)
+    post.public = False
+    db.session.commit()
+    return jsonify(post=post.serialize)
 
 
 # Delete post
@@ -201,17 +218,14 @@ def get_curr_user():
 def edit_user():
     user = json.loads(request.form['user'])
     username = user.get('username')
-    name = user.get('name')
-    bio = user.get('bio')
-    email = user.get('email')
     new_password = user.get('newPassword')
     password = user.get('password')
     u = User.query.filter_by(username=username).first()
     if u is None:
         abort(400, 'User does not exist')
-    u.email = email
-    u.name = name
-    u.bio = bio
+    u.email = user.get('email')
+    u.name = user.get('name')
+    u.bio = user.get('bio')
     if request.files:
         save_image('avatars', u)
     if new_password:
@@ -229,7 +243,11 @@ def edit_user():
 def get_user_posts(username):
     user = User.query.filter_by(username=username).first()
     if user:
-        return jsonify(posts=[post.serialize for post in user.posts])
+        if user == current_user:
+            return jsonify(posts=[post.serialize for post in user.posts])
+        else:
+            posts = Post.query.filter_by(user_id=user.id, public=True)
+            return jsonify(posts=[post.serialize for post in posts])
     else:
         abort(400, 'No user found')
 

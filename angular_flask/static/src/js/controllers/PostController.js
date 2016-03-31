@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo',
-    function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog, goTo) {
+app.controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo', 'postService', 'toast',
+    function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog, goTo, postService, toast) {
 
         $scope.favorite = function (post) {
             favoritePost.favorite(post)
@@ -10,6 +10,7 @@ app.controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$loca
                         favoritePost.checkFav(post);
                     },
                     function error(response) {
+                        toast.showToast('Server error. Please try again later', 5000);
                         console.log('Couldn\'t favorite a post', response);
                     }
                 )
@@ -18,6 +19,15 @@ app.controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$loca
         $scope.editPost = function (post) {
             sharedPost.post = post;
             $location.path('/edit');
+        };
+
+        $scope.unpublishPost = function (ev, post) {
+            postService.unpublish(post)
+                .then(function (response) {
+                    angular.extend(post, response.data.post);
+                }, function (response) {
+                    toast.showToast('Server error. Please try again later', 5000);
+                })
         };
 
         // Show modal to ask for confirmation of post deletion
