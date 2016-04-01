@@ -5,7 +5,7 @@ module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: './angular_flask',
 
 
     // frameworks to use
@@ -15,9 +15,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'angular_flask/static/src/js/*.js',
-      'angular_flask/static/src/js/controllers/*.js',
-      'angular_flask/test/*.js'
+      'static/dist/vendor.js',
+      'static/dist/main.js',
+      'test/*.js'
     ],
 
 

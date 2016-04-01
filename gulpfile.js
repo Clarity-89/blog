@@ -10,19 +10,19 @@ gulp.task('clean', function () {
 
 
 gulp.task('bundle-css', function () {
-    return gulp.src('./bundle-css.config.js')
+    return gulp.src('./gulp.config/bundle-css.config.js')
         .pipe(bundle())
         .pipe(gulp.dest('./angular_flask/static/dist'));
 });
 
 gulp.task('bundle-js', function () {
-    return gulp.src('./bundle-js.config.js')
+    return gulp.src('./gulp.config/bundle-js.config.js')
         .pipe(bundle())
         .pipe(gulp.dest('./angular_flask/static/dist'));
 });
 
 gulp.task('bundle-vendor', function () {
-    return gulp.src('./bundle-vendor.config.js')
+    return gulp.src('./gulp.config/bundle-vendor.config.js')
         .pipe(bundle())
         .pipe(gulp.dest('./angular_flask/static/dist'));
 });
