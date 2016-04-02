@@ -1,17 +1,21 @@
 'use strict';
 
-describe('allPosts service', function () {
-    var $httpBackend, authRequestHandler;
+describe('PostListController', function () {
+
+    var controller, scope, $httpBackend, authRequestHandler;
 
     beforeEach(module('app'));
 
-    beforeEach(inject(function ($injector) {
+    beforeEach(inject(function ($rootScope, $controller, $injector) {
+        scope = $rootScope.$new();
+        controller = $controller;
+
         // Set up the mock http service responses
         $httpBackend = $injector.get('$httpBackend');
         // backend definition common for all tests
         $httpBackend.when('GET', '/blog/api/current_user')
             .respond({"message": "logged in"});
-        authRequestHandler = $httpBackend.when('GET', '/blog/api/posts', {slug: 'sup'})
+        authRequestHandler = $httpBackend.when('GET', '/blog/api/posts', {})
             .respond([
                 {
                     "author": "Clarity",
@@ -52,6 +56,7 @@ describe('allPosts service', function () {
                     "title": "This is public"
                 }
             ]);
+
     }));
 
     afterEach(function () {
@@ -59,13 +64,12 @@ describe('allPosts service', function () {
         $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('getPosts should return a list of posts', inject(function (allPosts) {
-
-        var posts;
+    it('should have list of posts on startup', inject(function (allPosts) {
+        scope.posts = [];
         allPosts.getPosts().then(function (response) {
-            posts = response.data;
-            expect(posts).not.toBeUndefined();
-            expect(posts.length).toBe(2);
+            scope.posts = response.data;
+            expect(scope.posts).not.toBeUndefined();
+            expect(scope.posts.length).toBe(2);
         });
 
         $httpBackend.flush();
