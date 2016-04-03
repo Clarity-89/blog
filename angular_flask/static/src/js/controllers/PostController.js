@@ -1,13 +1,13 @@
 'use strict';
 
-app.controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo', 'postService', 'toast',
-    function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog, goTo, postService, toast) {
+app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo', 'postService', 'toast',
+    function ($scope, $location, sharedPost, addComment, $mdDialog, goTo, postService, toast) {
 
         $scope.favorite = function (post) {
-            favoritePost.favorite(post)
+            postService.favorite(post)
                 .then(function success(response) {
                         angular.extend(post, response.data.post);
-                        favoritePost.checkFav(post);
+                        postService.checkFav(post);
                     },
                     function error(response) {
                         toast.showToast('Server error. Please try again later', 5000);
@@ -32,7 +32,7 @@ app.controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$loca
 
         // Show modal to ask for confirmation of post deletion
         $scope.showConfirm = function (ev, postId) {
-            deletePost.delete(ev, postId)
+            postService.delete(ev, postId)
                 .then(function () {
                     // if there's posts array, we're in the post list controller or user posts controller and have to update the list
                     if ($scope.posts) {

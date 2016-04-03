@@ -1,17 +1,17 @@
 'use strict';
 
-app.controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'goTo', '$mdDialog',
-    function ($scope, allPosts, favoritePost, goTo, $mdDialog) {
+app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialog',
+    function ($scope, postService, goTo, $mdDialog) {
         $scope.page.loading = true;
         $scope.posts = [];
         $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
         $scope.imageSrc = '';
-        allPosts.getPosts()
+        postService.getPosts()
             .then(function (response) {
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
                     $scope.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
+                        postService.checkFav(el);
                         el.date = new Date(el.date);
                     });
                     buildGridModel($scope.posts);
@@ -49,10 +49,10 @@ app.controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'goT
         }
 
         $scope.favorite = function (post) {
-            favoritePost.favorite(post)
+            postService.favorite(post)
                 .then(function success(response) {
                         angular.extend(post, response.data.post);
-                        favoritePost.checkFav(post);
+                        postService.checkFav(post);
                     },
                     function error(response) {
                         console.log('Couldn\'t favorite a post', response);

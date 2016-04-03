@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies', 'toast',
-    function ($scope, postUpload, $location, imgPreview, $cookies, toast) {
+app.controller('NewPostController', ['$scope', 'postService', '$location', 'imgPreview', '$cookies', 'toast',
+    function ($scope, postService, $location, imgPreview, $cookies, toast) {
         $scope.page.loading = false; // loading progress bar
         var currentUser = $cookies.getObject('current_user');
         $scope.heading = 'Create';
@@ -22,7 +22,7 @@ app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPr
                 $scope.loading = true; // loading spinner
                 var file = $scope.myFile;
                 post.public = publish;
-                postUpload.newPost(file, post)
+                postService.newPost(file, post)
                     .then(function success(response) {
                         $scope.loading = false;
                         toast.showToast('Post saved', 1000).then(function () {
@@ -40,7 +40,7 @@ app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPr
             if (form.$valid) {
                 $scope.loading = true; // loading spinner
                 var file = $scope.myFile;
-                postUpload.newPost(file, $scope.post)
+                postService.newPost(file, $scope.post)
                     .then(function success(response) {
                         $scope.loading = false;
                         toast.showToast('Post saved', 1000).then(function () {

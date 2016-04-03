@@ -6,44 +6,25 @@ angular.module('app')
         var post = this;
     })
 
-    .service('postService', ['$http', function ($http) {
-        this.unpublish = function (post) {
-            return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
-        }
-    }])
-    .service('allPosts', ['$http', function ($http) {
-        this.getPosts = function (slug) {
-            if (slug) {
-                return $http.get('/blog/api/posts/' + slug, {});
-            } else {
-                return $http.get('/blog/api/posts', {});
+    // Service with methods related to operation on/with posts
+    .service('postService', ['$http', '$mdDialog', '$cookies', function ($http, $mdDialog, $cookies) {
+
+        /* Check if the logged in user has favorited the post and add red color to fav icon if yes */
+        this.checkFav = function (post) {
+            var user = $cookies.getObject('current_user');
+            if (user) {
+                var filtered = post.favorited_by.filter(function (el) {
+                    return el.username == user.username;
+                });
+                if (filtered.length) {
+                    post.favClass = 'red';
+                } else {
+                    post.favClass = '';
+                }
             }
-        }
-    }])
-    .service('postUpload', ['$http', function ($http) {
-        this.newPost = function (file, data) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('post', JSON.stringify(data));
-            return $http.post("/blog/api/posts/new", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            })
-        }
-    }])
-    .service('editPost', ['$http', function ($http) {
-        this.editPost = function (file, data) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('post', JSON.stringify(data));
-            return $http.post("/blog/api/posts/" + data.id + "/edit", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            })
-        }
-    }])
-    // Reusable service to ask user for confirmation and delete a post
-    .service('deletePost', ['$http', '$mdDialog', function ($http, $mdDialog) {
+        };
+
+        // Ask user for confirmation and delete a post
         this.delete = function (ev, postId) {
             var confirm = $mdDialog.confirm()
                 .title('Are you sure you want to delete this post?')
@@ -55,7 +36,41 @@ angular.module('app')
             return $mdDialog.show(confirm).then(function () {
                 return $http.post("/blog/api/posts/" + postId + "/delete", {})
             });
-        }
+        };
+
+        this.editPost = function (file, data) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('post', JSON.stringify(data));
+            return $http.post("/blog/api/posts/" + data.id + "/edit", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+        };
+        this.favorite = function (post) {
+            return $http.post("/blog/api/posts/" + post.slug, {});
+        };
+        this.getPosts = function (slug) {
+            if (slug) {
+                return $http.get('/blog/api/posts/' + slug, {});
+            } else {
+                return $http.get('/blog/api/posts', {});
+            }
+        };
+
+        this.newPost = function (file, data) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('post', JSON.stringify(data));
+            return $http.post("/blog/api/posts/new", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+        };
+
+        this.unpublish = function (post) {
+            return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
+        };
     }])
     .service('imgPreview', function () {
         this.preview = function (element, scope) {

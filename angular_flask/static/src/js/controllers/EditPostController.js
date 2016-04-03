@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost', 'toast', '$window',
-    function ($scope, editPost, $location, imgPreview, sharedPost, toast, $window) {
+app.controller('EditPostController', ['$scope', 'postService', '$location', 'imgPreview', 'sharedPost', 'toast', '$window',
+    function ($scope, postService, $location, imgPreview, sharedPost, toast, $window) {
         $scope.page.loading = false; // loading progress bar
         $scope.heading = 'Edit';
         $scope.button = 'Save changes';
@@ -14,7 +14,7 @@ app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPre
                 $scope.loading = true; // loading spinner
                 var file = $scope.myFile;
                 post.public = publish || post.public;
-                editPost.editPost(file, post)
+                postService.editPost(file, post)
                     .then(function success(response) {
                         $scope.loading = false;
                         toast.showToast('Post edited', 1000).then(function () {

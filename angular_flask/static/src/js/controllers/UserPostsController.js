@@ -1,14 +1,14 @@
 'use strict';
 
-app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', 'toast',
-    function ($scope, userService, $cookies, favoritePost, toast) {
+app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'postService', 'toast',
+    function ($scope, userService, $cookies, postService, toast) {
         $scope.size = "sm";
         $scope.page.loading = true;
         $scope.imageSrc = '';
         userService.getPosts($cookies.getObject('current_user').username)
             .then(function (response) {
                     response.data.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
+                        postService.checkFav(el);
                     });
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
