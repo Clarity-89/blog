@@ -6,10 +6,12 @@ angular.module('app')
         var post = this;
     })
 
+    // Service with methods related to operation on/with posts
     .service('postService', ['$http', function ($http) {
         this.unpublish = function (post) {
             return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
-        }
+        };
+        
     }])
     .service('allPosts', ['$http', function ($http) {
         this.getPosts = function (slug) {
