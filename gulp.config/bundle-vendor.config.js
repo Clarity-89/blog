@@ -15,7 +15,8 @@ module.exports = {
                 './node_modules/angular-messages/angular-messages.js',
                 './node_modules/angular-password/angular-password.js',
                 './node_modules/angular-cookies/angular-cookies.js',
-                './node_modules/angular-mocks/angular-mocks.js'
+                './node_modules/angular-mocks/angular-mocks.js',
+                './node_modules/moment/moment.js'
             ],
             styles: [
                 './node_modules/textangular/dist/*.css',
