@@ -142,11 +142,70 @@ angular.module('app')
     })
 
     // Service with methods related to operation on/with posts
-    .service('postService', ['$http', function ($http) {
+    .service('postService', ['$http', '$mdDialog', '$cookies', function ($http, $mdDialog, $cookies) {
+
+        /* Check if the logged in user has favorited the post and add red color to fav icon if yes */
+        this.checkFav = function (post) {
+            var user = $cookies.getObject('current_user');
+            if (user) {
+                var filtered = post.favorited_by.filter(function (el) {
+                    return el.username == user.username;
+                });
+                if (filtered.length) {
+                    post.favClass = 'red';
+                } else {
+                    post.favClass = '';
+                }
+            }
+        };
+
+        this.delete = function (ev, postId) {
+            var confirm = $mdDialog.confirm()
+                .title('Are you sure you want to delete this post?')
+                .textContent('This action cannot be undone.')
+                .ariaLabel('Confirm post deletion')
+                .targetEvent(ev)
+                .ok('Delete')
+                .cancel('Cancel');
+            return $mdDialog.show(confirm).then(function () {
+                return $http.post("/blog/api/posts/" + postId + "/delete", {})
+            });
+        };
+        this.favorite = function (post) {
+            return $http.post("/blog/api/posts/" + post.slug, {});
+        };
+
+        this.editPost = function (file, data) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('post', JSON.stringify(data));
+            return $http.post("/blog/api/posts/" + data.id + "/edit", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+        };
+
+        this.getPosts = function (slug) {
+            if (slug) {
+                return $http.get('/blog/api/posts/' + slug, {});
+            } else {
+                return $http.get('/blog/api/posts', {});
+            }
+        };
+
+        this.newPost = function (file, data) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('post', JSON.stringify(data));
+            return $http.post("/blog/api/posts/new", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+        };
+
         this.unpublish = function (post) {
             return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
         };
-        
     }])
     .service('allPosts', ['$http', function ($http) {
         this.getPosts = function (slug) {
