@@ -54,12 +54,6 @@ angular.module('app')
                 .cancel('Cancel');
             return $mdDialog.show(confirm).then(function () {
                 return $http.post("/blog/api/posts/" + postId + "/delete", {})
-                    .then(function success() {
-                            console.log('Deleted post with id', postId);
-                        },
-                        function error(response) {
-                            console.log('Could not delete', response);
-                        })
             });
         }
     }])

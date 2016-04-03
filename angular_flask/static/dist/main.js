@@ -149,7 +149,7 @@ angular.module('app')
     .service('allPosts', ['$http', function ($http) {
         this.getPosts = function (slug) {
             if (slug) {
-                return $http.get('/blog/api/posts/' + slug, {});
+                return $http.get('/blog/api/posts/', {slug: slug});
             } else {
                 return $http.get('/blog/api/posts', {});
             }
@@ -189,12 +189,6 @@ angular.module('app')
                 .cancel('Cancel');
             return $mdDialog.show(confirm).then(function () {
                 return $http.post("/blog/api/posts/" + postId + "/delete", {})
-                    .then(function success() {
-                            console.log('Deleted post with id', postId);
-                        },
-                        function error(response) {
-                            console.log('Could not delete', response);
-                        })
             });
         }
     }])
