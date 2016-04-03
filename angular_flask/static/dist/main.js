@@ -28,8 +28,8 @@ var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnima
                     templateUrl: '/static/partials/post-detail.html',
                     controller: 'PostDetailController',
                     resolve: {
-                        response: function ($route, allPosts) {
-                            return allPosts.getPosts($route.current.params.slug);
+                        response: function ($route, postService) {
+                            return postService.getPosts($route.current.params.slug);
                         }
                     }
                 })
