@@ -13,7 +13,6 @@
                     <div class="md-padding">
                         <div ng-repeat="post in public = (posts| filter: {public: true})" class="md-padding"
                              layout="row"
-                             layout-wrap=""
                              layout-align="center center"
                              layout-xs="column">
                             <div layout="column">
@@ -33,7 +32,6 @@
                 <md-tab-body>
                     <div class="md-padding">
                         <div ng-repeat="post in drafts = (posts | filter:{public: false})" class="md-padding" layout="row"
-                             layout-wrap=""
                              layout-align="center center"
                              layout-xs="column">
                             <div layout="column">
