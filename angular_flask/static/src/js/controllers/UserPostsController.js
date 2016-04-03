@@ -10,12 +10,7 @@ app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'fav
                     response.data.posts.forEach(function (el) {
                         favoritePost.checkFav(el);
                     });
-                    $scope.posts = response.data.posts.filter(function (post) {
-                        return post.public;
-                    });
-                    $scope.drafts = response.data.posts.filter(function (post) {
-                        return !post.public;
-                    });
+                    $scope.posts = response.data.posts;
                     $scope.page.loading = false;
                 },
                 function (response) {

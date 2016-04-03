@@ -189,12 +189,6 @@ angular.module('app')
                 .cancel('Cancel');
             return $mdDialog.show(confirm).then(function () {
                 return $http.post("/blog/api/posts/" + postId + "/delete", {})
-                    .then(function success() {
-                            console.log('Deleted post with id', postId);
-                        },
-                        function error(response) {
-                            console.log('Could not delete', response);
-                        })
             });
         }
     }])
@@ -815,12 +809,7 @@ app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'fav
                     response.data.posts.forEach(function (el) {
                         favoritePost.checkFav(el);
                     });
-                    $scope.posts = response.data.posts.filter(function (post) {
-                        return post.public;
-                    });
-                    $scope.drafts = response.data.posts.filter(function (post) {
-                        return !post.public;
-                    });
+                    $scope.posts = response.data.posts;
                     $scope.page.loading = false;
                 },
                 function (response) {

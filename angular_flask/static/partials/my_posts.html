@@ -11,17 +11,16 @@
                 </md-tab-label>
                 <md-tab-body>
                     <div class="md-padding">
-                        <div ng-if="!posts.length" layout-align="center center">
-                            <h3 class="page-heading">You don't have any public posts yet.</h3>
-                        </div>
-
-                        <div ng-repeat="post in posts| filter: {public: true}" class="md-padding" layout="row"
-                             layout-wrap=""
+                        <div ng-repeat="post in public = (posts| filter: {public: true})" class="md-padding"
+                             layout="row"
                              layout-align="center center"
                              layout-xs="column">
                             <div layout="column">
                                 <post></post>
                             </div>
+                        </div>
+                        <div ng-if="!public.length" layout-align="center center">
+                            <h3 class="page-heading">You don't have any public posts yet.</h3>
                         </div>
                     </div>
                 </md-tab-body>
@@ -32,18 +31,18 @@
                 </md-tab-label>
                 <md-tab-body>
                     <div class="md-padding">
-                        <div ng-if="!drafts.length" layout-align="center center">
-                            <h3 class="page-heading">You don't have any drafts yet.
-                                <br>
-                                <a href="/new">Start a post.</a>
-                            </h3>
-                        </div>
-                        <div ng-repeat="post in drafts" class="md-padding" layout="row" layout-wrap=""
+                        <div ng-repeat="post in drafts = (posts | filter:{public: false})" class="md-padding" layout="row"
                              layout-align="center center"
                              layout-xs="column">
                             <div layout="column">
                                 <post></post>
                             </div>
+                        </div>
+                        <div ng-if="!drafts.length" layout-align="center center">
+                            <h3 class="page-heading">You don't have any drafts yet.
+                                <br>
+                                <a href="/new">Start a post.</a>
+                            </h3>
                         </div>
                     </div>
                 </md-tab-body>
