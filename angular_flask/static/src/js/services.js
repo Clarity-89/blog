@@ -24,6 +24,7 @@ angular.module('app')
             }
         };
 
+        // Ask user for confirmation and delete a post
         this.delete = function (ev, postId) {
             var confirm = $mdDialog.confirm()
                 .title('Are you sure you want to delete this post?')
@@ -36,9 +37,6 @@ angular.module('app')
                 return $http.post("/blog/api/posts/" + postId + "/delete", {})
             });
         };
-        this.favorite = function (post) {
-            return $http.post("/blog/api/posts/" + post.slug, {});
-        };
 
         this.editPost = function (file, data) {
             var fd = new FormData();
@@ -49,7 +47,9 @@ angular.module('app')
                 headers: {'Content-Type': undefined}
             })
         };
-
+        this.favorite = function (post) {
+            return $http.post("/blog/api/posts/" + post.slug, {});
+        };
         this.getPosts = function (slug) {
             if (slug) {
                 return $http.get('/blog/api/posts/' + slug, {});
@@ -71,52 +71,6 @@ angular.module('app')
         this.unpublish = function (post) {
             return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
         };
-    }])
-    .service('allPosts', ['$http', function ($http) {
-        this.getPosts = function (slug) {
-            if (slug) {
-                return $http.get('/blog/api/posts/' + slug, {});
-            } else {
-                return $http.get('/blog/api/posts', {});
-            }
-        }
-    }])
-    .service('postUpload', ['$http', function ($http) {
-        this.newPost = function (file, data) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('post', JSON.stringify(data));
-            return $http.post("/blog/api/posts/new", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            })
-        }
-    }])
-    .service('editPost', ['$http', function ($http) {
-        this.editPost = function (file, data) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('post', JSON.stringify(data));
-            return $http.post("/blog/api/posts/" + data.id + "/edit", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            })
-        }
-    }])
-    // Reusable service to ask user for confirmation and delete a post
-    .service('deletePost', ['$http', '$mdDialog', function ($http, $mdDialog) {
-        this.delete = function (ev, postId) {
-            var confirm = $mdDialog.confirm()
-                .title('Are you sure you want to delete this post?')
-                .textContent('This action cannot be undone.')
-                .ariaLabel('Confirm post deletion')
-                .targetEvent(ev)
-                .ok('Delete')
-                .cancel('Cancel');
-            return $mdDialog.show(confirm).then(function () {
-                return $http.post("/blog/api/posts/" + postId + "/delete", {})
-            });
-        }
     }])
     .service('imgPreview', function () {
         this.preview = function (element, scope) {

@@ -159,6 +159,7 @@ angular.module('app')
             }
         };
 
+        // Ask user for confirmation and delete a post
         this.delete = function (ev, postId) {
             var confirm = $mdDialog.confirm()
                 .title('Are you sure you want to delete this post?')
@@ -171,9 +172,6 @@ angular.module('app')
                 return $http.post("/blog/api/posts/" + postId + "/delete", {})
             });
         };
-        this.favorite = function (post) {
-            return $http.post("/blog/api/posts/" + post.slug, {});
-        };
 
         this.editPost = function (file, data) {
             var fd = new FormData();
@@ -184,7 +182,9 @@ angular.module('app')
                 headers: {'Content-Type': undefined}
             })
         };
-
+        this.favorite = function (post) {
+            return $http.post("/blog/api/posts/" + post.slug, {});
+        };
         this.getPosts = function (slug) {
             if (slug) {
                 return $http.get('/blog/api/posts/' + slug, {});
@@ -206,52 +206,6 @@ angular.module('app')
         this.unpublish = function (post) {
             return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
         };
-    }])
-    .service('allPosts', ['$http', function ($http) {
-        this.getPosts = function (slug) {
-            if (slug) {
-                return $http.get('/blog/api/posts/' + slug, {});
-            } else {
-                return $http.get('/blog/api/posts', {});
-            }
-        }
-    }])
-    .service('postUpload', ['$http', function ($http) {
-        this.newPost = function (file, data) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('post', JSON.stringify(data));
-            return $http.post("/blog/api/posts/new", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            })
-        }
-    }])
-    .service('editPost', ['$http', function ($http) {
-        this.editPost = function (file, data) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('post', JSON.stringify(data));
-            return $http.post("/blog/api/posts/" + data.id + "/edit", fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            })
-        }
-    }])
-    // Reusable service to ask user for confirmation and delete a post
-    .service('deletePost', ['$http', '$mdDialog', function ($http, $mdDialog) {
-        this.delete = function (ev, postId) {
-            var confirm = $mdDialog.confirm()
-                .title('Are you sure you want to delete this post?')
-                .textContent('This action cannot be undone.')
-                .ariaLabel('Confirm post deletion')
-                .targetEvent(ev)
-                .ok('Delete')
-                .cancel('Cancel');
-            return $mdDialog.show(confirm).then(function () {
-                return $http.post("/blog/api/posts/" + postId + "/delete", {})
-            });
-        }
     }])
     .service('imgPreview', function () {
         this.preview = function (element, scope) {
@@ -367,8 +321,8 @@ app.controller('AboutController', ['$scope', function ($scope) {
 
 'use strict';
 
-app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPreview', 'sharedPost', 'toast', '$window',
-    function ($scope, editPost, $location, imgPreview, sharedPost, toast, $window) {
+app.controller('EditPostController', ['$scope', 'postService', '$location', 'imgPreview', 'sharedPost', 'toast', '$window',
+    function ($scope, postService, $location, imgPreview, sharedPost, toast, $window) {
         $scope.page.loading = false; // loading progress bar
         $scope.heading = 'Edit';
         $scope.button = 'Save changes';
@@ -381,7 +335,7 @@ app.controller('EditPostController', ['$scope', 'editPost', '$location', 'imgPre
                 $scope.loading = true; // loading spinner
                 var file = $scope.myFile;
                 post.public = publish || post.public;
-                editPost.editPost(file, post)
+                postService.editPost(file, post)
                     .then(function success(response) {
                         $scope.loading = false;
                         toast.showToast('Post edited', 1000).then(function () {
@@ -454,8 +408,8 @@ app.controller('MainController', ['$scope', '$rootScope', 'userService', '$cooki
     }]);
 'use strict';
 
-app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPreview', '$cookies', 'toast',
-    function ($scope, postUpload, $location, imgPreview, $cookies, toast) {
+app.controller('NewPostController', ['$scope', 'postService', '$location', 'imgPreview', '$cookies', 'toast',
+    function ($scope, postService, $location, imgPreview, $cookies, toast) {
         $scope.page.loading = false; // loading progress bar
         var currentUser = $cookies.getObject('current_user');
         $scope.heading = 'Create';
@@ -476,7 +430,7 @@ app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPr
                 $scope.loading = true; // loading spinner
                 var file = $scope.myFile;
                 post.public = publish;
-                postUpload.newPost(file, post)
+                postService.newPost(file, post)
                     .then(function success(response) {
                         $scope.loading = false;
                         toast.showToast('Post saved', 1000).then(function () {
@@ -494,7 +448,7 @@ app.controller('NewPostController', ['$scope', 'postUpload', '$location', 'imgPr
             if (form.$valid) {
                 $scope.loading = true; // loading spinner
                 var file = $scope.myFile;
-                postUpload.newPost(file, $scope.post)
+                postService.newPost(file, $scope.post)
                     .then(function success(response) {
                         $scope.loading = false;
                         toast.showToast('Post saved', 1000).then(function () {
@@ -525,14 +479,14 @@ app.controller('Page404Controller', ['$scope', '$location', '$window', function 
 }]);
 'use strict';
 
-app.controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo', 'postService', 'toast',
-    function ($scope, favoritePost, deletePost, $location, sharedPost, addComment, $mdDialog, goTo, postService, toast) {
+app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo', 'postService', 'toast',
+    function ($scope, $location, sharedPost, addComment, $mdDialog, goTo, postService, toast) {
 
         $scope.favorite = function (post) {
-            favoritePost.favorite(post)
+            postService.favorite(post)
                 .then(function success(response) {
                         angular.extend(post, response.data.post);
-                        favoritePost.checkFav(post);
+                        postService.checkFav(post);
                     },
                     function error(response) {
                         toast.showToast('Server error. Please try again later', 5000);
@@ -557,7 +511,7 @@ app.controller('PostController', ['$scope', 'favoritePost', 'deletePost', '$loca
 
         // Show modal to ask for confirmation of post deletion
         $scope.showConfirm = function (ev, postId) {
-            deletePost.delete(ev, postId)
+            postService.delete(ev, postId)
                 .then(function () {
                     // if there's posts array, we're in the post list controller or user posts controller and have to update the list
                     if ($scope.posts) {
@@ -617,15 +571,15 @@ function DialogController($scope, $mdDialog, post) {
 
 'use strict';
 
-app.controller('PostDetailController', ['$scope', '$routeParams', 'favoritePost', 'allPosts', function ($scope, $routeParams, favoritePost, allPosts) {
+app.controller('PostDetailController', ['$scope', '$routeParams', 'postService', function ($scope, $routeParams, postService) {
     $scope.page.loading = true;
     $scope.post = {};
     $scope.size = "lg";
-    allPosts.getPosts($routeParams.slug).then(function (response) {
+    postService.getPosts($routeParams.slug).then(function (response) {
             $scope.post = response.data.post;
             $scope.post.comments = response.data.comments;
             $scope.page.loading = false;
-            favoritePost.checkFav($scope.post)
+            postService.checkFav($scope.post)
         },
         function (response) {
             console.log('Error:', response.status, response.statusText);
@@ -633,18 +587,18 @@ app.controller('PostDetailController', ['$scope', '$routeParams', 'favoritePost'
 }]);
 'use strict';
 
-app.controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'goTo', '$mdDialog',
-    function ($scope, allPosts, favoritePost, goTo, $mdDialog) {
+app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialog',
+    function ($scope, postService, goTo, $mdDialog) {
         $scope.page.loading = true;
         $scope.posts = [];
         $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
         $scope.imageSrc = '';
-        allPosts.getPosts()
+        postService.getPosts()
             .then(function (response) {
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
                     $scope.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
+                        postService.checkFav(el);
                         el.date = new Date(el.date);
                     });
                     buildGridModel($scope.posts);
@@ -682,10 +636,10 @@ app.controller('PostListController', ['$scope', 'allPosts', 'favoritePost', 'goT
         }
 
         $scope.favorite = function (post) {
-            favoritePost.favorite(post)
+            postService.favorite(post)
                 .then(function success(response) {
                         angular.extend(post, response.data.post);
-                        favoritePost.checkFav(post);
+                        postService.checkFav(post);
                     },
                     function error(response) {
                         console.log('Couldn\'t favorite a post', response);
@@ -860,15 +814,15 @@ app.controller('UserDetailsController', ['$scope', 'toast', 'userService', '$coo
 }]);
 'use strict';
 
-app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'favoritePost', 'toast',
-    function ($scope, userService, $cookies, favoritePost, toast) {
+app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'postService', 'toast',
+    function ($scope, userService, $cookies, postService, toast) {
         $scope.size = "sm";
         $scope.page.loading = true;
         $scope.imageSrc = '';
         userService.getPosts($cookies.getObject('current_user').username)
             .then(function (response) {
                     response.data.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
+                        postService.checkFav(el);
                     });
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
