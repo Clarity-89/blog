@@ -90,7 +90,9 @@
             <md-tooltip md-direction="bottom">
                 Favorite
             </md-tooltip>
-            <md-icon ng-class="post.favClass" md-font-set="material-icons">favorite</md-icon>
+            <md-icon ng-class="{'red': hasFavorited(post)}" md-font-set="material-icons">
+                favorite
+            </md-icon>
         </md-button>
         <div>
             <md-tooltip md-direction="top">

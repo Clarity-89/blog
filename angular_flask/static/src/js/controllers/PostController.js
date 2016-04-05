@@ -1,19 +1,26 @@
 'use strict';
 
-app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo', 'postService', 'toast',
-    function ($scope, $location, sharedPost, addComment, $mdDialog, goTo, postService, toast) {
+app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo', 'postService',
+    'toast', '$cookies', function ($scope, $location, sharedPost, addComment, $mdDialog, goTo, postService, toast, $cookies) {
 
         $scope.favorite = function (post) {
-            postService.favorite(post)
-                .then(function success(response) {
-                        angular.extend(post, response.data.post);
-                        postService.checkFav(post);
-                    },
-                    function error(response) {
-                        toast.showToast('Server error. Please try again later', 5000);
-                        console.log('Couldn\'t favorite a post', response);
-                    }
-                )
+            var user = $cookies.getObject('current_user');
+            // Allow to favorite a post only if user is logged in
+            if (user) {
+                postService.favorite(post)
+                    .then(function success(response) {
+                            angular.extend(post, response.data.post);
+                        },
+                        function error(response) {
+                            toast.showToast('Server error. Please try again later', 5000);
+                            console.log('Couldn\'t favorite a post', response);
+                        }
+                    )
+            }
+        };
+
+        $scope.hasFavorited = function (post) {
+            return postService.checkFav(post);
         };
 
         $scope.editPost = function (post) {
@@ -55,7 +62,7 @@ app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComme
                     self.comment = '';
                     angular.extend(post.comments, response.data.comments);
                 }, function error(response) {
-                    console.log('Could not add comment', response);
+                    toast.showToast('Server error. Please try again later', 5000);
                 });
         };
 

@@ -16,11 +16,7 @@ angular.module('app')
                 var filtered = post.favorited_by.filter(function (el) {
                     return el.username == user.username;
                 });
-                if (filtered.length) {
-                    post.favClass = 'red';
-                } else {
-                    post.favClass = '';
-                }
+                return filtered.length > 0;
             }
         };
 
@@ -47,9 +43,12 @@ angular.module('app')
                 headers: {'Content-Type': undefined}
             })
         };
+
         this.favorite = function (post) {
             return $http.post("/blog/api/posts/" + post.slug, {});
+            
         };
+
         this.getPosts = function (slug) {
             if (slug) {
                 return $http.get('/blog/api/posts/' + slug, {});
