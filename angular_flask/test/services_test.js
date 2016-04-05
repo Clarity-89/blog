@@ -59,10 +59,10 @@ describe('allPosts service', function () {
         $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('getPosts should return a list of posts', inject(function (allPosts) {
+    it('getPosts should return a list of posts', inject(function (postService) {
 
         var posts;
-        allPosts.getPosts().then(function (response) {
+        postService.getPosts().then(function (response) {
             posts = response.data;
             expect(posts).not.toBeUndefined();
             expect(posts.length).toBe(2);
