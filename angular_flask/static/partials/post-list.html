@@ -30,7 +30,7 @@
                     <md-button id="fav-button" class="md-icon-button" aria-label="Favorite"
                                disabled="{{ post.disabled }}"
                                ng-click="favorite(post)">
-                        <md-icon ng-class="post.favClass" md-font-set="material-icons">favorite</md-icon>
+                        <md-icon ng-class="{'red': hasFavorited(post)}" md-font-set="material-icons">favorite</md-icon>
                     </md-button>
                     <div>
                         <md-tooltip md-direction="top">

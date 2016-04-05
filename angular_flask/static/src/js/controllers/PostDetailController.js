@@ -8,7 +8,6 @@ app.controller('PostDetailController', ['$scope', '$routeParams', 'postService',
             $scope.post = response.data.post;
             $scope.post.comments = response.data.comments;
             $scope.page.loading = false;
-            postService.checkFav($scope.post)
         },
         function (response) {
             console.log('Error:', response.status, response.statusText);

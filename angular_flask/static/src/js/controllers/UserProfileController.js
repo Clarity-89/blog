@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'favoritePost', 'toast',
-    function (userService, $routeParams, $scope, favoritePost, toast) {
+app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'toast',
+    function (userService, $routeParams, $scope, toast) {
         $scope.size = "sm";
         $scope.user = {};
         $scope.imageSrc = '';
@@ -18,9 +18,6 @@ app.controller('UserProfileController', ['userService', '$routeParams', '$scope'
             .then(function (response) {
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
-                    $scope.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
-                    });
                 },
                 function (response) {
                     $scope.page.loading = false;

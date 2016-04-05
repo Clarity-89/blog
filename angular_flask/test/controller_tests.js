@@ -64,9 +64,9 @@ describe('PostListController', function () {
         $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('should have list of posts on startup', inject(function (allPosts) {
+    it('should have list of posts on startup', inject(function (postService) {
         scope.posts = [];
-        allPosts.getPosts().then(function (response) {
+        postService.getPosts().then(function (response) {
             scope.posts = response.data;
             expect(scope.posts).not.toBeUndefined();
             expect(scope.posts.length).toBe(2);

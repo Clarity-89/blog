@@ -1,7 +1,7 @@
 'use strict';
 
-app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialog',
-    function ($scope, postService, goTo, $mdDialog) {
+app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialog', 'toast',
+    function ($scope, postService, goTo, $mdDialog, toast) {
         $scope.page.loading = true;
         $scope.posts = [];
         $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
@@ -11,13 +11,12 @@ app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialo
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
                     $scope.posts.forEach(function (el) {
-                        postService.checkFav(el);
                         el.date = new Date(el.date);
                     });
                     buildGridModel($scope.posts);
                 },
                 function (response) {
-                    console.log('Error:', response.status, response.statusText);
+                   toast.showToast('Could not retrieve the posts. Please try again later', 5000);
                 });
 
         // Build a grid of posts of various sizes
@@ -52,12 +51,15 @@ app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialo
             postService.favorite(post)
                 .then(function success(response) {
                         angular.extend(post, response.data.post);
-                        postService.checkFav(post);
                     },
-                    function error(response) {
-                        console.log('Couldn\'t favorite a post', response);
+                    function error() {
+                       toast.showToast('Server error. Please try again later', 5000);
                     }
                 )
+        };
+
+        $scope.hasFavorited = function (post) {
+            return postService.checkFav(post);
         };
 
         $scope.showAdvanced = function (ev, post) {

@@ -11,28 +11,15 @@ describe('allPosts service', function () {
         // backend definition common for all tests
         $httpBackend.when('GET', '/blog/api/current_user')
             .respond({"message": "logged in"});
-        authRequestHandler = $httpBackend.when('GET', '/blog/api/posts', {slug: 'sup'})
+    }));
+
+    it('getPosts should return a list of posts when used without a param', inject(function (postService) {
+        $httpBackend.when('GET', '/blog/api/posts')
             .respond([
                 {
                     "author": "Clarity",
                     "author_id": 2,
-                    "avatar": "../static/img/avatars/bd7e3a47-761b-4745-aa43-0f55e2db187d.jpg",
-                    "body": "<p>This is a public post.</p>",
-                    "comments": [
-                        {
-                            "author": "Admin",
-                            "author_ava": "../img/avatars/default.jpg",
-                            "body": "Hey",
-                            "date": "Thu, 24 Mar 2016 14:19:50 GMT",
-                            "id": 1
-                        }
-                    ],
-                    "cover_photo": "../img/covers/default.jpg",
-                    "date": "Thu, 24 Mar 2016 10:54:47 GMT",
-                    "favorited": 0,
-                    "favorited_by": [],
                     "id": 12,
-                    "public": true,
                     "slug": "test-draft",
                     "title": "Test public"
                 },
@@ -40,32 +27,39 @@ describe('allPosts service', function () {
                     "author": "Admin",
                     "author_id": 1,
                     "avatar": "../img/avatars/default.jpg",
-                    "body": "<p>ccc</p>",
-                    "comments": [],
-                    "cover_photo": "../img/covers/default.jpg",
-                    "date": "Thu, 24 Mar 2016 08:52:01 GMT",
-                    "favorited": 0,
-                    "favorited_by": [],
                     "id": 10,
                     "public": true,
-                    "slug": "noone",
                     "title": "This is public"
                 }
             ]);
-    }));
-
-    afterEach(function () {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-    });
-
-    it('getPosts should return a list of posts', inject(function (allPosts) {
-
         var posts;
-        allPosts.getPosts().then(function (response) {
+        postService.getPosts().then(function (response) {
             posts = response.data;
             expect(posts).not.toBeUndefined();
             expect(posts.length).toBe(2);
+        });
+
+        $httpBackend.flush();
+    }));
+
+    it('getPosts should return a single post when passed in slug as a param', inject(function (postService) {
+        $httpBackend.when('GET', /\/blog\/api\/posts\/(.+)/, undefined, undefined, ['slug'])
+            .respond(function (method, url, data, headers, params) {
+                // console.log(params);
+                return {
+                    "author": "Admin",
+                    "author_id": 1,
+                    "body": "<p>ccc</p>",
+                    "id": 10,
+                    "slug": "test",
+                    "title": "Testing"
+                }
+            });
+        var post;
+        postService.getPosts('h').then(function (response) {
+            post = response.data;
+            expect(post).not.toBeUndefined();
+            expect(post.author).toBe('Admin');
         });
 
         $httpBackend.flush();

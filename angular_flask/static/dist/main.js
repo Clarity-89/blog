@@ -151,11 +151,7 @@ angular.module('app')
                 var filtered = post.favorited_by.filter(function (el) {
                     return el.username == user.username;
                 });
-                if (filtered.length) {
-                    post.favClass = 'red';
-                } else {
-                    post.favClass = '';
-                }
+                return filtered.length > 0;
             }
         };
 
@@ -182,9 +178,12 @@ angular.module('app')
                 headers: {'Content-Type': undefined}
             })
         };
+
         this.favorite = function (post) {
             return $http.post("/blog/api/posts/" + post.slug, {});
+            
         };
+
         this.getPosts = function (slug) {
             if (slug) {
                 return $http.get('/blog/api/posts/' + slug, {});
@@ -479,20 +478,27 @@ app.controller('Page404Controller', ['$scope', '$location', '$window', function 
 }]);
 'use strict';
 
-app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo', 'postService', 'toast',
-    function ($scope, $location, sharedPost, addComment, $mdDialog, goTo, postService, toast) {
+app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComment', '$mdDialog', 'goTo', 'postService',
+    'toast', '$cookies', function ($scope, $location, sharedPost, addComment, $mdDialog, goTo, postService, toast, $cookies) {
 
         $scope.favorite = function (post) {
-            postService.favorite(post)
-                .then(function success(response) {
-                        angular.extend(post, response.data.post);
-                        postService.checkFav(post);
-                    },
-                    function error(response) {
-                        toast.showToast('Server error. Please try again later', 5000);
-                        console.log('Couldn\'t favorite a post', response);
-                    }
-                )
+            var user = $cookies.getObject('current_user');
+            // Allow to favorite a post only if user is logged in
+            if (user) {
+                postService.favorite(post)
+                    .then(function success(response) {
+                            angular.extend(post, response.data.post);
+                        },
+                        function error(response) {
+                            toast.showToast('Server error. Please try again later', 5000);
+                            console.log('Couldn\'t favorite a post', response);
+                        }
+                    )
+            }
+        };
+
+        $scope.hasFavorited = function (post) {
+            return postService.checkFav(post);
         };
 
         $scope.editPost = function (post) {
@@ -534,7 +540,7 @@ app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComme
                     self.comment = '';
                     angular.extend(post.comments, response.data.comments);
                 }, function error(response) {
-                    console.log('Could not add comment', response);
+                    toast.showToast('Server error. Please try again later', 5000);
                 });
         };
 
@@ -579,7 +585,6 @@ app.controller('PostDetailController', ['$scope', '$routeParams', 'postService',
             $scope.post = response.data.post;
             $scope.post.comments = response.data.comments;
             $scope.page.loading = false;
-            postService.checkFav($scope.post)
         },
         function (response) {
             console.log('Error:', response.status, response.statusText);
@@ -587,8 +592,8 @@ app.controller('PostDetailController', ['$scope', '$routeParams', 'postService',
 }]);
 'use strict';
 
-app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialog',
-    function ($scope, postService, goTo, $mdDialog) {
+app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialog', 'toast',
+    function ($scope, postService, goTo, $mdDialog, toast) {
         $scope.page.loading = true;
         $scope.posts = [];
         $scope.size = "sm"; // Set the last part of 'body-text-' class to sm i.e. 'small'
@@ -598,13 +603,12 @@ app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialo
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
                     $scope.posts.forEach(function (el) {
-                        postService.checkFav(el);
                         el.date = new Date(el.date);
                     });
                     buildGridModel($scope.posts);
                 },
                 function (response) {
-                    console.log('Error:', response.status, response.statusText);
+                   toast.showToast('Could not retrieve the posts. Please try again later', 5000);
                 });
 
         // Build a grid of posts of various sizes
@@ -639,12 +643,15 @@ app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialo
             postService.favorite(post)
                 .then(function success(response) {
                         angular.extend(post, response.data.post);
-                        postService.checkFav(post);
                     },
-                    function error(response) {
-                        console.log('Couldn\'t favorite a post', response);
+                    function error() {
+                       toast.showToast('Server error. Please try again later', 5000);
                     }
                 )
+        };
+
+        $scope.hasFavorited = function (post) {
+            return postService.checkFav(post);
         };
 
         $scope.showAdvanced = function (ev, post) {
@@ -814,16 +821,13 @@ app.controller('UserDetailsController', ['$scope', 'toast', 'userService', '$coo
 }]);
 'use strict';
 
-app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'postService', 'toast',
-    function ($scope, userService, $cookies, postService, toast) {
+app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'toast',
+    function ($scope, userService, $cookies, toast) {
         $scope.size = "sm";
         $scope.page.loading = true;
         $scope.imageSrc = '';
         userService.getPosts($cookies.getObject('current_user').username)
             .then(function (response) {
-                    response.data.posts.forEach(function (el) {
-                        postService.checkFav(el);
-                    });
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
                 },
@@ -835,8 +839,8 @@ app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'pos
     }]);
 'use strict';
 
-app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'favoritePost', 'toast',
-    function (userService, $routeParams, $scope, favoritePost, toast) {
+app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'toast',
+    function (userService, $routeParams, $scope, toast) {
         $scope.size = "sm";
         $scope.user = {};
         $scope.imageSrc = '';
@@ -853,9 +857,6 @@ app.controller('UserProfileController', ['userService', '$routeParams', '$scope'
             .then(function (response) {
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
-                    $scope.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
-                    });
                 },
                 function (response) {
                     $scope.page.loading = false;
