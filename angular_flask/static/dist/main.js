@@ -608,7 +608,7 @@ app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialo
                     buildGridModel($scope.posts);
                 },
                 function (response) {
-                    console.log('Error:', response.status, response.statusText);
+                   toast.showToast('Could not retrieve the posts. Please try again later', 5000);
                 });
 
         // Build a grid of posts of various sizes
@@ -821,16 +821,13 @@ app.controller('UserDetailsController', ['$scope', 'toast', 'userService', '$coo
 }]);
 'use strict';
 
-app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'postService', 'toast',
-    function ($scope, userService, $cookies, postService, toast) {
+app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'toast',
+    function ($scope, userService, $cookies, toast) {
         $scope.size = "sm";
         $scope.page.loading = true;
         $scope.imageSrc = '';
         userService.getPosts($cookies.getObject('current_user').username)
             .then(function (response) {
-                    response.data.posts.forEach(function (el) {
-                        postService.checkFav(el);
-                    });
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
                 },
@@ -842,8 +839,8 @@ app.controller('UserPostsController', ['$scope', 'userService', '$cookies', 'pos
     }]);
 'use strict';
 
-app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'favoritePost', 'toast',
-    function (userService, $routeParams, $scope, favoritePost, toast) {
+app.controller('UserProfileController', ['userService', '$routeParams', '$scope', 'toast',
+    function (userService, $routeParams, $scope, toast) {
         $scope.size = "sm";
         $scope.user = {};
         $scope.imageSrc = '';
@@ -860,9 +857,6 @@ app.controller('UserProfileController', ['userService', '$routeParams', '$scope'
             .then(function (response) {
                     $scope.posts = response.data.posts;
                     $scope.page.loading = false;
-                    $scope.posts.forEach(function (el) {
-                        favoritePost.checkFav(el);
-                    });
                 },
                 function (response) {
                     $scope.page.loading = false;

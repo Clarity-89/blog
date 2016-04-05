@@ -16,7 +16,7 @@ app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialo
                     buildGridModel($scope.posts);
                 },
                 function (response) {
-                    console.log('Error:', response.status, response.statusText);
+                   toast.showToast('Could not retrieve the posts. Please try again later', 5000);
                 });
 
         // Build a grid of posts of various sizes
