@@ -34,6 +34,17 @@ angular.module('app')
             });
         };
 
+        this.confirmUnpublish = function (ev, post) {
+            var confirm = $mdDialog.confirm()
+                .title('Are you sure you want to unpublish this post?')
+                .textContent('This will make it not visible to public.')
+                .ariaLabel('Confirm post unpublishing')
+                .targetEvent(ev)
+                .ok('Unpublish')
+                .cancel('Cancel');
+            return $mdDialog.show(confirm);
+        };
+
         this.editPost = function (file, data) {
             var fd = new FormData();
             fd.append('file', file);
@@ -46,7 +57,7 @@ angular.module('app')
 
         this.favorite = function (post) {
             return $http.post("/blog/api/posts/" + post.slug, {});
-            
+
         };
 
         this.getPosts = function (slug) {
@@ -67,8 +78,10 @@ angular.module('app')
             })
         };
 
-        this.unpublish = function (post) {
-            return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
+        this.unpublish = function (ev, post) {
+            return this.confirmUnpublish(ev, post).then(function () {
+                return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
+            });
         };
     }])
     .service('imgPreview', function () {

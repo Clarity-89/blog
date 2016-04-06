@@ -29,10 +29,10 @@ app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComme
         };
 
         $scope.unpublishPost = function (ev, post) {
-            postService.unpublish(post)
+            postService.unpublish(ev, post)
                 .then(function (response) {
                     angular.extend(post, response.data.post);
-                }, function (response) {
+                }, function () {
                     toast.showToast('Server error. Please try again later', 5000);
                 })
         };
