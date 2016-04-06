@@ -14,7 +14,6 @@ angular.module('app')
             }
         };
     }])
-
     .directive('post', function () {
         return {
             restrict: 'E',
@@ -22,4 +21,14 @@ angular.module('app')
             templateUrl: 'static/partials/post.html',
             replace: true
         };
+    })
+    .directive('postMenu', function () {
+        return {
+            restrict: 'E',
+            controller: 'PostController',
+            templateUrl: 'static/partials/post-elements/post-menu.html',
+            replace: true
+        };
     });
+
+

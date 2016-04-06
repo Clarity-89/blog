@@ -42,8 +42,6 @@ app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComme
             postService.unpublish(ev, post)
                 .then(function (response) {
                     angular.extend(post, response.data.post);
-                }, function () {
-                    toast.showToast('Server error. Please try again later', 5000);
                 });
         };
 

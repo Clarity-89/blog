@@ -113,7 +113,6 @@ angular.module('app')
             }
         };
     }])
-
     .directive('post', function () {
         return {
             restrict: 'E',
@@ -121,7 +120,17 @@ angular.module('app')
             templateUrl: 'static/partials/post.html',
             replace: true
         };
+    })
+    .directive('postMenu', function () {
+        return {
+            restrict: 'E',
+            controller: 'PostController',
+            templateUrl: 'static/partials/post-elements/post-menu.html',
+            replace: true
+        };
     });
+
+
 
 'use strict';
 
@@ -533,8 +542,6 @@ app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComme
             postService.unpublish(ev, post)
                 .then(function (response) {
                     angular.extend(post, response.data.post);
-                }, function () {
-                    toast.showToast('Server error. Please try again later', 5000);
                 });
         };
 
