@@ -114,7 +114,10 @@ def edit_post(id):
     post = Post.query.filter_by(id=id).first()
     if post is None:
         abort(400, 'Post does not exist')
-    post.title = p.get('title')
+    if post.title != p.get('title'):
+        title = p.get('title')
+        post.title = title
+        post.slugify(title)
     post.body = p.get('body')
     public = p.get('public')
     if public:
