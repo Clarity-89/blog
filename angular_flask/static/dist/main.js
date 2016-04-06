@@ -113,7 +113,6 @@ angular.module('app')
             }
         };
     }])
-
     .directive('post', function () {
         return {
             restrict: 'E',
@@ -121,7 +120,17 @@ angular.module('app')
             templateUrl: 'static/partials/post.html',
             replace: true
         };
+    })
+    .directive('postMenu', function () {
+        return {
+            restrict: 'E',
+            controller: 'PostController',
+            templateUrl: 'static/partials/post-elements/post-menu.html',
+            replace: true
+        };
     });
+
+
 
 'use strict';
 
@@ -147,7 +156,7 @@ angular.module('app')
         /* Check if the logged in user has favorited the post and add red color to fav icon if yes */
         this.checkFav = function (post) {
             var user = $cookies.getObject('current_user');
-            if (user) {
+            if (user && post.favorited_by) {
                 var filtered = post.favorited_by.filter(function (el) {
                     return el.username == user.username;
                 });
@@ -169,6 +178,17 @@ angular.module('app')
             });
         };
 
+        this.confirmUnpublish = function (ev, post) {
+            var confirm = $mdDialog.confirm()
+                .title('Are you sure you want to unpublish this post?')
+                .textContent('This will make it not visible to public.')
+                .ariaLabel('Confirm post unpublishing')
+                .targetEvent(ev)
+                .ok('Unpublish')
+                .cancel('Cancel');
+            return $mdDialog.show(confirm);
+        };
+
         this.editPost = function (file, data) {
             var fd = new FormData();
             fd.append('file', file);
@@ -181,7 +201,7 @@ angular.module('app')
 
         this.favorite = function (post) {
             return $http.post("/blog/api/posts/" + post.slug, {});
-            
+
         };
 
         this.getPosts = function (slug) {
@@ -202,8 +222,10 @@ angular.module('app')
             })
         };
 
-        this.unpublish = function (post) {
-            return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
+        this.unpublish = function (ev, post) {
+            return this.confirmUnpublish(ev, post).then(function () {
+                return $http.post('/blog/api/posts/' + post.id + '/unpublish', {})
+            });
         };
     }])
     .service('imgPreview', function () {
@@ -506,13 +528,21 @@ app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComme
             $location.path('/edit');
         };
 
-        $scope.unpublishPost = function (ev, post) {
-            postService.unpublish(post)
+        $scope.publishPost = function (ev, post) {
+            post.public = true;
+            postService.editPost(null, post)
                 .then(function (response) {
                     angular.extend(post, response.data.post);
-                }, function (response) {
+                }, function () {
                     toast.showToast('Server error. Please try again later', 5000);
-                })
+                });
+        };
+
+        $scope.unpublishPost = function (ev, post) {
+            postService.unpublish(ev, post)
+                .then(function (response) {
+                    angular.extend(post, response.data.post);
+                });
         };
 
         // Show modal to ask for confirmation of post deletion
@@ -564,7 +594,8 @@ app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComme
         };
 
 
-    }]);
+    }
+]);
 
 function DialogController($scope, $mdDialog, post) {
 

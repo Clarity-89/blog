@@ -1,0 +1,34 @@
+<md-menu md-position-mode="target-right target" ng-show="getUserDetails().username ===  post.author">
+    <md-button class="md-icon-button" aria-label="Post Menu" md-menu-origin ng-click="$mdOpenMenu(ev)">
+        <md-icon aria-label="Open share menu" md-font-set="material-icons">more_vert</md-icon>
+    </md-button>
+    <md-menu-content width="2">
+        <md-menu-item>
+            <md-button aria-label="Edit post" ng-click="editPost(post)" ng-disabled="post.disabled">
+                <md-icon md-font-set="material-icons" aria-label="Edit">mode_edit</md-icon>
+                Edit
+            </md-button>
+        </md-menu-item>
+        <md-menu-item ng-if="post.public">
+            <md-button aria-label="Unpublish post" ng-click="unpublishPost($event, post)"
+                       ng-disabled="post.disabled">
+                <md-icon md-font-set="material-icons" aria-label="Unpublish">restore</md-icon>
+                Unpublish
+            </md-button>
+        </md-menu-item>
+        <md-menu-item ng-if="!post.public">
+            <md-button aria-label="Publish post" ng-click="publishPost($event, post)"
+                       ng-disabled="post.disabled">
+                <md-icon md-font-set="material-icons" aria-label="Publish">publish</md-icon>
+                Publish
+            </md-button>
+        </md-menu-item>
+        <md-menu-item>
+            <md-button aria-label="Delete post" ng-click="showConfirm($event, post.id)"
+                       ng-disabled="post.disabled">
+                <md-icon md-font-set="material-icons" aria-label="Delete">delete</md-icon>
+                Delete
+            </md-button>
+        </md-menu-item>
+    </md-menu-content>
+</md-menu>

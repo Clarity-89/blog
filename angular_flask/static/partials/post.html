@@ -13,68 +13,14 @@
         </md-card-header-text>
 
         <!-- Share on social media FAB menu-->
-        <md-fab-speed-dial md-open="isOpen" ng-mouseenter="isOpen=true" ng-mouseleave="isOpen=false"
-                           class="md-scale" md-direction="left" ng-if="post.public">
-            <md-fab-trigger>
-                <md-button class="md-icon-button">
-                    <md-tooltip aria-label="menu" md-direction="bottom">
-                        Share
-                    </md-tooltip>
-                    <md-icon md-font-set="material-icons">share</md-icon>
-                </md-button>
-            </md-fab-trigger>
-            <md-fab-actions>
-                <md-button
-                        href="https://www.facebook.com/dialog/share?app_id=819933928129983&href={{ 'https://thee-blog.herokuapp.com/' + post.slug }}&redirect_uri=http://0.0.0.0:5000/posts"
-                        aria-label="Share on Facebook" class="md-fab md-raised md-mini" ng-disabled="post.disabled">
-                    <md-tooltip md-direction="bottom">
-                        Share on Facebook
-                    </md-tooltip>
-                    <i class="fa fa-facebook"></i>
-                </md-button>
-                <md-button
-                        href="https://twitter.com/intent/tweet?text='{{ post.title }}'%20by%20{{ post.author }}&
-                            &url={{ 'https://thee-blog.herokuapp.com/' + post.slug }}"
-                        aria-label="Share on Twitter" class="md-fab md-raised md-mini" ng-disabled="post.disabled">
-                    <md-tooltip md-direction="bottom">
-                        Share on Twitter
-                    </md-tooltip>
-                    <i class="fa fa-twitter"></i>
-                </md-button>
-            </md-fab-actions>
-        </md-fab-speed-dial>
+        <div ng-include="'static/partials/post-elements/social.html'"></div>
 
         <!--Edit/delete menu-->
-        <md-menu md-position-mode="target-right target" ng-show="getUserDetails().username ===  post.author">
-            <md-button class="md-icon-button" aria-label="Post Menu" md-menu-origin ng-click="$mdOpenMenu(ev)">
-                <md-icon aria-label="Open share menu" md-font-set="material-icons">more_vert</md-icon>
-            </md-button>
-            <md-menu-content width="2">
-                <md-menu-item>
-                    <md-button aria-label="Edit post" ng-click="editPost(post)" ng-disabled="post.disabled">
-                        <md-icon md-font-set="material-icons" aria-label="Edit">mode_edit</md-icon>
-                        Edit
-                    </md-button>
-                </md-menu-item>
-                <md-menu-item ng-if="post.public">
-                    <md-button aria-label="Unpublish post" ng-click="unpublishPost($event, post)"
-                               ng-disabled="post.disabled">
-                        <md-icon md-font-set="material-icons" aria-label="Delete">restore</md-icon>
-                        Unpublish
-                    </md-button>
-                </md-menu-item>
-                <md-menu-item>
-                    <md-button aria-label="Delete post" ng-click="showConfirm($event, post.id)"
-                               ng-disabled="post.disabled">
-                        <md-icon md-font-set="material-icons" aria-label="Delete">delete</md-icon>
-                        Delete
-                    </md-button>
-                </md-menu-item>
-            </md-menu-content>
-        </md-menu>
+        <post-menu></post-menu>
+
     </md-card-header>
 
-    <!-- Card cover image and title -->
+    <!-- Post cover image and title -->
     <a ng-href="{{ post.disabled ? '#' : '/posts/' + post.slug}}">
         <div class="md-card-image image-{{ size }}"
              ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
@@ -84,43 +30,7 @@
     </a>
 
     <!-- Favorite post and comment icons -->
-    <md-card-actions layout="row" layout-align="end center">
-        <md-button id="fav-button" class="md-icon-button" aria-label="Favorite" disabled="{{ post.disabled }}"
-                   ng-click="favorite(post)">
-            <md-tooltip md-direction="bottom">
-                Favorite
-            </md-tooltip>
-            <md-icon ng-class="{'red': hasFavorited(post)}" md-font-set="material-icons">
-                favorite
-            </md-icon>
-        </md-button>
-        <div>
-            <md-tooltip md-direction="top">
-                <div ng-repeat="user in post.favorited_by | limitTo: 10">
-                    {{ user.username }}
-                </div>
-                <span ng-show="post.favorited_by.length - 10 > 0">and {{ post.favorited_by.length - 10 }} more...</span>
-            </md-tooltip>
-            <a href="#" ng-click="!post.disabled && showAdvanced($event, post)" class="num">
-                {{ post.favorited || 0 }}</a>
-        </div>
-        <md-button ng-click="gotoComments(post)" id="comment-button" class="md-icon-button"
-                   aria-label="Comments" ng-disabled="post.disabled">
-            <md-tooltip md-direction="bottom">
-                Comments
-            </md-tooltip>
-            <md-icon md-font-set="material-icons">comments</md-icon>
-        </md-button>
-        <div>
-            <md-tooltip md-direction="top">
-                <div ng-repeat="user in post.comments | limitTo: 10">
-                    {{ user.author }}
-                </div>
-                <span ng-show="post.comments.length - 10 > 0">and {{ post.comments.length - 10 }} more...</span>
-            </md-tooltip>
-            <a ng-click="!post.disabled && gotoComments(post)" class="num">{{ post.comments.length || 0 }}</a>
-        </div>
-    </md-card-actions>
+    <div ng-include="'static/partials/post-elements/actions.html'"></div>
 
     <!-- Text of the post -->
     <md-card-content>
