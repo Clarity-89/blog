@@ -12,7 +12,7 @@ angular.module('app')
         /* Check if the logged in user has favorited the post and add red color to fav icon if yes */
         this.checkFav = function (post) {
             var user = $cookies.getObject('current_user');
-            if (user) {
+            if (user && post.favorited_by) {
                 var filtered = post.favorited_by.filter(function (el) {
                     return el.username == user.username;
                 });
