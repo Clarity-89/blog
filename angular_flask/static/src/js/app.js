@@ -77,23 +77,5 @@ var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial', 'ngAnima
                 }
             }
         });
-
-
-        /*
-         * Check if the user is still logged in on the server in case there were some errors or database reset
-         * to prevent the situations when user is logged out on the server but logged in in the browser
-         */
-        userService.isLoggedIn().then(function (response) {
-            var msg = response.data.message;
-            if (msg === 'no user' && $cookies.get('current_user')) {
-                console.log('user removed');
-                $cookies.remove('current_user');
-            }
-            // Fallback in case there is an unexpected server error
-        }, function (response) {
-            if ($cookies.get('current_user')) {
-                $cookies.remove('current_user');
-            }
-        })
-    })
-;
+        userService.isLoggedIn();
+    });
