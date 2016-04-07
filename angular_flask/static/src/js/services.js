@@ -146,10 +146,26 @@ angular.module('app')
             );
         }
     }])
-    .service('userService', ['$http', function ($http) {
+    .service('userService', ['$http', '$cookies', function ($http, $cookies) {
+        /*
+         * Check if the user is still logged in on the server in case there were some errors or database reset
+         * to prevent the situations when user is logged out on the server but logged in in the browser
+         */
         this.isLoggedIn = function () {
-            return $http.get("/blog/api/current_user");
+            return $http.get("/blog/api/current_user")
+                .then(function (response) {
+                    var msg = response.data.message;
+                    if (msg === 'no user' && $cookies.get('current_user')) {
+                        $cookies.remove('current_user');
+                    }
+                    // Fallback in case there is an unexpected server error
+                }, function () {
+                    if ($cookies.get('current_user')) {
+                        $cookies.remove('current_user');
+                    }
+                });
         };
+
         this.newUser = function (file, user) {
             var fd = new FormData();
             fd.append('file', file);
