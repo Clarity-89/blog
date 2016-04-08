@@ -17,12 +17,14 @@ module.exports = {
                 './node_modules/angular-cookies/angular-cookies.js',
                 './node_modules/angular-mocks/angular-mocks.js',
                 './node_modules/moment/moment.js'
+
             ],
             styles: [
                 './node_modules/textangular/dist/*.css',
                 './node_modules/bootstrap/dist/css/bootstrap.css',
                 './node_modules/angular-material/angular-material.css',
-                './node_modules/angular-material/angular-material.layouts.css'
+                './node_modules/angular-material/angular-material.layouts.css',
+                './node_modules/font-awesome/css/font-awesome.min.css'
             ],
             options: {
                 rev: false
