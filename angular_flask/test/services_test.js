@@ -1,7 +1,7 @@
 'use strict';
 
-describe('allPosts service', function () {
-    var $httpBackend, authRequestHandler;
+describe('postService service', function () {
+    var $httpBackend;
 
     beforeEach(module('app'));
 
@@ -63,6 +63,35 @@ describe('allPosts service', function () {
         });
 
         $httpBackend.flush();
+    }));
+
+    it('checkFav should return true if user\'s name is in the favorited_by array or a post', inject(function (postService) {
+        var post = {
+                "author": "Admin",
+                "author_id": 1,
+                "favorited_by": [
+                    {
+                        "id": 1,
+                        "name": null,
+                        "username": "Clarity"
+                    }, {
+                        "id": 2,
+                        "name": null,
+                        "username": "Admin"
+                    }, {
+                        "id": 3,
+                        "name": null,
+                        "username": "test"
+                    }
+                ]
+            },
+            user = {
+                "id": 1,
+                "name": null,
+                "username": "Clarity"
+            };
+        expect(postService.checkFav(post, user)).toBe(true);
+        expect(postService.checkFav(post, {username: 'John'})).toBe(false);
     }));
 
 });
