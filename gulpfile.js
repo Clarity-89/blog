@@ -1,11 +1,6 @@
 var gulp = require('gulp'),
     del = require('del'),
-    bundle = require('gulp-bundle-assets'),
-    coveralls = require('gulp-coveralls');
-
-
-gulp.src('./angular_flask/test/coverage/**/lcov.info')
-    .pipe(coveralls());
+    bundle = require('gulp-bundle-assets');
 
 // Clean
 gulp.task('clean', function () {
