@@ -135,9 +135,11 @@ angular.module('app')
     // Service with methods related to operation on/with posts
     .service('postService', ['$http', '$mdDialog', '$cookies', function ($http, $mdDialog, $cookies) {
 
-        /* Check if the logged in user has favorited the post and add red color to fav icon if yes */
-        this.checkFav = function (post) {
-            var user = $cookies.getObject('current_user');
+        /* Check if the logged in user has favorited the post and add red color to fav icon if yes.
+         * Allows to pass in user as u for testing.
+         */
+        this.checkFav = function (post, u) {
+            var user = u || $cookies.getObject('current_user');
             if (user && post.favorited_by) {
                 var filtered = post.favorited_by.filter(function (el) {
                     return el.username == user.username;

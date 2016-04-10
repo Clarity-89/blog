@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.org/Clarity-89/blog.svg?branch=master)](https://travis-ci.org/Clarity-89/blog)
+
 ## A blog app made with Angular.js (front-end) and Flask Python Microframework (back-end).
  
 ### To run it on your local machine:
