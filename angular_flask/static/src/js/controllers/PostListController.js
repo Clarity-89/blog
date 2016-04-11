@@ -24,7 +24,6 @@ app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialo
             var it, results = [];
 
             for (var j = 0; j < posts.length; j++) {
-
                 it = posts[j];
                 it.span = {
                     row: randomSpan(),

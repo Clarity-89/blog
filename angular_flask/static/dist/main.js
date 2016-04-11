@@ -569,7 +569,7 @@ app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComme
                 .then(function success(response) {
                     self.comment = '';
                     angular.extend(post.comments, response.data.comments);
-                }, function error(response) {
+                }, function error() {
                     toast.showToast('Server error. Please try again later', 5000);
                 });
         };
@@ -592,8 +592,6 @@ app.controller('PostController', ['$scope', '$location', 'sharedPost', 'addComme
                 fullscreen: false
             });
         };
-
-
     }
 ]);
 
@@ -647,7 +645,6 @@ app.controller('PostListController', ['$scope', 'postService', 'goTo', '$mdDialo
             var it, results = [];
 
             for (var j = 0; j < posts.length; j++) {
-
                 it = posts[j];
                 it.span = {
                     row: randomSpan(),
