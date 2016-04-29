@@ -17,10 +17,14 @@ app.controller('EditPostController', ['$scope', 'postService', '$location', 'img
                 postService.editPost(file, post)
                     .then(function success(response) {
                         $scope.loading = false;
-                        toast.showToast('Post edited', 1000).then(function () {
-                            $window.location.reload();
-                            $location.path('/posts/' + response.data.slug);
-                        });
+                        if (post.public) {
+                            toast.showToast('Post edited', 1000).then(function () {
+                                $window.location.reload();
+                                $location.path('/posts/' + response.data.slug);
+                            });
+                        } else {
+                            toast.showToast('Changes saved', 1000)
+                        }
                     }, function error(response) {
                         $scope.loading = false;
                         toast.showToast('Could not edit post. Please try again later', 5000);
