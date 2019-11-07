@@ -1,4 +1,4 @@
-Flask==0.10.1
+Flask==1.0
 Flask-Restless==0.13.1
 Flask-SQLAlchemy==0.16
 Flask-Login==0.3.2
